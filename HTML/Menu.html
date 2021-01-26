@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../CSS/Style.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+        <meta charset="utf-8" />
+        <meta name="author" content="Alexandra Sirois, William-Arthur Cinq-Mars, Mathieu Harvey">
+		<meta http-equiv="refresh" content="60">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+        
+
+<body>
+    <div id="MenuCell" class="container-fluid Menu" >
+
+        <div  class="row menuRow" style="padding: 3%;">
+            <div class="flex-container">
+                <div style="width: 80%;justify-content: center;align-content: center;">
+                    <img src="../RESSOURCE/logo_tuteur.png" alt="Logo" style="width: 100px;height:100px;">
+                 </div>
+                
+                <div style="width: 20%;justify-content: right;align-content: right;">
+                    <i id="PhoneMenuI" class="material-icons"  onclick="openNav()">menu</i>
+                    <p id="PhoneMenuP" onclick="openNav()">Menu</p>
+                </div> 
+              
+            </div>
+        </div>
+  
+    </div>
+
+    <div id="mySidenav" class="sidenav" style="display: none;height: 100%;width: 20%; position: fixed;z-index: 1;top: 0;right:0;">
+        <div class="col HomeMenu menuRow">
+            <i id="HomeMenuI" class="material-icons">home</i>
+            <p id="HomeMenuP" >Accueil</p>
+        </div>
+
+        <div class="col ProgrammeMenu menuRow">
+            <i id="ProgrammeMenuI" class="material-icons">view_quilt</i>
+            <p id="ProgrammeMenuP" style="cursor: pointer;" >Le programme</p>
+        </div>
+
+        <div class="col TeacherMenu menuRow">
+            <i id="TeacherMenuI" class="material-icons">account_box</i>
+            <p id="TeacherMenuP" style="cursor: pointer;" >Les enseignants</p>
+        </div>
+
+        <div class="col ContactMenu menuRow">
+            <i id="ContactMenuI" class="material-icons">book</i>
+            <p id="ContactMenuP" style="cursor: pointer;" >Nous contacter</p>
+        </div>
+
+        <div class="col LinkMenu menuRow">
+            <i id="LinkMenuI" class="material-icons">link</i>
+            <p id="LinkMenuP">Liens utiles</p>
+        </div>
+
+        <div class="col CloseMenu menuRow">
+            <i id="CloseMenuI" class="material-icons" onclick="closeNav()" >close</i>
+            <p id="CloseMenuP" onclick="closeNav()">Fermer le menu</p>
+        </div>
+      </div>
+      
+      <script>
+      function openNav() {
+        document.getElementById("mySidenav").style.display = "block";
+      }
+      
+      function closeNav() {
+        document.getElementById("mySidenav").style.display = "none";
+      }
+      </script>
+
+</body>
+
+<script>
+
+    //Add the animation
+    $("#PhoneMenuI").on("mouseover", function() {menuMouseOver("#PhoneMenuI","#PhoneMenuP")});
+    $("#PhoneMenuI").on("mouseout", function() {menuMouseOut("#PhoneMenuI","#PhoneMenuP")});
+
+    $("#HomeMenuI").on("mouseover", function() {menuMouseOver("#HomeMenuI","#HomeMenuP")});
+    $("#HomeMenuI").on("mouseout", function() {menuMouseOut("#HomeMenuI","#HomeMenuP")});
+
+    $("#ProgrammeMenuI").on("mouseover", function() {menuMouseOver("#ProgrammeMenuI","#ProgrammeMenuP")});
+    $("#ProgrammeMenuI").on("mouseout", function() {menuMouseOut("#ProgrammeMenuI","#ProgrammeMenuP")});
+
+    $("#TeacherMenuI").on("mouseover", function() {menuMouseOver("#TeacherMenuI","#TeacherMenuP")});
+    $("#TeacherMenuI").on("mouseout", function() {menuMouseOut("#TeacherMenuI","#TeacherMenuP")});
+
+    $("#ContactMenuI").on("mouseover", function() {menuMouseOver("#ContactMenuI","#ContactMenuP")});
+    $("#ContactMenuI").on("mouseout", function() {menuMouseOut("#ContactMenuI","#ContactMenuP")});
+
+    $("#LinkMenuI").on("mouseover", function() {menuMouseOver("#LinkMenuI","#LinkMenuP")});
+    $("#LinkMenuI").on("mouseout", function() {menuMouseOut("#LinkMenuI","#LinkMenuP")});
+
+    $("#CloseMenuI").on("mouseover", function() {menuMouseOver("#CloseMenuI","#CloseMenuP")});
+    $("#CloseMenuI").on("mouseout", function() {menuMouseOut("#CloseMenuI","#CloseMenuP")});
+
+
+    function menuMouseOver(elementId,elementIdP){
+        $(elementId).css("color","White");
+        $(elementId).css("cursor","pointer");
+        $(elementId).animate({fontSize: '2em'}, "8s");
+        $(elementIdP).css("color","White");
+        $(elementIdP).css("cursor","pointer");
+    }
+
+    function menuMouseOut(elementId,elementIdP){
+        $(elementId).css("color","Black");
+        $(elementId).css("cursor","pointer");
+        $(elementId).animate({fontSize: '28px'}, "1ms");
+        $(elementIdP).css("color","Black");
+        $(elementIdP).css("cursor","pointer");
+     }
+
+
+    //Put menu to sticky mode
+
+    // When the user scrolls the page, execute myFunction
+    window.onscroll = function() {scrollMyPage()};
+
+    // Get the navbar
+    var navbar = document.getElementById("MenuOrdi");
+
+    // Get the offset position of the navbar
+    var sticky = navbar.offsetTop;
+
+    // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+    function scrollMyPage() {
+     if (window.pageYOffset >= sticky) {
+        navbar.classList.add("sticky")
+    } else {
+     navbar.classList.remove("sticky");
+    }
+}
+    //Navigation
+   //Navigation
+   $("#HomeMenuI").click(function() {
+        location.replace("Accueil.html");
+    });
+    $("#HomeMenuP").click(function() {
+        location.replace("Accueil.html");
+    });
+    $("#ProgrammeMenuI").click(function() {
+        location.replace("Présentation_Programme.html");
+    });
+    $("#ProgrammeMenuP").click(function() {
+        location.replace("Présentation_Programme.html");
+    });
+    $("#TeacherMenuI").click(function() {
+        location.replace("Enseignant.html");
+    });
+    $("#TeacherMenuP").click(function() {
+        location.replace("Enseignant.html");
+    });
+    $("#ContactMenuI").click(function() {
+        location.replace("Nous_Contacter.html");
+    });
+    $("#ContactMenuP").click(function() {
+        location.replace("Nous_Contacter.html");
+    });
+    $("#LinkMenuI").click(function() {
+        location.replace("Lien_utile.html");
+    });
+    $("#LinkMenuP").click(function() {
+        location.replace("Lien_utile.html");
+    });
+
+
+</script>
+
+
+</html>
