@@ -12,9 +12,39 @@
   
 
   .Menu{
-    border: 0.5px solid black;
-    background-color: #30e79d; 
-    color:white;
-    opacity: 50%;
+    border: 0.5px solid #aceed3;
+    background-color: #caf3e2; 
+    color:black;
+    opacity: 100%;
     width: 100%;
+    box-shadow: 2px 2px 5px #aceed3;
   }
+
+  .menuRow{
+      text-align: center;
+      justify-content:center;
+      align-items: center;
+      align-content: center;
+      padding: 5%;
+  }
+
+
+  .sidenav{
+      padding: 5%;
+    background-color: #caf3e2; 
+    color:black;
+    text-align: center;
+    justify-content:center;
+    align-items: center;
+    align-content: center;
+    border: 0.5px solid #aceed3;
+    box-shadow: 2px 2px 5px #aceed3;
+    display: none;
+    height: 100%;
+    width: 20%;
+     position: fixed;
+     z-index: 1;
+     top: 0;
+     right:0;
+  }
+  /*aceed3*/
