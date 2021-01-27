@@ -14,15 +14,17 @@
 
 <body>
     
-    <div id="MenuCell" class="container-fluid Menu" >
-
+    <div id="Menu" class="container-fluid Menu" >
         <div  class="row menuRow">
-            <div id="SearchBar"></div>
-                <div class="logo">
+                <div class="logo col">
                     <img src="../RESSOURCE/logo_tuteur.png" alt="Logo" style="width: 100px;height:100px;">
                  </div>
                 
-                <div class="menuBarre">
+                 <div class="col">
+                    <div id="SearchBar"></div>
+                 </div>
+
+                <div class="menuBarre col" style="margin-top: 1.5%;">
                     <i id="PhoneMenuI" class="material-icons"  onclick="openNav()">menu</i>
                     <p id="PhoneMenuP" onclick="openNav()">Menu</p>
                 </div> 
@@ -32,33 +34,33 @@
     </div>
 
     <div id="mySidenav" class="sidenav" style="display: none;height: 100%;width: 20%; position: fixed;z-index: 1;top: 0;right:0;">
-        <div class="col HomeMenu">
+        <div class="col HomeMenu sideItem">
             <i id="HomeMenuI" class="material-icons">home</i>
             <p id="HomeMenuP" >Accueil</p>
         </div>
 
-        <div class="col ProgrammeMenu menuRow">
-            <i id="ProgrammeMenuI" class="material-icons">view_quilt</i>
-            <p id="ProgrammeMenuP" style="cursor: pointer;" >Le programme</p>
+        <div class="col ConnexionMenu sideItem">
+            <i id="ConnexionMenuI" class="material-icons" style="padding: 2%;">login</i>
+            <p id="ConnexionMenuP" style="cursor: pointer;" >Connexion</p>
         </div>
 
-        <div class="col TeacherMenu menuRow">
-            <i id="TeacherMenuI" class="material-icons">account_box</i>
-            <p id="TeacherMenuP" style="cursor: pointer;" >Les enseignants</p>
+        <div class="col SearchMenu sideItem">
+            <i id="SearchMenuI" class="material-icons" style="padding: 2%;">search</i>
+            <p id="SearchMenuP" style="cursor: pointer;" >Recherche avancée</p>
         </div>
 
-        <div class="col ContactMenu menuRow">
-            <i id="ContactMenuI" class="material-icons">book</i>
-            <p id="ContactMenuP" style="cursor: pointer;" >Nous contacter</p>
+        <div class="col MatiereMenu sideItem">
+            <i id="MatiereMenuI" class="material-icons" style="padding: 2%;">view_quilt</i>
+            <p id="MatiereMenuP" style="cursor: pointer;" >Matières</p>
         </div>
 
-        <div class="col LinkMenu menuRow">
-            <i id="LinkMenuI" class="material-icons">link</i>
-            <p id="LinkMenuP">Liens utiles</p>
+        <div class="col ContactUsMenu sideItem">
+            <i id="ContactUsMenuI" class="material-icons" style="padding: 5%;">contact_phone</i>
+            <p id="ContactUsMenuP">Contactez-nous</p>
         </div>
 
-        <div class="col CloseMenu menuRow">
-            <i id="CloseMenuI" class="material-icons" onclick="closeNav()" >close</i>
+        <div class="col CloseMenu sideItem">
+            <i id="CloseMenuI" class="material-icons" onclick="closeNav()"  style="padding: 2%;">close</i>
             <p id="CloseMenuP" onclick="closeNav()">Fermer le menu</p>
         </div>
       </div>
@@ -86,17 +88,17 @@ jQuery('#SearchBar').load('RechercheBarre.html#searchBar');
     $("#HomeMenuI").on("mouseover", function() {menuMouseOver("#HomeMenuI","#HomeMenuP")});
     $("#HomeMenuI").on("mouseout", function() {menuMouseOut("#HomeMenuI","#HomeMenuP")});
 
-    $("#ProgrammeMenuI").on("mouseover", function() {menuMouseOver("#ProgrammeMenuI","#ProgrammeMenuP")});
-    $("#ProgrammeMenuI").on("mouseout", function() {menuMouseOut("#ProgrammeMenuI","#ProgrammeMenuP")});
+    $("#ConnexionMenuI").on("mouseover", function() {menuMouseOver("#ConnexionMenuI","#ConnexionMenuP")});
+    $("#ConnexionMenuI").on("mouseout", function() {menuMouseOut("#ConnexionMenuI","#ConnexionMenuP")});
 
-    $("#TeacherMenuI").on("mouseover", function() {menuMouseOver("#TeacherMenuI","#TeacherMenuP")});
-    $("#TeacherMenuI").on("mouseout", function() {menuMouseOut("#TeacherMenuI","#TeacherMenuP")});
+    $("#SearchMenuI").on("mouseover", function() {menuMouseOver("#SearchMenuI","#SearchMenuP")});
+    $("#SearchMenuI").on("mouseout", function() {menuMouseOut("#SearchMenuI","#SearchMenuP")});
 
-    $("#ContactMenuI").on("mouseover", function() {menuMouseOver("#ContactMenuI","#ContactMenuP")});
-    $("#ContactMenuI").on("mouseout", function() {menuMouseOut("#ContactMenuI","#ContactMenuP")});
+    $("#MatiereMenuI").on("mouseover", function() {menuMouseOver("#MatiereMenuI","#MatiereMenuP")});
+    $("#MatiereMenuI").on("mouseout", function() {menuMouseOut("#MatiereMenuI","#MatiereMenuP")});
 
-    $("#LinkMenuI").on("mouseover", function() {menuMouseOver("#LinkMenuI","#LinkMenuP")});
-    $("#LinkMenuI").on("mouseout", function() {menuMouseOut("#LinkMenuI","#LinkMenuP")});
+    $("#ContactUsMenuI").on("mouseover", function() {menuMouseOver("#ContactUsMenuI","#ContactUsMenuP")});
+    $("#ContactUsMenuI").on("mouseout", function() {menuMouseOut("#ContactUsMenuI","#ContactUsMenuP")});
 
     $("#CloseMenuI").on("mouseover", function() {menuMouseOver("#CloseMenuI","#CloseMenuP")});
     $("#CloseMenuI").on("mouseout", function() {menuMouseOut("#CloseMenuI","#CloseMenuP")});
@@ -125,7 +127,7 @@ jQuery('#SearchBar').load('RechercheBarre.html#searchBar');
     window.onscroll = function() {scrollMyPage()};
 
     // Get the navbar
-    var navbar = document.getElementById("MenuOrdi");
+    var navbar = document.getElementById("Menu");
 
     // Get the offset position of the navbar
     var sticky = navbar.offsetTop;
@@ -146,29 +148,29 @@ jQuery('#SearchBar').load('RechercheBarre.html#searchBar');
     $("#HomeMenuP").click(function() {
         location.replace("Accueil.html");
     });
-    $("#ProgrammeMenuI").click(function() {
-        location.replace("Présentation_Programme.html");
+    $("#ConnexionMenuI").click(function() {
+        location.replace("Login.html");
     });
-    $("#ProgrammeMenuP").click(function() {
-        location.replace("Présentation_Programme.html");
+    $("#ConnexionMenuP").click(function() {
+        location.replace("Login.html");
     });
-    $("#TeacherMenuI").click(function() {
-        location.replace("Enseignant.html");
+    $("#SearchMenuI").click(function() {
+        location.replace("Recherche.html");
     });
-    $("#TeacherMenuP").click(function() {
-        location.replace("Enseignant.html");
+    $("#SearchMenuP").click(function() {
+        location.replace("Recherche.html");
     });
-    $("#ContactMenuI").click(function() {
-        location.replace("Nous_Contacter.html");
+    $("#MatiereMenuI").click(function() {
+        location.replace("Matière.html");
     });
-    $("#ContactMenuP").click(function() {
-        location.replace("Nous_Contacter.html");
+    $("#MatiereMenuP").click(function() {
+        location.replace("Matière.html");
     });
-    $("#LinkMenuI").click(function() {
-        location.replace("Lien_utile.html");
+    $("#ContactUsMenuI").click(function() {
+        location.replace("ContactUs.html");
     });
-    $("#LinkMenuP").click(function() {
-        location.replace("Lien_utile.html");
+    $("#ContactUsMenuP").click(function() {
+        location.replace("ContactUs.html");
     });
 
 

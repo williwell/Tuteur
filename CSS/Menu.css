@@ -9,7 +9,7 @@
 
   .menuRow{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
   }
 
 
@@ -30,6 +30,7 @@
      z-index: 1;
      top: 0;
      right:0;
+    
   }
   /*aceed3*/
 
@@ -59,5 +60,9 @@
 /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
 .sticky + .content {
   padding-top: 60px;
+}
+
+.sideItem{
+  padding: 10%;
 }
   
