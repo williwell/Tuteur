@@ -12,11 +12,11 @@ class Query
     }
 
 
-   function getTeacher():array
+   function getMatiere():array
    {
        $lines = array();
        try {
-           $request = "SELECT * FROM enseignant";
+           $request = "SELECT * FROM matiere";
            $result = $this->connexion->query($request);
            $lines = $result->fetchAll();
 
