@@ -1,0 +1,63 @@
+.Menu{
+    border: 0.5px solid #aceed3;
+    background-color: #caf3e2; 
+    color:black;
+    opacity: 100%;
+    width: 100%;
+    box-shadow: 2px 2px 5px #aceed3;
+  }
+
+  .menuRow{
+    display: flex;
+    flex-direction: column;
+  }
+
+
+  .sidenav{
+      padding: 5%;
+    background-color: #caf3e2; 
+    color:black;
+    text-align: center;
+    justify-content:center;
+    align-items: center;
+    align-content: center;
+    border: 0.5px solid #aceed3;
+    box-shadow: 2px 2px 5px #aceed3;
+    display: none;
+    height: 100%;
+    width: 20%;
+     position: fixed;
+     z-index: 1;
+     top: 0;
+     right:0;
+  }
+  /*aceed3*/
+
+  .menuBarre{
+    justify-content: right;
+    align-content: right;
+    align-items: right;
+    text-align: center;
+    width: 50%;
+  }
+
+  .logo{
+    justify-content: left;
+    align-content: left;
+    align-items: left;
+    text-align: center;
+    width: 50%;
+  }
+
+/* The sticky class is added to the navbar with JS when it reaches its scroll position */
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+    
+/* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
+.sticky + .content {
+  padding-top: 60px;
+}
+  
