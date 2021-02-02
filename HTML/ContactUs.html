@@ -15,9 +15,80 @@
 <body>
     <div id="MenuBar"></div>
 
+    <DIV style="margin-top:5%;">
+
+        <div id="BeginDiv" class="row" style="margin-left: 2%;">
+            <div class="col-md-3"></div>
+            <div class="col-md-9"><h1>Nous joindre</h1></div>
+        </div>
+        <br>
+        <div class="row" style="margin-top: 1%">
+            <div class="col-md-4"></div>
+            <div class="col-md-8"><h2>Adresse Civique</h2></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-8"><p>Cégep de Trois-Rivières<br><br>Pavillon des Sciences<br>3500 rue de Courval<br>Trois-Rivières (Québec) G9A 5E6<br>Localisation: <a href="https://www.google.com/maps/place/C%C3%A9gep+de+Trois-Rivi%C3%A8res/@46.3545694,-72.575121,17z/data=!3m1!4b1!4m5!3m4!1s0x4cc7c8baf4e3b8b1:0x799f8b93d17aae1e!8m2!3d46.3545657!4d-72.5729323">Google maps</a></p>
+            <p>Pavillon des Humanités<br>3175 boul. Laviolette<br>Trois-Rivières (Québec) G8Z 1E9<br>Localisation: <a href="https://www.google.ca/maps/place/C%C3%A9gep+de+Trois-Rivi%C3%A8res/@46.3587717,-72.5700196,17z/data=!3m1!4b1!4m5!3m4!1s0x4cc7c8c0519481ed:0x927eff5cdafb554!8m2!3d46.358768!4d-72.5678309">Google maps</a></p></div>
+        </div>
+    <!--
+        <div class="row" style="margin-top: 1%">
+            <div class="col-md-1"></div>
+            <div class="col-md-11"><h2>Adresse Postale</h2></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-10"><p>Cégep de Trois-Rivières<br>Pavillon des Sciences<br>3500 rue de Courval<br>Trois-Rivières (Québec) G9A 5E6</p></div>
+        </div>
+    -->
+    
+        <div class="row" style="margin-top: 1%">
+            <div class="col-md-4"></div>
+            <div class="col-md-8"><h2>Secrétariat du Cégep</h2></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-8"><p>Téléphone: (819) 376-1721<br>Télécopieur: (819) 693-8023</p></div>
+        </div>
+    
+        <div class="row" style="margin-top: 1%">
+            <div class="col-md-4"></div>
+            <div class="col-md-8"><h2>Nous joindre par courriel</h2></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-8"><p>Veuillez remplir ce formulaire afin de communiquer avec nous par courriel</p></div>
+        </div>
+        <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-8">
+        <form action="mailto:harveymathieu@yahoo.ca" method="post" enctype="text/plain">
+            <div class="col-md-3">
+            <label for="Prenom">Prénom</label><br>
+            <input type="text" class="form-control" id=Prenom name=Prenom></div>
+            <div class="col-md-3"><br>
+            <label for="Nom">Nom</label><br>
+            <input type="text" class="form-control" id=Nom name=Nom></div>
+            <div class="col-md-3"><br>
+            <label for="Adresse">Courriel</label>
+            <input type="email" class="form-control" id=Adresse name=Adresse></div><br>
+            <div class="col-md-6">
+            <label for="Message">Message</label><br>
+            <textarea type="text" class="form-control" id=Message name=Message rows="7"></textarea></div><br>
+            <!--<div class="col-md-2" onclick="this.closest('form').submit();return false;"><p class="horizontal"><span class="text">Envoyer</span></p></div>-->
+            <button style="width:10%">Envoyer</button>
+        </form>
+        </div>
+        </div>
+        <br>
+        <div class="row"></div>
+    
+    </DIV>
+
 </body>
 
-    <script type="text/javascript">
-        jQuery('#MenuBar').load('Menu.html#Menu'); 
-    </script>
+<script type="text/javascript">
+    jQuery('#MenuBar').load('Menu.html#Menu'); 
+    $('#MenuBar').css("padding-bottom","10%");
+</script>
 </html>
