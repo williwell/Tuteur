@@ -1,5 +1,5 @@
 .Menu{
-  position: fixed;
+
     border: 0.5px solid #aceed3;
     background-color: #caf3e2; 
     color:black;
@@ -12,7 +12,6 @@
     display: flex;
     flex-direction: row;
   }
-
 
   .sidenav{
     transition: all 1s;
