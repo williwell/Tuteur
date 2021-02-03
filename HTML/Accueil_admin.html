@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="../CSS/Style.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+        <meta charset="utf-8" />
+        <meta name="author" content="Alexandra Sirois, William-Arthur Cinq-Mars, Mathieu Harvey">
+		<meta http-equiv="refresh" content="60">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Accueil Admin</title>
+    </head>
+
+<body>
+    <div id="MenuBar"></div>
+    <div id="BeginDiv" class="row" style="margin-left: 2%;">
+        <div class="col-md-3"></div>
+        <div class="col-md-9"><h1>Gestion</h1></div><br>
+        <div class="row" style="margin-top: 1%">
+            <div class="col-md-3"></div>
+            <div class="col-md-9"><h4>Cette section n'est accessible qu'aux administrateurs</h4></div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-8"><p>
+            <form method="post" enctype="text/plain">
+            <div class="col-md-3">
+            <label for="Matricule">Matricule</label><br>
+            <input type="text" class="form-control" id=Matricule name=Matricule></div>
+            <div class="col-md-3"><br>
+            <label for="Pasword">Mot de passe</label><br>
+            <input type="password" class="form-control" id=Password name=Password></div><br>
+            <!--<div class="col-md-2" onclick="this.closest('form').submit();return false;"><p class="horizontal"><span class="text">Envoyer</span></p></div>-->
+            <button style="width:10%">Connexion</button><br>
+        </form></p></div>
+    </div>
+    
+</body>
+
+    <script type="text/javascript">
+        jQuery('#MenuBar').load('Menu.html#Menu'); 
+        $('#MenuBar').css("padding-bottom","10%");
+    </script>
+</html>
