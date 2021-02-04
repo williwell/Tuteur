@@ -1,5 +1,5 @@
 <?php
-require_once('ConnexionDB.php');
+require_once('ConnexionBD.php');
 
 class Query
 {
@@ -17,6 +17,21 @@ class Query
        $lines = array();
        try {
            $request = "SELECT * FROM matiere";
+           $result = $this->connexion->query($request);
+           $lines = $result->fetchAll();
+
+           return $lines;
+       }
+       catch(PDOException $e) {
+           return $lines;
+       }
+   }
+
+   function getAllTutor():array
+   {
+       $lines = array();
+       try {
+           $request = "SELECT e.Matricule,e.Nom, e.Courriel, e.Téléphone, e.Programme FROM tuteur t INNER JOIN élèves e ON t.Matricule=e.Matricule  WHERE t.Disponible = 1 ORDER BY t.Note";
            $result = $this->connexion->query($request);
            $lines = $result->fetchAll();
 
