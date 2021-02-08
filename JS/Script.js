@@ -2,18 +2,41 @@ function putTutor(list) {
 	console.log("téléchargement de la card des tuteurs: success");
 	
     for (var i = 0; i < list.length; i++) {
+      var idDivCourse="#"+list[i][0]+"Class";
 					$("#Tuteur").append( 
-                        "<section class='hero-section'>"+
-                        "<div class='card-grid'>"+
-                          "<a class='card' href='#'>"+
-                            "<div class='card__background' style='background-image: url(https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80)'></div>"+
-                            "<div class='card__content'>"+
-                              "<p class='card__category'>Category</p>"+
-                              "<h3 class='card__heading'>Example Card Heading</h3>"+
-                            "</div>"+
-                          "</a>"+
-                        "</div>"+
-                      "</section>"
+            "<div class='outer-div'>"+
+              "<div class='inner-div'>"+
+                "<div class='front'>"+
+                  "<div class='front__bkg-photo'></div>"+
+                  "<div class='front__face-photo' style='background:url(../RESSOURCE/Picture_Tuteur/"+list[i][0]+".png);'></div>"+
+                  "<div class='front__text'>"+
+                    "<h3 class='front__text-header'>"+list[i][1]+"</h3>"+
+                    "<p class='front__text-para'></i>"+list[i][4]+"</p><br><br>"+
+                    "<p class='front__text-para'></i>"+list[i][2]+"</p>"+
+                    "<p class='front__text-para'></i>"+list[i][3]+"</p>"+
+                  "</div>"+
+                "</div>"+
+                "<div class='back'>"+
+                  "<div id='"+list[i][0]+"Class' class='social-media-wrapper' style='color:white; font-size: 20px;'>"+
+                  "<p>Courses teached</p>"+
+                  "</div>"+
+                  "<div class='contact_info'>"+
+                  "</div>"+
+                "</div>"+
+              "</div>"+
+            "</div>"+
+            "</div>"
+	  			);
+	}
+}
+
+
+function putTutorClasses(list) {
+	console.log("téléchargement des cours des tuteurs: success");
+    for (var i = 0; i < list.length; i++) {
+      var idDivCourse="#"+list[i][0]+"Class";
+					$(idDivCourse).append( 
+              "<p>"+list[i][1]+"</p>"
 	  			);
 	}
 }

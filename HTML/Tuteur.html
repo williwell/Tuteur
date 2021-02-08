@@ -21,33 +21,7 @@
 <body>
     <div class="container-fluid">
         <div id="MenuBar" class="row"></div>
-        <div id="Tuteur">
-        <div class="outer-div">
-          <div class="inner-div">
-            <div class="front">
-              <div class="front__bkg-photo"></div>
-              <div class="front__face-photo" style="background:url(../RESSOURCE/Picture_Tuteur/1734055.png);"></div>
-              <div class="front__text">
-                <h3 class="front__text-header">Bobby Korec</h3>
-                <p class="front__text-para"></i>Seattle</p>
-              </div>
-            </div>
-            <div class="back">
-              <div class="social-media-wrapper">
-                <a href="#" class="social-icon"><i class="fab fa-codepen" aria-hidden="true"></i></a> 
-                <a href="#" class="social-icon"><i class="fab fa-github-square" aria-hidden="true"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-linkedin-square" aria-hidden="true"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-instagram" aria-hidden="true"></i></a>
-              </div>
-              <div class="contact_info">
-                  
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        </div>
-    </div>
+        <div id="Tuteur"></div>
    
 </body>
 
@@ -60,7 +34,7 @@
 <script src="../JS/Script.js"></script>
 
 <script>
-  /*  $(document).ready(function () {
+    $(document).ready(function () {
        
         $.ajax({
             url: "../PHP/GetAllTutor.php",
@@ -68,11 +42,26 @@
             dataType: "json",
             success: function(result){
                 putTutor(result);
+                $.ajax({
+                  url: "../PHP/GetAllTutorClasses.php",
+                  type: "POST",
+                  dataType: "json",
+                  success: function(result){
+                      putTutorClasses(result);
+                  },
+                  error: function (message, er) {
+                    console.log("erreur lors du chargement du profil des tuteurs:" + er);
+                  }
+                });
+
             },
             error: function (message, er) {
                 console.log("erreur lors du chargement du profil des tuteurs:" + er);
             }
         });
-    });*/
+
+
+
+    });
 </script>
 </html>
