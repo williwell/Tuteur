@@ -12,15 +12,21 @@
     </head>
     <body>
         <div id="MenuBar"></div>
-        <div class="row" style="border-bottom: solid black; padding-bottom: 1%;">
+        <div id="ContainerSearch" class="row">
             <div class="col-md-2"></div>
             <div class="col-md-10">
                 <form>
-                    <label for="fSearch">Rechercher cours</label>
+                    <label for="fSearch">Rechercher</label>
                     <input type="text"><br>
                 </form>
             </div>
         </div>
+
+        <div class="row" style="margin-left: 5%; margin-top: 5%;">
+            <h3>Cours</h3>
+          </div>
+      
+          <div id="Cours" class="row" style="margin-left: 5%; margin-right: 5%;"></div>
     </body>
 
     <script src="../JS/Script.js"></script>
@@ -41,6 +47,20 @@
     <script>
         $("input").change(function(){
             alert("le texte à changer.")
+        });
+
+        $(document).ready(function () {
+            $.ajax({
+                url:"../PHP/GetCours.php",
+                type: "POST",
+                dataType: "Json",
+                success:function(result){
+                    putCours(result);
+                },
+                error: function(message, er) {
+                    console.log("erreur lors du chargment des actualités:" + er);
+                }
+            });
         });
     </script>
 </html>

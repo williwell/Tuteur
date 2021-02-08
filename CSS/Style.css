@@ -1,6 +1,10 @@
-
-
 .Search{
   border-bottom: solid grey;
   margin-left: 3%;
+}
+
+#ContainerSearch{
+  border-bottom: solid black;
+  padding-bottom: 1%;
+  margin-top: 2%;
 }
