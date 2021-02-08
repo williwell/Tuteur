@@ -9,16 +9,14 @@
         <meta name="author" content="Alexandra Sirois, William-Arthur Cinq-Mars, Mathieu Harvey">
 		<meta http-equiv="refresh" content="60">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Connexion</title>
+        <title>Accueil Admin</title>
     </head>
 
 <body>
     <div id="MenuBar"></div>
-
-    <div style="height: 80px;"></div><br>
     <div id="BeginDiv" class="row" style="margin-left: 2%;">
         <div class="col-md-3"></div>
-        <div class="col-md-9"><h1>Connexion</h1></div>
+        <div class="col-md-9"><h1>Nouveau tuteur</h1></div>
     </div>
     <br>
     <div class="row">
@@ -29,10 +27,22 @@
             <label for="Matricule">Matricule</label><br>
             <input type="text" class="form-control" id=Matricule name=Matricule></div>
             <div class="col-md-3"><br>
-            <label for="Pasword">Mot de passe</label><br>
-            <input type="password" class="form-control" id=Password name=Password></div><br>
+            <label for="Nom">Nom</label><br>
+            <input type="text" class="form-control" id=Nom name=Nom></div>
+            <div class="col-md-3"><br>
+            <label for="Courriel">Courriel</label><br>
+            <input type="email" class="form-control" id=Courriel name=Courriel></div><br>
+            <div class="col-md-3"><br>
+            <label for="Programme">Programme</label><br>
+            <input type="text" class="form-control" id=Programme name=Programme></div><br>
+            <div class="col-md-3"><br>
+            <label for="Telephone">Telephone</label><br>
+            <input type="text" class="form-control" id=telephone name=telephone></div><br>
+            <div class="col-md-3"><br>
+            <label for="Enseignant">Matricule de l'enseignant ressource</label><br>
+            <input type="text" class="form-control" id=Enseignant name=Enseignant></div><br>
             <!--<div class="col-md-2" onclick="this.closest('form').submit();return false;"><p class="horizontal"><span class="text">Envoyer</span></p></div>-->
-            <button style="width:10%">Connexion</button><br>
+            <button style="width:20%">Ajouter le nouveau tuteur</button><br>
         </form></p></div>
     </div>
     
@@ -40,5 +50,6 @@
 
     <script type="text/javascript">
         jQuery('#MenuBar').load('Menu.html#Menu'); 
+        $('#MenuBar').css("padding-bottom","10%");
     </script>
 </html>

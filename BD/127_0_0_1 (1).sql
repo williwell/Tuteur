@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `bookreview`
 --
-CREATE DATABASE IF NOT EXISTS `bookreview` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+CREATE DATABASE IF NOT EXISTS `bookreview` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `bookreview`;
 
 -- --------------------------------------------------------
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `author` (
   `Email` text NOT NULL,
   `Password` text NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `author`
@@ -60,15 +60,15 @@ CREATE TABLE IF NOT EXISTS `review` (
   `ISBN` bigint NOT NULL,
   `Title` text NOT NULL,
   `Author` text NOT NULL,
-  `SmallSummary` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `Summary` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `Review` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `SmallSummary` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Summary` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Review` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `Note` text NOT NULL,
   `PublicationDate` date NOT NULL,
   `ReviewDate` date NOT NULL,
   `WriterID` text NOT NULL,
   PRIMARY KEY (`ISBN`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `review`
@@ -80,7 +80,7 @@ INSERT INTO `review` (`ISBN`, `Title`, `Author`, `SmallSummary`, `Summary`, `Rev
 --
 -- Database: `departement_info`
 --
-CREATE DATABASE IF NOT EXISTS `departement_info` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+CREATE DATABASE IF NOT EXISTS `departement_info` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `departement_info`;
 
 -- --------------------------------------------------------
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `enseignant` (
   `Téléphone` varchar(14) DEFAULT NULL,
   `Poste` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`Matricule`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `enseignant`
@@ -112,7 +112,7 @@ INSERT INTO `enseignant` (`Matricule`, `Prénom`, `Nom`, `Type_Employer`, `Courr
 --
 -- Database: `tuteur`
 --
-CREATE DATABASE IF NOT EXISTS `tuteur` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+CREATE DATABASE IF NOT EXISTS `tuteur` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `tuteur`;
 
 -- --------------------------------------------------------
@@ -128,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
   `mot_de_passe` varchar(200) NOT NULL,
   `nom` varchar(200) NOT NULL,
   PRIMARY KEY (`courriel`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -143,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `commentaire_tuteur` (
   `Matricule_tuteur` varchar(7) NOT NULL,
   `Commentaire` longtext NOT NULL,
   PRIMARY KEY (`Session_tutorat`,`Matricule_Tutoré`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -158,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `commentaire_tutoré` (
   `Matricule_Tutoré` varchar(7) NOT NULL,
   `Note_tuteur` int NOT NULL,
   PRIMARY KEY (`Session_tutorat`,`Matricule_Tuteur`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -169,10 +169,10 @@ CREATE TABLE IF NOT EXISTS `commentaire_tutoré` (
 DROP TABLE IF EXISTS `cours`;
 CREATE TABLE IF NOT EXISTS `cours` (
   `Code` varchar(15) NOT NULL,
-  `Nom` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `CodeProgramme` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `Nom` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `CodeProgramme` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`Code`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `cours`
@@ -681,7 +681,7 @@ CREATE TABLE IF NOT EXISTS `cours_enseigner` (
   `Matricule` varchar(7) NOT NULL,
   `Cours` varchar(15) NOT NULL,
   PRIMARY KEY (`Matricule`,`Cours`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -698,7 +698,7 @@ CREATE TABLE IF NOT EXISTS `disponibilité` (
   `Heure_début` int NOT NULL,
   `Heure_fin` int NOT NULL,
   PRIMARY KEY (`Code`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -711,7 +711,7 @@ CREATE TABLE IF NOT EXISTS `dispo_tuteur` (
   `Matricule` varchar(7) NOT NULL,
   `Code_Dispo` varchar(40) NOT NULL,
   PRIMARY KEY (`Matricule`,`Code_Dispo`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -727,7 +727,7 @@ CREATE TABLE IF NOT EXISTS `enseignant` (
   `Département` varchar(200) NOT NULL,
   `Téléphone` varchar(14) NOT NULL,
   PRIMARY KEY (`Matricule`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `enseignant`
@@ -745,10 +745,10 @@ INSERT INTO `enseignant` (`Matricule`, `Nom`, `Courriel`, `Département`, `Tél�
 DROP TABLE IF EXISTS `programme`;
 CREATE TABLE IF NOT EXISTS `programme` (
   `Code` varchar(15) NOT NULL,
-  `Nom` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `Nom` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `description` text NOT NULL,
   PRIMARY KEY (`Code`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `programme`
@@ -787,7 +787,7 @@ CREATE TABLE IF NOT EXISTS `session_tutorat` (
   `Date` varchar(200) NOT NULL,
   `Heure` varchar(200) NOT NULL,
   PRIMARY KEY (`Session_tutorat`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -801,7 +801,7 @@ CREATE TABLE IF NOT EXISTS `tuteur` (
   `Disponible` tinyint(1) NOT NULL,
   `Note` int NOT NULL,
   PRIMARY KEY (`Matricule`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -814,7 +814,7 @@ CREATE TABLE IF NOT EXISTS `tutoré` (
   `Matricule` varchar(7) NOT NULL,
   `Nbr_commentaire` int NOT NULL,
   PRIMARY KEY (`Matricule`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -833,7 +833,7 @@ CREATE TABLE IF NOT EXISTS `élèves` (
   PRIMARY KEY (`Matricule`),
   KEY `fk_programme_élève` (`Programme`),
   KEY `fk_enseignant_élève` (`Enseignant_ressource`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `élèves`
