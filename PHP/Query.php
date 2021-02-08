@@ -1,5 +1,5 @@
 <?php
-require_once('ConnexionDB.php');
+require_once('ConnexionBD.php');
 
 class Query
 {
@@ -12,11 +12,11 @@ class Query
     }
 
 
-   function getMatiere():array
+   function getCours($search):array
    {
        $lines = array();
        try {
-           $request = "SELECT * FROM matiere";
+           $request = "SELECT * FROM cours where Code like '%$search%' or Nom like '%$search%' or CodeProgramme like '%$search%' limit 4";
            $result = $this->connexion->query($request);
            $lines = $result->fetchAll();
 
