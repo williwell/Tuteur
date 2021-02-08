@@ -33,7 +33,7 @@ class Query
        try {
            $request = "SELECT e.Matricule,e.Nom, e.Courriel, e.Téléphone, p.Nom
                         FROM tuteur t 
-                        INNER JOIN élèves e ON t.Matricule=e.Matricule 
+                        INNER JOIN eleves e ON t.Matricule=e.Matricule 
                         INNER JOIN programme p ON e.Programme=p.Code 
                         WHERE t.Disponible = 1 
                         ORDER BY t.Note";

@@ -18,7 +18,7 @@ function putTutor(list) {
                 "</div>"+
                 "<div class='back'>"+
                   "<div id='"+list[i][0]+"Class' class='social-media-wrapper' style='color:white; font-size: 20px;'>"+
-                  "<p>Courses teached</p>"+
+                  "<h3 class='front__text-header' style='color:#30c5e7'>Liste des cours</h3><br>"+
                   "</div>"+
                   "<div class='contact_info'>"+
                   "</div>"+
