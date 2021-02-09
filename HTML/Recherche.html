@@ -7,7 +7,6 @@
         <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
         <meta charset="utf-8" />
         <meta name="author" content="Alexandra Sirois, William-Arthur Cinq-Mars, Mathieu Harvey">
-		<meta http-equiv="refresh" content="60">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
@@ -17,7 +16,7 @@
             <div class="col-md-10">
                 <form>
                     <label for="fSearch">Rechercher</label>
-                    <input type="text"><br>
+                    <input type="text" id="search"><br>
                 </form>
             </div>
         </div>
@@ -27,6 +26,7 @@
           </div>
       
           <div id="Cours" class="row" style="margin-left: 5%; margin-right: 5%;"></div>
+          <div id="test"></div>
     </body>
 
     <script src="../JS/Script.js"></script>
@@ -42,18 +42,14 @@
         }
         $(window).on("resize", resize);
         resize(); // call once initially
-    </script>
 
-    <script>
-        $("input").change(function(){
-            alert("le texte à changer.")
-        });
-
-        $(document).ready(function () {
+        /*$("input").change(function(){
+            var input = $("#search").val();
             $.ajax({
                 url:"../PHP/GetCours.php",
                 type: "POST",
                 dataType: "Json",
+                data: {"search":input},
                 success:function(result){
                     putCours(result);
                 },
@@ -61,6 +57,23 @@
                     console.log("erreur lors du chargment des actualités:" + er);
                 }
             });
-        });
+        });*/
+
+        $("form").keypress(function(e) {
+            var input = $("#search").val();
+            $.ajax({
+                url:"../PHP/GetCours.php",
+                type: "POST",
+                dataType: "Json",
+                data: {"search":input},
+                success:function(result){
+                    putCours(result);
+                },
+                error: function(message, er) {
+                    console.log("erreur lors du chargment des actualités:" + er);
+                }
+            });
+            return e.keyCode != 13;
+        })
     </script>
 </html>

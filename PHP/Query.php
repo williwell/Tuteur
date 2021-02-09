@@ -16,7 +16,7 @@ class Query
    {
        $lines = array();
        try {
-           $request = "SELECT * FROM cours where Code like '%$search%' or Nom like '%$search%' or CodeProgramme like '%$search%' limit 4";
+           $request = "SELECT * FROM cours where Code like '%$search%' or Nom like '%$search%' or CodeProgramme like '%$search%'";
            $result = $this->connexion->query($request);
            $lines = $result->fetchAll();
 
