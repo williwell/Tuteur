@@ -8,16 +8,18 @@
         <meta charset="utf-8" />
         <meta name="author" content="Alexandra Sirois, William-Arthur Cinq-Mars, Mathieu Harvey">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Connexion</title>
+        <title>Accueil Admin</title>
     </head>
 
 <body>
     <div id="MenuBar"></div>
-
-    <div style="height: 80px;"></div><br>
     <div id="BeginDiv" class="row" style="margin-left: 2%;">
         <div class="col-md-3"></div>
-        <div class="col-md-9"><h1>Connexion</h1></div>
+        <div class="col-md-9"><h1>Gestion</h1></div><br>
+        <div class="row" style="margin-top: 1%">
+            <div class="col-md-3"></div>
+            <div class="col-md-9"><h4>Cette section n'est accessible qu'aux administrateurs</h4></div>
+        </div>
     </div>
     <br>
     <div class="row">
@@ -39,5 +41,6 @@
 
     <script type="text/javascript">
         jQuery('#MenuBar').load('Menu.html#Menu'); 
+        $('#MenuBar').css("padding-bottom","10%");
     </script>
 </html>
