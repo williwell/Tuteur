@@ -43,22 +43,6 @@
         $(window).on("resize", resize);
         resize(); // call once initially
 
-        /*$("input").change(function(){
-            var input = $("#search").val();
-            $.ajax({
-                url:"../PHP/GetCours.php",
-                type: "POST",
-                dataType: "Json",
-                data: {"search":input},
-                success:function(result){
-                    putCours(result);
-                },
-                error: function(message, er) {
-                    console.log("erreur lors du chargment des actualités:" + er);
-                }
-            });
-        });*/
-
         $("form").keypress(function(e) {
             var input = $("#search").val();
             $.ajax({
