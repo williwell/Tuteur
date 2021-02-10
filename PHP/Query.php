@@ -1,5 +1,5 @@
 <?php
-require_once('ConnexionDB.php');
+require_once('ConnexionBD.php');
 
 class Query
 {
@@ -26,4 +26,17 @@ class Query
            return $lines;
        }
    }
+
+   /*function newTutor($matricule,$nom,$courriel,$programme,$telephone,$enseignant):String
+   {
+       try{
+           $request = "Insert Into élèves (Matricule, Nom, Courriel, Programme, Téléphone, Enseignant_ressource)
+           VALUES ('$matricule','$nom','$courriel','$programme','$telephone','$enseignant')";
+           $result = $this->connexion->query($request);
+           return $result;
+       }
+       catch(PDOException $e) {
+           return $result;
+       }
+   }*/
 }
