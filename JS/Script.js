@@ -57,9 +57,14 @@ function putCours(list) {
 function putDocCours(list) {
 	console.log("téléchargement des documents: success");
 	for(var i = 0; i < list.length; i++) {
-		$("DocCour").append("<div class='row' style='margin-bottom: 2%;'>"+
-		"");
-	}
+		$("#DocCour").append(
+			"<div id='telechargerDoc' class='row' style='margin-bottom: 2%; cursor: pointer; margin-left: 3%;'>"+
+				"<a href='../Cours/"+list[i][1]+"/"+list[i][0]+"' download>"+
+					"<h5>"+list[i][2]+"</h5>"+
+				"</a>"+
+				"<p>"+list[i][3]+"</p>"+
+			"</div>");
+	};
 }
 
 

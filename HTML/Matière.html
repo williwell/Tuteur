@@ -36,8 +36,9 @@
                 url: "../PHP/GetMatiere.php",
                 type: "POST",
                 dataType: "json",
+                data: {"noCours":"420215RI"},
                 success: function(result){
-                    printCards(result);
+                    putDocCours(result);
                 },
                 error: function (message, er) {
                     console.log("erreur lors du chargement des matières:" + er);

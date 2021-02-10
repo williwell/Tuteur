@@ -67,6 +67,20 @@ class Query
        }
    }
 
+   function getMatiere($NoCours):array
+   {
+       $lines = array();
+       try{
+           $request = "SELECT * from matières where NoCour = '$NoCours'";
+           $result = $this->connexion->query($request);
+           $lines = $result->fetchAll();
+           return $lines;
+       }
+       catch(PDOException $e) {
+           return $lines;
+       }
+   }
+
    function getMyTutor($matricule):array
    {
    $lines = array();
