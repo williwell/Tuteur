@@ -4,7 +4,5 @@ require_once('Query.php');
 $lines = array();
 $query = new Query();
 
-$matricule = $_POST['matricule'];
-
-$lines = $query->getMyTutor($matricule);
+$lines = $query->getTutorClasses($_POST['matricule']);
 echo json_encode($lines);

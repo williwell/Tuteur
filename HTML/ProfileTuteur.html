@@ -36,7 +36,21 @@
 <script>
     $(document).ready(function () {
        var matricule = getCookie("matriculeTuteur");
-
+       $.ajax({
+            url: "../PHP/GetTutor.php",
+            type: "POST",
+            data: {
+            "matricule": matricule
+            },
+            dataType: "json",
+            success: function(result){
+            let user = result['user'][0];
+             alert(user[1]);
+            },
+            error: function (message, er) {
+                console.log("login: " + message);
+            }
+        });
     });
 </script>
 </html>
