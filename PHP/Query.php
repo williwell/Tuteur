@@ -67,7 +67,7 @@ class Query
        }
    }
 
-   function getMyTutor($matricule)
+   function getMyTutor($matricule):array
    {
    $lines = array();
        try {
@@ -75,7 +75,7 @@ class Query
                        FROM tuteur t 
                        INNER JOIN eleves e ON t.Matricule=e.Matricule 
                        INNER JOIN programme p ON e.Programme=p.Code 
-                       WHERE t.Disponible = 1 AND t.Matricule LIKE ".$matricule." 
+                       WHERE t.Matricule LIKE ".$matricule." 
                        ORDER BY t.Note";
            $result = $this->connexion->query($request);
            $lines = $result->fetchAll();
@@ -96,7 +96,7 @@ function getTutorClasses($matricule)
                      FROM tuteur t 
                      INNER JOIN cours_enseigner ce ON t.Matricule=ce.Matricule 
                      INNER JOIN cours c ON ce.Cours=c.Code 
-                     WHERE t.Disponible = 1 AND  t.Matricule LIKE ".$matricule;
+                     WHERE  t.Matricule LIKE ".$matricule;
         $result = $this->connexion->query($request);
         $lines = $result->fetchAll();
 

@@ -91,3 +91,23 @@ function getCookie(cname) {
   }
   return "";
 }
+
+
+
+function profileTutorInfo(){
+
+}
+
+function profileTutorClasses(listeCours){
+  for (var i = 0; i < listeCours.length; i++) {
+		$("#CoursEnseigner").append(
+		"<div class='items'>"+
+      "<div class='icon-wrapper'>"+
+      "<i class='fa fa-file-text-o'></i>"+
+      "</div>"+
+      "<div class='project-name'>"+
+      "<p>"+listeCours[i][1]+"</p>"+
+      "</div>"
+	  	);
+	};
+}
