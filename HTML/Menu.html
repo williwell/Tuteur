@@ -57,6 +57,11 @@
             <p id="ContactUsMenuP">Contactez-nous</p>
         </div>
 
+        <div class="col TutorMenu sideItem">
+            <i id="TutorMenuI" class="material-icons" style="padding: 5%;">perm_identity</i>
+            <p id="TutorMenuP">Tuteur disponible</p>
+        </div>
+
         <div class="col CloseMenu sideItem">
             <i id="CloseMenuI" class="material-icons" onclick="closeNav()"  style="padding: 2%;">close</i>
             <p id="CloseMenuP" onclick="closeNav()">Fermer le menu</p>
@@ -99,6 +104,9 @@ jQuery('#SearchBar').load('RechercheBarre.html#searchBar');
 
     $("#ContactUsMenuI").on("mouseover", function() {menuMouseOver("#ContactUsMenuI","#ContactUsMenuP")});
     $("#ContactUsMenuI").on("mouseout", function() {menuMouseOut("#ContactUsMenuI","#ContactUsMenuP")});
+
+    $("#TutorMenuI").on("mouseover", function() {menuMouseOver("#TutorMenuI","#TutorMenuP")});
+    $("#TutorMenuI").on("mouseout", function() {menuMouseOut("#TutorMenuI","TutorMenuP")});
 
     $("#CloseMenuI").on("mouseover", function() {menuMouseOver("#CloseMenuI","#CloseMenuP")});
     $("#CloseMenuI").on("mouseout", function() {menuMouseOut("#CloseMenuI","#CloseMenuP")});
@@ -151,6 +159,12 @@ jQuery('#SearchBar').load('RechercheBarre.html#searchBar');
     });
     $("#ContactUsMenuP").click(function() {
         location.replace("ContactUs.html");
+    });
+    $("#TutorMenuI").click(function() {
+        location.replace("Tuteur.html");
+    });
+    $("#TutorMenuP").click(function() {
+        location.replace("Tuteur.html");
     });
 
 

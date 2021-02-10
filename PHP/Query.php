@@ -66,3 +66,45 @@ class Query
        }
    }
 }
+
+
+function getTutor($matricule):array
+{
+    $lines = array();
+    try {
+        $request = "SELECT e.Matricule,e.Nom, e.Courriel, e.Téléphone, p.Nom
+                     FROM tuteur t 
+                     INNER JOIN eleves e ON t.Matricule=e.Matricule 
+                     INNER JOIN programme p ON e.Programme=p.Code 
+                     WHERE t.Disponible = 1 AND t.Matricule LIKE ".$matricule." 
+                     ORDER BY t.Note";
+        $result = $this->connexion->query($request);
+        $lines = $result->fetchAll();
+
+        return $lines;
+    }
+    catch(PDOException $e) {
+        return $lines;
+    }
+}
+
+
+function getTutorClasses($matricule):array
+{
+    $lines = array();
+    try {
+        $request = "SELECT t.Matricule, c.Nom
+                     FROM tuteur t 
+                     INNER JOIN cours_enseigner ce ON t.Matricule=ce.Matricule 
+                     INNER JOIN cours c ON ce.Cours=c.Code 
+                     WHERE t.Disponible = 1 AND  t.Matricule LIKE ".$matricule;
+        $result = $this->connexion->query($request);
+        $lines = $result->fetchAll();
+
+        return $lines;
+    }
+    catch(PDOException $e) {
+        return $lines;
+    }
+}
+}
