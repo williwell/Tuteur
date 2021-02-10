@@ -12,6 +12,9 @@
     <body>
         <div id="MenuBar"></div>
         <div id="Matiere"></div>
+
+        <div class="row" id="NumCour"></div>
+        <div class="row" id="DocCour" style="margin-top: 3%;"></div>
     </body>
 
     <script src="../JS/Script.js"></script>
@@ -27,10 +30,7 @@
         }
         $(window).on("resize", resize);
         resize(); // call once initially
-    </script>
-
-        
-    <script>
+   
         $(document).ready(function () {
     		$.ajax({
                 url: "../PHP/GetMatiere.php",
