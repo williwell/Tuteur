@@ -31,12 +31,14 @@
         $(window).on("resize", resize);
         resize(); // call once initially
    
+        
+
         $(document).ready(function () {
     		$.ajax({
                 url: "../PHP/GetMatiere.php",
                 type: "POST",
                 dataType: "json",
-                data: {"noCours":"420215RI"},
+                data: {"noCours":localStorage.getItem("noCour")},
                 success: function(result){
                     putDocCours(result);
                 },
@@ -45,5 +47,5 @@
                 }
             });
         });
-</script>
+    </script>
 </html>
