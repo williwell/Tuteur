@@ -26,7 +26,6 @@
           </div>
       
           <div id="Cours" class="row" style="margin-left: 5%; margin-right: 5%;"></div>
-          <div id="test"></div>
     </body>
 
     <script src="../JS/Script.js"></script>
@@ -58,6 +57,13 @@
                 }
             });
             return e.keyCode != 13;
-        })
+        });
+
+        $(document).ready(function() {
+            $("#Cours").click(function(event) {
+                localStorage.setItem("noCour",event.target.id);
+                window.location = "http://localhost/Tuteur/HTML/Matière";
+            })
+        });
     </script>
 </html>

@@ -45,11 +45,14 @@ function putCours(list) {
 	$("div").remove("#courInfo");
 	console.log("téléchargement des cours: success");
     for (var i = 0; i < list.length; i++) {
-		$("#Cours").append("<div id='courInfo' class='row' style='margin-bottom: 2%;'>"+
-		"<h5 style='cursor: pointer;'># cours: "+list[i][0]+"</h5>"+
-		"<h5 style='cursor: pointer;'>Nom du cours: "+list[i][1]+"</h5>"+
-		"<h5 style='cursor: pointer;'># programme: "+list[i][2]+"</h5>"+
-		"</div>"
+		$("#Cours").append(
+			"<div id='"+list[i][0]+"'>"+
+				"<div id='courInfo' class='row' style='margin-bottom: 2%;'>"+
+					"<h5 id='"+list[i][0]+"' style='cursor: pointer;'># cours: "+list[i][0]+"</h5>"+
+					"<h5 id='"+list[i][0]+"' style='cursor: pointer;'>Nom du cours: "+list[i][1]+"</h5>"+
+					"<h5 id='"+list[i][0]+"' style='cursor: pointer;'># programme: "+list[i][2]+"</h5>"+
+				"</div>"+
+			"</div>"
 	  	);
 	};
 }
