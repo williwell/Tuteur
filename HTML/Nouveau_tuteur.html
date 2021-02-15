@@ -21,7 +21,7 @@
     <div class="row">
         <div class="col-md-4"></div>
         <div class="col-md-8"><p>
-            <form method="post" action="../PHP/NewTutor.php" enctype="text/plain">
+            <form>
             <div class="col-md-3">
             <label for="Matricule">Matricule</label><br>
             <input type="text" class="form-control" id=Matricule name=Matricule></div>
@@ -39,7 +39,7 @@
             <input type="text" class="form-control" id=Telephone name=Telephone></div><br>
             <div class="col-md-3"><br>
             <label for="Enseignant">Matricule de l'enseignant ressource</label><br>
-            <input type="text" class="form-control" id="Enseignant" name="Enseignant"></div><br>
+            <input type="text" class="form-control" id=Enseignant name=Enseignant></div><br>
             <!--<div class="col-md-2" onclick="this.closest('form').submit();return false;"><p class="horizontal"><span class="text">Envoyer</span></p></div>-->
             <button id="btnAjoutNouveau"style="width:20%">Ajouter le nouveau tuteur</button><br>
         </form></p></div>
@@ -47,39 +47,37 @@
     
 </body>
 
-    <script>
 
-$(document).ready(function(){
-    // Get value on button click and show alert
-    $("#btnAjoutNouveau").click(function(){
-        var matricule= $("#Matricule").val();
-        var nom = $("#Nom").val();
-        var courriel = $("#Courriel").val();
-        var programme= $("#Programme").val();
-        var telephone= $("#Telephone").val();
-        var enseignant=$("#Enseignant").val();
-        $.ajax({
-            url: "../PHP/NewTutor.php",
-            type: "POST",
-            data:{
-                "matricule": matricule,
-                "nom": nom,
-                "courriel": courriel,
-                "programme":programme,
-                "telephone": telephone,
-                "enseignant": enseignant
-            },
-            dataType: "json",
-            success: function(reponse){
-                alert("Création du tuteur effectuée");
-                //window.open("Compte.html?email="+$("#iemail").val(), "_self");
-            },
-            error: function(message, e){
-                console.log("erreur lors de l'ajout:" + er);
-            }
+<script>
+
+        // Get value on button click and show alert
+        $("#btnAjoutNouveau").click(function(){
+            var matricule= $("#Matricule").val();
+            var nom = $("#Nom").val();
+            var courriel = $("#Courriel").val();
+            var programme= $("#Programme").val();
+            var telephone= $("#Telephone").val();
+            var enseignant=$("#Enseignant").val();
+            $.ajax({
+                url: "../PHP/NewTutor.php",
+                type: "POST",
+                data:{
+                    "matricule": matricule,
+                    "nom": nom,
+                    "courriel": courriel,
+                    "programme":programme,
+                    "telephone": telephone,
+                    "enseignant": enseignant
+                },
+                dataType: "json",
+                success: function(result){
+                    alert(result);
+                    //window.open("Compte.html?email="+$("#iemail").val(), "_self");
+                },
+                error: function(message, e){
+                    console.log("erreur lors de l'ajout:" + er);
+                }
+            });
         });
-    });
-});
-
-    </script>
+        </script>
 </html>
