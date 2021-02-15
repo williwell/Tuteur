@@ -120,15 +120,16 @@ function getTutorClasses($matricule)
         return $lines;
     }
 
-   function newTutor($matricule,$nom,$courriel,$programme,$telephone,$enseignant):String
+   function newTutor($matricule,$nom,$courriel,$programme,$telephone,$enseignant)
    {
        try{
            $request = "Insert Into élèves VALUES ('$matricule','$nom','$courriel','$programme','$telephone','$enseignant')";
-           $result = $this->connexion->query($request);
+           return $result;
+           $result = $this->connexion->exec($request);
            return $result;
        }
        catch(PDOException $e) {
-           return $result;
+           return $e;
        }
    }
 /*
