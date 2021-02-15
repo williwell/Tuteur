@@ -99,20 +99,23 @@ function getCookie(cname) {
 
 
 
-function profileTutorInfo(){
-
+function profileTutorInfo(matricule,nom,courriel,téléphone,programme){
+	$("#Info").append(
+    "<div >"+
+    "<div class='front__face-photo' style='background:url(../RESSOURCE/Picture_Tuteur/"+matricule+".png);'></div>"+
+    "<h2>"+nom+"</h2>"+
+    "</div>"
+    );
 }
 
 function profileTutorClasses(listeCours){
   for (var i = 0; i < listeCours.length; i++) {
 		$("#CoursEnseigner").append(
-		"<div class='items'>"+
-      "<div class='icon-wrapper'>"+
-      "<i class='fa fa-file-text-o'></i>"+
-      "</div>"+
-      "<div class='project-name'>"+
-      "<p>"+listeCours[i][1]+"</p>"+
+      "<div class='card'>"+
+      "<p>"+ listeCours[i][0]+"</p>"+
+      "<h2>"+listeCours[i][1]+"</h2>"+
       "</div>"
 	  	);
 	};
 }
+

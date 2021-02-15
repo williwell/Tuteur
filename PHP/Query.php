@@ -106,7 +106,7 @@ function getTutorClasses($matricule)
 {
     $lines = array();
     try {
-        $request = "SELECT t.Matricule, c.Nom
+        $request = "SELECT c.Code, c.Nom
                      FROM tuteur t 
                      INNER JOIN cours_enseigner ce ON t.Matricule=ce.Matricule 
                      INNER JOIN cours c ON ce.Cours=c.Code 
