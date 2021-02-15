@@ -119,6 +119,30 @@ function getTutorClasses($matricule)
     catch(PDOException $e) {
         return $lines;
     }
+
+   function newTutor($matricule,$nom,$courriel,$programme,$telephone,$enseignant):String
+   {
+       try{
+           $request = "Insert Into élèves VALUES ('$matricule','$nom','$courriel','$programme','$telephone','$enseignant')";
+           $result = $this->connexion->query($request);
+           return $result;
+       }
+       catch(PDOException $e) {
+           return $result;
+       }
+   }
+/*
+   function creerComtpe($User,$Mdp):String
+   {
+       try{
+           $request = "insert into compte values($User,$Mdp)";
+           $result = $this->connexion->query($request);
+           return $result;
+       }
+       catch(PDOException $e) {
+           return $result;
+       }
+   }*/
 }
 
 
