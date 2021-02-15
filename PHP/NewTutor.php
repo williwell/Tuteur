@@ -1,7 +1,9 @@
 <?php
-require_once('ConnexionBD.php');
+require_once('Query.php');
 
-$matricule = $_POST["matricule"];
+$query = new Query();
+
+$matricule = $_POST['matricule'];
     $matricule = addslashes($matricule);
 $nom = $_POST["nom"];
     $nom = addslashes($nom);
@@ -13,10 +15,12 @@ $telephone = $_POST["telephone"];
     $telephone = addslashes($telephone);
 $enseignant = $_POST["enseignant"];
     $enseignant = addslashes($enseignant);
-
+    
+$result = $query->newTutor($matricule, $nom, $courriel, $programme, $telephone, $enseignant);
+echo json_encode($result);
+/*
     $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $requete = "Insert Into élèves (Matricule, Nom, Courriel, Programme, Téléphone, Enseignant_ressource)
-    VALUES ('$matricule','$nom','$courriel','$programme','$telephone','$enseignant')";
+    $requete = "Insert Into élèves VALUES ('$matricule','$nom','$courriel','$programme','$telephone','$enseignant')";
     $reponse=$connexion->exec($requete);
     echo json_encode($reponse);
-    $connexion = null;
+    $connexion = null;*/

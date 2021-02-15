@@ -27,11 +27,22 @@ class Query
        }
    }
 
-   /*function newTutor($matricule,$nom,$courriel,$programme,$telephone,$enseignant):String
+   function newTutor($matricule,$nom,$courriel,$programme,$telephone,$enseignant):String
    {
        try{
-           $request = "Insert Into élèves (Matricule, Nom, Courriel, Programme, Téléphone, Enseignant_ressource)
-           VALUES ('$matricule','$nom','$courriel','$programme','$telephone','$enseignant')";
+           $request = "Insert Into élèves VALUES ('$matricule','$nom','$courriel','$programme','$telephone','$enseignant')";
+           $result = $this->connexion->query($request);
+           return $result;
+       }
+       catch(PDOException $e) {
+           return $result;
+       }
+   }
+/*
+   function creerComtpe($User,$Mdp):String
+   {
+       try{
+           $request = "insert into compte values($User,$Mdp)";
            $result = $this->connexion->query($request);
            return $result;
        }
