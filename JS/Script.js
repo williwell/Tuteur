@@ -105,8 +105,11 @@ function getCookie(cname) {
 function profileTutorInfo(matricule,nom,courriel,téléphone,programme){
 	$("#Info").append(
     "<div >"+
-    "<div class='front__face-photo' style='background:url(../RESSOURCE/Picture_Tuteur/"+matricule+".png);'></div>"+
-    "<h2>"+nom+"</h2>"+
+    "<img  style='margin:5%;' src='../RESSOURCE/Picture_Tuteur/"+matricule+".png'></img>"+
+    "<h4 style='margin:5%;'>"+nom+"</h4>"+
+    "<h4 style='margin:5%;'>"+courriel+"</h4>"+
+    "<h4 style='margin:5%;'>"+téléphone+"</h4>"+
+    "<h4 style='margin:5%;'>"+programme+"</h4>"+
     "</div>"
     );
 }

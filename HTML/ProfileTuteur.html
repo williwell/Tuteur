@@ -15,16 +15,42 @@
 <body>
     <div class="container-fluid">
         <div id="MenuBar" class="row"></div>
-        <div id="InfoTuteur" class="row" style="margin: 10%;">
-            <div id="Info" class="col">
-            <p style="font-size: 40px;">Information sur le tuteur</p>
-            </div>
+
+        <div class="row justify-content-center" style="margin: 10%;margin-bottom: 0%;">
+            <p class='horizontal' onclick='supprimerEnseignant("+matricule+")'><span class='text'>Réserver le tuteur</span></p>
+        </div>   
+
+        <div id="Tuteur" class="row justify-content-center" style="margin: 10%;margin-top:0%;">
+            <div id="Info" class="col justify-content-center">
+                <div style="font-size: 40px;">Profil</div>
+            </div>   
+
             <div id="Dispo" class="col">
-            <p style="font-size: 40px;">Disponibilité pendant la session</p>
+                <div style="font-size: 40px;">Disponibilité</div>
+
+                <div class='row  row-cols-1 row-cols-md-2 g-3 justify-content-evenly'>
+                    <div class="col"> 
+                        <p class='horizontal' onclick='disponibilite("Lundi")'><span class='text'>Lundi</span></p>
+                        <p class='horizontal' onclick='disponibilite("Mardi")'><span class='text'>Mardi</span></p>
+                        <p class='horizontal' onclick='disponibilite("Mercredi")'><span class='text'>Mercredi</span></p>
+                    </div>
+                    <div class="col"> 
+                        <p class='horizontal' onclick='disponibilite("Jeudi")'><span class='text'>Jeudi</span></p>
+                        <p class='horizontal' onclick='disponibilite("Vendredi")'><span class='text'>Vendredi</span></p>
+                        <p class='horizontal' onclick='disponibilite("Samedi")'><span class='text'>Samedi</span></p>
+                    </div>
+                    <div class="col"> 
+                        <p class='horizontal' onclick='disponibilite("Dimanche")'><span class='text'>Dimanche</span></p>
+                    </div>   
+                </div>
+
+                <div>
+
+                </div>
             </div>     
         </div>
         <div id="CoursEnseigner" class="row row-cols-1 row-cols-md-2 g-3 justify-content-center align-items-center"  style="margin: 10%;">
-            <p  style="margin: 5%;font-size: 40px;">Cours enseignés</p>
+            <div style="margin: 5%;font-size: 40px;">Cours enseignés</div>
         </div>
        
 </body>
