@@ -119,12 +119,11 @@ function getTutorClasses($matricule)
     catch(PDOException $e) {
         return $lines;
     }
-
+}
    function newTutor($matricule,$nom,$courriel,$programme,$telephone,$enseignant)
    {
        try{
            $request = "Insert Into élèves VALUES ('$matricule','$nom','$courriel','$programme','$telephone','$enseignant')";
-           return $result;
            $result = $this->connexion->exec($request);
            return $result;
        }
@@ -132,7 +131,37 @@ function getTutorClasses($matricule)
            return $e;
        }
    }
-/*
+
+
+   function getDispoTuteur($matricule){
+        $lines = array();
+        try {
+            $request = "SELECT Jours,Session,Annee,CONCAT('Entre ',CONCAT(Heure_debut,CONCAT('h et ',CONCAT(Heure_fin,'h')))) FROM disponibiliter d Inner Join dispo_tuteur dt On d.Code = dt.Code_Dispo where dt.Matricule LIKE ".$matricule;
+            $result = $this->connexion->query($request);
+            $lines = $result->fetchAll();
+
+            return $lines;
+        }
+        catch(PDOException $e) {
+            return $lines;
+        }
+    }
+
+
+    function getDispoTuteurJour($matricule,$jour){
+        $lines = array();
+        try {
+            $request = "SELECT Jours,Session,Annee,CONCAT('Entre ',CONCAT(Heure_debut,CONCAT('h et ',CONCAT(Heure_fin,'h')))) FROM disponibiliter d Inner Join dispo_tuteur dt On d.Code = dt.Code_Dispo where dt.Matricule LIKE ".$matricule." AND d.Jours LIKE %'".$jour."'%";
+            $result = $this->connexion->query($request);
+            $lines = $result->fetchAll();
+    
+            return $lines;
+        }
+        catch(PDOException $e) {
+            return $lines;
+        }
+    }
+
    function creerComtpe($User,$Mdp):String
    {
        try{
@@ -143,8 +172,6 @@ function getTutorClasses($matricule)
        catch(PDOException $e) {
            return $result;
        }
-   }*/
-}
-
+   }
 
 }

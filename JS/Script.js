@@ -104,12 +104,14 @@ function getCookie(cname) {
 
 function profileTutorInfo(matricule,nom,courriel,téléphone,programme){
 	$("#Info").append(
-    "<div >"+
-    "<img  style='margin:5%;' src='../RESSOURCE/Picture_Tuteur/"+matricule+".png'></img>"+
-    "<h4 style='margin:5%;'>"+nom+"</h4>"+
-    "<h4 style='margin:5%;'>"+courriel+"</h4>"+
-    "<h4 style='margin:5%;'>"+téléphone+"</h4>"+
-    "<h4 style='margin:5%;'>"+programme+"</h4>"+
+    "<div class = 'col'>"+
+    "<img  style='margin:5%;' src='../RESSOURCE/Picture_Tuteur/"+matricule+".png'></img>"+ 
+    "</div>"+
+    "<div class = 'col'>"+
+    "<h4 style='margin:5%;'>Nom: "+nom+"</h4>"+
+    "<h4 style='margin:5%;'>Courriel: "+courriel+"</h4>"+
+    "<h4 style='margin:5%;'>Téléphone: "+téléphone+"</h4>"+
+    "<h4 style='margin:5%;'>Programme: "+programme+"</h4>"+
     "</div>"
     );
 }
@@ -125,3 +127,38 @@ function profileTutorClasses(listeCours){
 	};
 }
 
+
+function profileTutorDispo(listeDispo){
+  $("#TableDispo").empty();
+
+  $("#TableDispo").append(
+    "<ul class='responsive-table'>"+
+    "<li class='table-header'>"+
+      "<div class='col col-1'>Jour</div>"+
+      "<div class='col col-2'>Heure</div>"+
+    "</li>"
+  );
+  for (var i = 0; i < listeDispo.length; i++) {
+   
+      if($('#TableDispo').is(':empty') ) {
+        $("#TableDispo").append(
+          "<li class='table-header'>"+
+            "<div class='col col-1'>Jour</div>"+
+            "<div class='col col-2'>Heure</div>"+
+          "</li>"+
+          "<li class='table-row'>"+
+          "<div class='col col-1'>"+listeDispo[i][0]+"</div>"+
+          "<div class='col col-2'>"+listeDispo[i][3]+"</div>"+
+          "</li>"
+      );
+      }
+     else{
+      $("#TableDispo").append(
+        "<li class='table-row colorWhite'>"+
+        "<div class='col col-1'>"+listeDispo[i][0]+"</div>"+
+        "<div class='col col-2'>"+listeDispo[i][3]+"</div>"+
+        "</li>");
+     }
+  }
+  
+}
