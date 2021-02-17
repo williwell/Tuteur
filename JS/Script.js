@@ -42,30 +42,62 @@ function putTutorClasses(list) {
 }
 
 function putCours(list) {
-	$("div").remove("#courInfo");
-	console.log("téléchargement des cours: success");
+	$("#Cours").empty();
     for (var i = 0; i < list.length; i++) {
 		$("#Cours").append(
-			"<div id='"+list[i][0]+"'>"+
-				"<div id='courInfo' class='row' style='margin-bottom: 2%;'>"+
-					"<h5 id='"+list[i][0]+"' style='cursor: pointer;'># cours: "+list[i][0]+"</h5>"+
-					"<h5 id='"+list[i][0]+"' style='cursor: pointer;'>Nom du cours: "+list[i][1]+"</h5>"+
-					"<h5 id='"+list[i][0]+"' style='cursor: pointer;'># programme: "+list[i][2]+"</h5>"+
+			"<div class='courses-container'>"+
+				"<div class='course'>"+
+					"<div class='course-preview'>"+
+						"<h6># Programme</h6>"+
+						"<h2>"+list[i][2]+"</h2>"+
+					"</div>"+
+					"<div class='course-info'>"+
+						
+							"<h6>"+list[i][0]+"</h6>"+
+							"<h2>"+list[i][1]+"</h2>"+
+							"<button class='btn'>Continue</button>"+
+						
+					"</div>"+
 				"</div>"+
 			"</div>"
 	  	);
 	};
+
+	console.log("téléchargement des cours: success");
 }
 
 function putDocCours(list) {
-	console.log("téléchargement des documents: success");
-	for(var i = 0; i < list.length; i++) {
+	if (list.length > 0)
+	{
+		for(var i = 0; i < list.length; i++) {
+			$("#DocCour").append(
+				"<div id='telechargerDoc' class='row' style='margin-bottom: 2%; cursor: pointer; margin-left: 8%;'>"+
+					"<a href='../Cours/"+list[i][1]+"/"+list[i][0]+"' download>"+
+						"<h5>"+list[i][2]+"</h5>"+
+					"</a>"+
+					"<p>"+list[i][3]+"</p>"+
+				"</div>");
+		};
+		console.log("téléchargement des documents: success");
+	}
+	else
+	{
 		$("#DocCour").append(
-			"<div id='telechargerDoc' class='row' style='margin-bottom: 2%; cursor: pointer; margin-left: 3%;'>"+
-				"<a href='../Cours/"+list[i][1]+"/"+list[i][0]+"' download>"+
-					"<h5>"+list[i][2]+"</h5>"+
-				"</a>"+
-				"<p>"+list[i][3]+"</p>"+
-			"</div>");
-	};
+			"<divclass='row' style='margin-bottom: 2%; margin-left: 7%;'>"+
+				"<p>Désoler il n'y a présentement aucun document disponible pour ce cours.</p>"+
+			"</div>"
+		);
+	}
+}
+
+function putInfoCour(list) {
+	$("#InfoCour").append(
+		"<div class='row'>"+
+			"<div class='row' style='margin-left: 5%; margin-top: 3%'>"+	
+				"<h3>"+list[0][0]+"</h3>"+
+				"<h3>"+list[0][1]+"</h3>"+
+				"<h5 style='margin-left:2%; margin-top: 1%'>Fichier disponible pour téléchargement</h5>"+
+			"</div>"+
+		"</div>"
+	);
 }

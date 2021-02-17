@@ -16,7 +16,7 @@ class Query
    {
        $lines = array();
        try {
-           $request = "SELECT * FROM cours where Code like '%$search%' or Nom like '%$search%' or CodeProgramme like '%$search%'";
+           $request = "SELECT * FROM cours where Code like '%$search%' order by CodeProgramme";
            $result = $this->connexion->query($request);
            $lines = $result->fetchAll();
 
@@ -78,5 +78,19 @@ class Query
        catch(PDOException $e) {
            return $lines;
        }
+   }
+
+   function getInfoCour($NoCours):array
+   {
+    $lines = array();
+    try{
+        $request = "SELECT * from cours where Code = '$NoCours'";
+        $result = $this->connexion->query($request);
+        $lines = $result->fetchAll();
+        return $lines;
+    }
+    catch(PDOException $e) {
+        return $lines;
+    }
    }
 }
