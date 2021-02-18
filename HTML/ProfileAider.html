@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="../CSS/ProfileTutor.css"/>
+        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+        <meta charset="utf-8" />
+        <meta name="author" content="Alexandra Sirois, William-Arthur Cinq-Mars, Mathieu Harvey">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Raleway|Roboto" rel="stylesheet">
+        <title>Profil du tuteur</title>
+    </head>
+
+<body>
+    <div class="container-fluid">
+        <div id="MenuBar" class="row"></div>
+
+        <div id="Tuteur" class="row justify-content-center" style="margin: 10%;margin-top:5%;">
+            <div style="font-size: 40px;">Profil</div>
+            <div id="Info" class="row justify-content-center"  style="margin: 5%;">
+            </div> 
+            
+</body>
+
+
+
+    <script type="text/javascript">
+        jQuery('#MenuBar').load('Menu.html#Menu'); 
+    </script>
+
+<script src="../JS/Script.js"></script>
+
+<script>
+    $(document).ready(function () {
+       var matricule = getCookie("matriculeAider");
+       $.ajax({
+            url: "../PHP/GetAider.php",
+            type: "POST",
+            data: {
+            "matricule": matricule
+            },
+            dataType: "json",
+            success: function(result){
+                var matricule = result[0][0];
+                var nom = result[0][1];
+                var courriel = result[0][2];
+                var téléphone = result[0][3];
+                var programme = result[0][4];
+               
+                profileAiderInfo(matricule,nom,courriel,téléphone,programme);
+            },
+            error: function (message, er) {
+                console.log("login: " + message);
+            }
+        });
+    });
+</script>
+</html>

@@ -94,7 +94,6 @@ function putDocCours(list) {
 function goProfileTutor(matricule){
   setCookie("matriculeTuteur",matricule,200);
   location.replace("ProfileTuteur.html");
-
 }
 
 
@@ -145,6 +144,33 @@ function profileTutorInfo(matricule,nom,courriel,téléphone,programme){
     "</div>"
     );
 }
+
+
+function profileAiderInfo(matricule,nom,courriel,téléphone,programme){
+	$("#Info").append(
+    "<div class='course'>"+
+    "<div class='course-preview'>"+
+    "<img  src='../RESSOURCE/Picture_Aider/"+matricule+".png' width='100%' height='80%'></img>"+ 
+    "</div>"+
+    "<div class='course-info'>"+
+    "<div  STYLE='MARGIN:5%;>"+    
+    "<h6 style='margin:3%;'>NOM</h6>"+
+    "<h4 style='margin:3%;'>"+nom+"</h4>"+  
+    "<h6 style='margin:3%;'>COURRIEL</h6>"+
+    "<h4 style='margin:3%;'>"+courriel+"</h4>"+
+    "<h6 style='margin:2%;'>TÉLÉPHONE</h6>"+
+    "<h4 style='margin:2%;'>"+téléphone+"</h4>"+
+    "<h6 style='margin:2%;'>PROGRAMME D'ÉTUDE</h6>"+
+    "<h4 style='margin:2%;'>"+programme+"</h4>"+
+    "</div>"+
+
+    "</div>"+   
+    "</div>"
+    );
+}
+
+
+
 
 function profileTutorClasses(listeCours){
   for (var i = 0; i < listeCours.length; i++) {
@@ -205,3 +231,39 @@ function putInfoCour(list) {
 		"</div>"
 	);
 }
+
+
+function demandeTutorat(liste){
+  $("#TableDemande").empty();
+  $("#tableHeaderDeamnde").empty();
+  $("#tableHeaderDeamnde").append(
+    "<div class='table-header'>"+
+      "<div class='header__item'><a id='name' class='filter__link' href='#'>Nom du tuteur</a></div>"+
+      "<div class='header__item'><a id='name' class='filter__link' href='#'>Nom de l'aider</a></div>"+
+      "<div class='header__item'><a id='name' class='filter__link' href='#'>Date de la demande</a></div>"+
+      "<div class='header__item'><a id='name' class='filter__link' href='#'>Heure de la demande</a></div>"+
+      "<div class='header__item'><a id='name' class='filter__link' href='#'>État de la demande</a></div>"+
+    "</div>");
+
+    for (var i = 0; i < liste.length; i++) {
+
+      if(liste[i][4]==0){
+        $("#TableDemande").append(
+          "<div class='table-row'>"+
+          "<div  style='cursor: pointer;' class='table-data' onclick='goProfileTutor("+liste[i][5]+")'>"+liste[i][0]+"</div>"+
+          "<div  style='cursor: pointer;' class='table-data' onclick='goProfileAider("+liste[i][6]+")'>"+liste[i][1]+"</div>"+
+          "<div style='cursor: default;' class='table-data'>"+liste[i][2]+"</div>"+
+          "<div style='cursor: default;' class='table-data'>"+liste[i][3]+"</div>"+
+          "<div style='cursor: default;' class='table-data'>"+liste[i][4]+"</div>"+
+          "</div>");
+      }
+
+    }
+  
+}
+
+function goProfileAider(matricule){
+  setCookie("matriculeAider",matricule,200);
+  location.replace("ProfileAider.html");
+}
+

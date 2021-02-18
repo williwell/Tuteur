@@ -101,6 +101,25 @@ class Query
        }
    }
 
+   function getAider($matricule):array
+   {
+   $lines = array();
+       try {
+           $request = "SELECT e.Matricule,e.Nom, e.Courriel, e.Téléphone, p.Nom
+                       FROM tutorer t 
+                       INNER JOIN eleves e ON t.Matricule=e.Matricule 
+                       INNER JOIN programme p ON e.Programme=p.Code 
+                       WHERE t.Matricule LIKE ".$matricule;
+           $result = $this->connexion->query($request);
+           $lines = $result->fetchAll();
+
+           return $lines;
+       }
+       catch(PDOException $e) {
+           return $lines;
+       }
+   }
+
 
 function getTutorClasses($matricule)
 {
@@ -187,5 +206,53 @@ function getTutorClasses($matricule)
            return $result;
        }
    }
+
+   function login($User,$Mdp)
+   {
+       $lines = array();
+       try {
+           $request = "SELECT COUNT(Matricule) FROM tuteur WHERE Matricule LIKE ".$User." AND password LIKE ".$Mdp;
+           $result = $this->connexion->query($request);
+           $lines = $result->fetchAll();
+
+            if($lines[0][0]==1){
+                setcookie("isLogged", "1", time() + (86400 * 30), "/");
+                setcookie("MatriculeLogged", $User, time() + (86400 * 30), "/"); 
+                echo "Value is: " .$_COOKIE["isLogged"];
+                echo "Value is: " .$_COOKIE["MatriculeLogged"];
+                return $User;
+            }
+            else{
+                $request = "SELECT COUNT(Matricule) FROM tutorer WHERE Matricule LIKE ".$User." AND password LIKE".$Mdp;
+                $result = $this->connexion->query($request);
+                $lines = $result->fetchAll();
+
+                if($lines[0][0]==1){
+                    setcookie("isLogged", "1", time() + (86400 * 30), "/");
+                    setcookie("MatriculeLogged", $User, time() + (86400 * 30), "/");
+                    return $User;
+                }
+            }
+
+       }
+       catch(PDOException $e) {
+           return $lines;
+       }
+   }
+
+
+   function getTutoratDemand($matricule){
+    $lines = array();
+    try{
+        $request = "SELECT tuteur.Nom, tutorer.Nom, st.date, st.Heure,st.accepter,st.Matricule_Tuteur, st.Matricule_Tutorer FROM session_tutorat st INNER JOIN eleves tuteur ON st.Matricule_Tuteur=tuteur.Matricule INNER JOIN eleves tutorer ON st.Matricule_Tutorer=tutorer.Matricule WHERE Matricule_Tuteur  LIKE ".$matricule." OR Matricule_Tutorer LIKE ".$matricule;
+        $result = $this->connexion->query($request);
+        $lines = $result->fetchAll();
+        return $lines;
+    }
+    catch(PDOException $e) {
+        return $lines;
+    }
+   }
+
 
 }
