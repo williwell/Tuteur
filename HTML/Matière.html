@@ -11,10 +11,9 @@
     </head>
     <body>
         <div id="MenuBar"></div>
-        <div id="Matiere"></div>
 
-        <div class="row" id="NumCour"></div>
-        <div class="row" id="DocCour" style="margin-top: 3%;"></div>
+        <div class="row" id="InfoCour"></div>
+        <div class="row" id="DocCour" style="margin-left: 3%;"></div>
     </body>
 
     <script src="../JS/Script.js"></script>
@@ -35,17 +34,31 @@
 
         $(document).ready(function () {
     		$.ajax({
-                url: "../PHP/GetMatiere.php",
-                type: "POST",
-                dataType: "json",
+                url:"../PHP/GetInfoCour.php",
+                type:"POST",
+                dataType:"json",
                 data: {"noCours":localStorage.getItem("noCour")},
                 success: function(result){
-                    putDocCours(result);
+                    putInfoCour(result);
+                    $.ajax({
+                        url: "../PHP/GetMatiere.php",
+                        type: "POST",
+                        dataType: "json",
+                        data: {"noCours":localStorage.getItem("noCour")},
+                        success: function(result){
+                            putDocCours(result);
+                        },
+                        error: function (message, er) {
+                            console.log("erreur lors du chargement des matières:" + er);
+                        }
+                    });
                 },
                 error: function (message, er) {
-                    console.log("erreur lors du chargement des matières:" + er);
+                    console.log("erreur lors du chragement des informations du cours" + er);
                 }
             });
+            
+            
         });
     </script>
 </html>

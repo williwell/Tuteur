@@ -15,16 +15,60 @@
 <body>
     <div class="container-fluid">
         <div id="MenuBar" class="row"></div>
-        <div id="InfoTuteur" class="row" style="margin: 10%;">
-            <div id="Info" class="col">
-            <p style="font-size: 40px;">Information sur le tuteur</p>
+
+        <div class="row justify-content-center" style="margin: 10%;margin-bottom: 0%;">
+            <p class='horizontal'><span class='text'>Envoyer une demande d'aide au tuteur</span></p>
+        </div>   
+
+        <div id="Tuteur" class="row justify-content-center" style="margin: 10%;margin-top:0%;">
+            <div style="font-size: 40px;">Profil</div>
+            <div id="Info" class="row justify-content-center"  style="margin: 5%;">
+
+            </div>   
+
+            <div id="Dispo" class="row">
+                <div  class="col"> 
+                    <div class="col"  > 
+                            <ul id="TableDispo"  class='responsive-table'> </ul>
+                    </div>
+                </div>
+                
+
+                <div class="col"  style="margin: 5%;">
+                    <div style="font-size: 40px;">Filtrer les disponibilités</div>
+                    <div class='row  row-cols-4 row-cols-md-2 g-3 justify-content-evenly' >
+                            <div class = "col">  
+                                <p class='horizontal' onclick='disponibilite("Lundi")'><span class='text'>Lundi</span></p>
+                            </div>
+                            <div class = "col">  
+                                <p class='horizontal' onclick='disponibilite("Mardi")'><span class='text'>Mardi</span></p>
+                            </div>
+                            <div class = "col">  
+                                <p class='horizontal' onclick='disponibilite("Mercredi")'><span class='text'>Mercredi</span></p>
+                            </div>
+                            <div class = "col">  
+                                <p class='horizontal' onclick='disponibilite("Jeudi")'><span class='text'>Jeudi</span></p>
+                            </div>
+                            <div class = "col">  
+                                <p class='horizontal' onclick='disponibilite("Vendredi")'><span class='text'>Vendredi</span></p>
+                            </div>
+                            <div class = "col">  
+                                <p class='horizontal' onclick='disponibilite("Samedi")'><span class='text'>Samedi</span></p>
+                            </div>
+                            <div class = "col">  
+                                <p class='horizontal' onclick='disponibilite("Dimanche")'><span class='text'>Dimanche</span></p></div>
+                            </div>
+                        </div>     
+                    </div>
+                </div>
             </div>
-            <div id="Dispo" class="col">
-            <p style="font-size: 40px;">Disponibilité pendant la session</p>
-            </div>     
-        </div>
-        <div id="CoursEnseigner" class="row row-cols-1 row-cols-md-2 g-3 justify-content-center align-items-center"  style="margin: 10%;">
-            <p  style="margin: 5%;font-size: 40px;">Cours enseignés</p>
+
+      
+
+
+
+        <div id="CoursEnseigner" class="row row-cols-1 row-cols-md-2 g-3 justify-content-center align-items-center"  style="margin: 10%;margin-top: 0%;">
+            <div style="margin: 5%;font-size: 40px;">Cours enseignés</div>
         </div>
        
 </body>
@@ -53,7 +97,6 @@
                 var courriel = result[0][2];
                 var téléphone = result[0][3];
                 var programme = result[0][4];
-
                 $.ajax({
                     url: "../PHP/GetClassOneTutor.php",
                     type: "POST",
@@ -74,6 +117,43 @@
                 console.log("login: " + message);
             }
         });
+
+        $.ajax({
+            url: "../PHP/GetDispoTutor.php",
+            type: "POST",
+            data: {
+                "matricule": matricule
+            },
+            dataType: "json",
+            success: function(result2){
+                profileTutorDispo(result2);
+            },
+            error: function (message, er) {
+                console.log("login: " + message);
+            }
+        });
+        
     });
+
+
+    function disponibilite(nomJour){
+        var matricule = getCookie("matriculeTuteur");
+        $.ajax({
+            url: "../PHP/GetDispoTutorJour.php",
+            type: "POST",
+            data: {
+                "matricule": matricule,
+                "jour": nomJour
+            },
+            dataType: "json",
+            success: function(result){
+                profileTutorDispo(result);
+            },
+            error: function (message, er) {
+                console.log("login: " + message);
+            }
+        });
+    };
+
 </script>
 </html>

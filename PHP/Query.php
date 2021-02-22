@@ -17,7 +17,7 @@ class Query
    {
        $lines = array();
        try {
-           $request = "SELECT * FROM cours where Code like '%$search%' or Nom like '%$search%' or CodeProgramme like '%$search%'";
+           $request = "SELECT * FROM cours where Code like '%$search%' order by CodeProgramme";
            $result = $this->connexion->query($request);
            $lines = $result->fetchAll();
 
@@ -122,6 +122,21 @@ function getTutorClasses($matricule)
 }
 
    function newEtudiant($matricule,$nom,$courriel,$programme,$telephone,$enseignant)
+   function getInfoCour($NoCours):array
+   {
+    $lines = array();
+    try{
+        $request = "SELECT * from cours where Code = '$NoCours'";
+        $result = $this->connexion->query($request);
+        $lines = $result->fetchAll();
+        return $lines;
+    }
+    catch(PDOException $e) {
+        return $lines;
+    }
+   }
+}
+   function newTutor($matricule,$nom,$courriel,$programme,$telephone,$enseignant)
    {
        try{
            $request = "Insert Into élèves VALUES ('$matricule','$nom','$courriel','$programme','$telephone','$enseignant')";
@@ -131,6 +146,48 @@ function getTutorClasses($matricule)
        }
        catch(PDOException $e) {
            return $e;
+       }
+   }
+
+
+   function getDispoTuteur($matricule){
+        $lines = array();
+        try {
+            $request = "SELECT Jours,Session,Annee,CONCAT('Entre ',CONCAT(Heure_debut,CONCAT('h et ',CONCAT(Heure_fin,'h')))) FROM disponibiliter d Inner Join dispo_tuteur dt On d.Code = dt.Code_Dispo where dt.Matricule LIKE ".$matricule;
+            $result = $this->connexion->query($request);
+            $lines = $result->fetchAll();
+
+            return $lines;
+        }
+        catch(PDOException $e) {
+            return $lines;
+        }
+    }
+
+
+    function getDispoTuteurJour($matricule,$jour){
+        $lines = array();
+        try {
+            $request = "SELECT Jours,Session,Annee,CONCAT('Entre ',CONCAT(Heure_debut,CONCAT('h et ',CONCAT(Heure_fin,'h')))) FROM disponibiliter d Inner Join dispo_tuteur dt On d.Code = dt.Code_Dispo where dt.Matricule LIKE ".$matricule." AND d.Jours LIKE %'".$jour."'%";
+            $result = $this->connexion->query($request);
+            $lines = $result->fetchAll();
+    
+            return $lines;
+        }
+        catch(PDOException $e) {
+            return $lines;
+        }
+    }
+
+   function creerComtpe($User,$Mdp):String
+   {
+       try{
+           $request = "insert into compte values($User,$Mdp)";
+           $result = $this->connexion->query($request);
+           return $result;
+       }
+       catch(PDOException $e) {
+           return $result;
        }
    }
 

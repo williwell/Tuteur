@@ -1,0 +1,115 @@
+
+:root {
+    --cegep-color:#0d3d9a;
+    --base-color:  black;
+    --hover-color:#30d3d7;
+  }
+  
+  
+
+
+@media only screen and (min-width: 1100px) {
+    .horizontal {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        width: 70%;
+        height: 30%;
+        margin: 5%;
+        border: 5px solid var(--hover-color);
+        font-size: 25px;
+        cursor: pointer;
+        padding: 5%;
+        text-align: center;
+      }
+    
+    
+      .horizontal > .text {
+        position: relative;
+        color: transparent;
+        background-image: linear-gradient(90deg, var(--hover-color) 0%, var(--hover-color) 50%, var(--hover-color) 50%, var(--hover-color) 100%);
+        background-repeat: repeat;
+        background-size: 200%;
+        background-position: 100% 0;
+        -webkit-background-clip: text;
+        background-clip: text;
+        transition: background-position 300ms;
+      }
+      .horizontal::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--hover-color);
+        color: white;
+        transform-origin: 100% 0;
+        transform: scale3d(0, 1, 1);
+        transition: transform 300ms;
+      }
+      .horizontal:hover .text {
+        background-position: 0 0;
+        color: white;
+      }
+      .horizontal:hover::before {
+        transform-origin: 0 0;
+        transform: scale3d(1, 1, 1);
+      }
+      
+
+}
+
+@media only screen and (max-width: 1100px) {
+    .horizontal {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        width: 60%;
+        height: 30%;
+        margin: 2%;
+        border: 3px solid var(--hover-color);
+        font-size: 15px;
+        cursor: pointer;
+        padding: 5%;
+        text-align: center;
+      }
+    
+    
+      .horizontal > .text {
+        position: relative;
+        color: transparent;
+        background-image: linear-gradient(90deg, var(--hover-color) 0%, var(--hover-color) 50%, var(--hover-color) 50%, var(--hover-color) 100%);
+        background-repeat: repeat;
+        background-size: 200%;
+        background-position: 100% 0;
+        -webkit-background-clip: text;
+        background-clip: text;
+        transition: background-position 300ms;
+      }
+      .horizontal::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--hover-color);
+        color: white;
+        transform-origin: 100% 0;
+        transform: scale3d(0, 1, 1);
+        transition: transform 300ms;
+      }
+      .horizontal:hover .text {
+        background-position: 0 0;
+        color: white;
+      }
+      .horizontal:hover::before {
+        transform-origin: 0 0;
+        transform: scale3d(1, 1, 1);
+      }
+      
+   
+}
