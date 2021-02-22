@@ -82,6 +82,9 @@
 
 </body>
 
+<script src="../JS/Script.js"></script>
+
+
 <script>
 
 jQuery('#SearchBar').load('RechercheBarre.html#searchBar'); 
@@ -136,12 +139,6 @@ jQuery('#SearchBar').load('RechercheBarre.html#searchBar');
     $("#HomeMenuP").click(function() {
         location.replace("Accueil.html");
     });
-    $("#ConnexionMenuI").click(function() {
-        location.replace("Login.html");
-    });
-    $("#ConnexionMenuP").click(function() {
-        location.replace("Login.html");
-    });
     $("#SearchMenuI").click(function() {
         location.replace("Recherche.html");
     });
@@ -165,6 +162,29 @@ jQuery('#SearchBar').load('RechercheBarre.html#searchBar');
     });
     $("#TutorMenuP").click(function() {
         location.replace("Tuteur.html");
+    });
+
+
+    $(document).ready(function () {
+        if(getCookie("isLogged")==1){
+            $("#ConnexionMenuP").text("Mon Profil");
+            $("#ConnexionMenuI").click(function() {
+            location.replace("UserProfile.html");
+            });
+            $("#ConnexionMenuP").click(function() {
+                location.replace("UserProfile.html");
+            });
+        }
+        else{
+            $("#ConnexionMenuP").text("Connexion");
+            $("#ConnexionMenuI").click(function() {
+            location.replace("Login.html");
+            });
+            $("#ConnexionMenuP").click(function() {
+                location.replace("Login.html");
+            });
+        }
+        
     });
 
 

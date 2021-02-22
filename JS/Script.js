@@ -8,7 +8,7 @@ function putTutor(list) {
               "<div class='inner-div'>"+
                 "<div class='front'>"+
                   "<div class='front__bkg-photo'></div>"+
-                  "<div class='front__face-photo' style='background:url(../RESSOURCE/Picture_Tuteur/"+list[i][0]+".png);'></div>"+
+                  "<div class='front__face-photo' style='background:url(../RESSOURCE/Picture_Tuteur/"+list[i][0]+".png);background-size: cover;'></div>"+
                   "<div class='front__text'>"+
                     "<h3 class='front__text-header'>"+list[i][1]+"</h3>"+
                     "<p class='front__text-para'></i>"+list[i][4]+"</p><br><br>"+
@@ -94,7 +94,6 @@ function putDocCours(list) {
 function goProfileTutor(matricule){
   setCookie("matriculeTuteur",matricule,200);
   location.replace("ProfileTuteur.html");
-
 }
 
 
@@ -124,17 +123,54 @@ function getCookie(cname) {
 
 function profileTutorInfo(matricule,nom,courriel,téléphone,programme){
 	$("#Info").append(
-    "<div class = 'col'>"+
-    "<img  style='margin:5%;' src='../RESSOURCE/Picture_Tuteur/"+matricule+".png'></img>"+ 
+    "<div class='course'>"+
+    "<div class='course-preview'>"+
+    "<img  src='../RESSOURCE/Picture_Tuteur/"+matricule+".png' width='100%' height='80%'></img>"+ 
     "</div>"+
-    "<div class = 'col'>"+
-    "<h4 style='margin:5%;'>Nom: "+nom+"</h4>"+
-    "<h4 style='margin:5%;'>Courriel: "+courriel+"</h4>"+
-    "<h4 style='margin:5%;'>Téléphone: "+téléphone+"</h4>"+
-    "<h4 style='margin:5%;'>Programme: "+programme+"</h4>"+
+    "<div class='course-info'>"+
+    "<div  STYLE='MARGIN:5%;>"+    
+    "<h6 style='margin:3%;'>NOM</h6>"+
+    "<h4 style='margin:3%;'>"+nom+"</h4>"+  
+    "<h6 style='margin:3%;'>COURRIEL</h6>"+
+    "<h4 style='margin:3%;'>"+courriel+"</h4>"+
+    "<h6 style='margin:2%;'>TÉLÉPHONE</h6>"+
+    "<h4 style='margin:2%;'>"+téléphone+"</h4>"+
+    "<h6 style='margin:2%;'>PROGRAMME D'ÉTUDE</h6>"+
+    "<h4 style='margin:2%;'>"+programme+"</h4>"+
+    "</div>"+
+    "<p class='horizontal'><span class='text'>Demande de tutorat</span></p>"+
+
+    "</div>"+   
     "</div>"
     );
 }
+
+
+function profileAiderInfo(matricule,nom,courriel,téléphone,programme){
+	$("#Info").append(
+    "<div class='course'>"+
+    "<div class='course-preview'>"+
+    "<img  src='../RESSOURCE/Picture_Aider/"+matricule+".png' width='100%' height='80%'></img>"+ 
+    "</div>"+
+    "<div class='course-info'>"+
+    "<div  STYLE='MARGIN:5%;>"+    
+    "<h6 style='margin:3%;'>NOM</h6>"+
+    "<h4 style='margin:3%;'>"+nom+"</h4>"+  
+    "<h6 style='margin:3%;'>COURRIEL</h6>"+
+    "<h4 style='margin:3%;'>"+courriel+"</h4>"+
+    "<h6 style='margin:2%;'>TÉLÉPHONE</h6>"+
+    "<h4 style='margin:2%;'>"+téléphone+"</h4>"+
+    "<h6 style='margin:2%;'>PROGRAMME D'ÉTUDE</h6>"+
+    "<h4 style='margin:2%;'>"+programme+"</h4>"+
+    "</div>"+
+
+    "</div>"+   
+    "</div>"
+    );
+}
+
+
+
 
 function profileTutorClasses(listeCours){
   for (var i = 0; i < listeCours.length; i++) {
@@ -195,3 +231,39 @@ function putInfoCour(list) {
 		"</div>"
 	);
 }
+
+
+function demandeTutorat(liste){
+  $("#TableDemande").empty();
+  $("#tableHeaderDeamnde").empty();
+  $("#tableHeaderDeamnde").append(
+    "<div class='table-header'>"+
+      "<div class='header__item'><a id='name' class='filter__link' href='#'>Nom du tuteur</a></div>"+
+      "<div class='header__item'><a id='name' class='filter__link' href='#'>Nom de l'aider</a></div>"+
+      "<div class='header__item'><a id='name' class='filter__link' href='#'>Date de la demande</a></div>"+
+      "<div class='header__item'><a id='name' class='filter__link' href='#'>Heure de la demande</a></div>"+
+      "<div class='header__item'><a id='name' class='filter__link' href='#'>État de la demande</a></div>"+
+    "</div>");
+
+    for (var i = 0; i < liste.length; i++) {
+
+      if(liste[i][4]==0){
+        $("#TableDemande").append(
+          "<div class='table-row'>"+
+          "<div  style='cursor: pointer;' class='table-data' onclick='goProfileTutor("+liste[i][5]+")'>"+liste[i][0]+"</div>"+
+          "<div  style='cursor: pointer;' class='table-data' onclick='goProfileAider("+liste[i][6]+")'>"+liste[i][1]+"</div>"+
+          "<div style='cursor: default;' class='table-data'>"+liste[i][2]+"</div>"+
+          "<div style='cursor: default;' class='table-data'>"+liste[i][3]+"</div>"+
+          "<div style='cursor: default;' class='table-data'>"+liste[i][4]+"</div>"+
+          "</div>");
+      }
+
+    }
+  
+}
+
+function goProfileAider(matricule){
+  setCookie("matriculeAider",matricule,200);
+  location.replace("ProfileAider.html");
+}
+
