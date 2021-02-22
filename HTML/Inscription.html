@@ -9,7 +9,7 @@
         <meta charset="utf-8" />
         <meta name="author" content="Alexandra Sirois, William-Arthur Cinq-Mars, Mathieu Harvey">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Connexion</title>
+        <title>Inscription</title>
     </head>
 
 <body onload="alreadyLogged()">
@@ -18,9 +18,7 @@
     <div class="page">
         <div class="containerLogin">
           <div class="left">
-            <div class="login">Connection</div>
-            <div class="eula">Mot de passe oublié</div>
-            <div class="eula"><a href="Inscription.html">Inscription</a></div>
+            <div class="login">Inscription</div>
           </div>
           <div class="right">
             <svg viewBox="0 0 320 300">
@@ -47,10 +45,12 @@
             </svg>
             <div class="form">
               <label for="matricule">Matricule</label>
-              <input type="text" id="matricule">
+              <input type="text" id="matricule" onchange="change()">
               <label for="password">Mot de passe</label>
-              <input type="password" id="password">
-              <input type="submit" id="submit" value="Submit" onclick="login()">
+              <input type="password" id="password" onchange="change()">
+              <label for="password2">Confirmez le mot de passe</label>
+              <input type="password" id="password2" onchange="change()">
+              <input type="submit" id="submit" value="Submit" disabled=true onclick="Signup()">
             </div>
           </div>
         </div>
@@ -111,11 +111,13 @@
         });
 
 
-        function login(){
+        function Signup(){
             var username  = $("#matricule").val();
             var password  = $("#password").val();
+            var confirm  = $("#password2").val();
+            if(password==confirm){
                $.ajax({
-                    url: "../PHP/Login.php",
+                    url: "../PHP/Signup.php",
                     type: "POST",
                     data: {
                         "matricule": username,
@@ -135,7 +137,20 @@
                         console.log("erreur lors de la connexion: " + er);
                         location.reload();
                     }
-                });
+                });}
+        }
+
+        function change(){
+            var regMat = new RegExp(/[0-9]{7}$/)
+            document.getElementById("submit").disabled=true;
+                if(regMat.test(document.getElementById("matricule").value)){
+                    if($("#password").val()==$("#password2").val()&&$("#password").val().length()>0){
+                        document.getElementById("submit").disabled=false;
+                        alert("ok");
+                    }
+                    else{document.getElementById("password2").style.color = "#FF7575";}
+                }
+                else{document.getElementById("username").style.color = "#FF7575";}
         }
 
         function alreadyLogged(){

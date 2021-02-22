@@ -138,7 +138,9 @@ function getTutorClasses($matricule)
     catch(PDOException $e) {
         return $lines;
     }
+}
 
+   function newEtudiant($matricule,$nom,$courriel,$programme,$telephone,$enseignant)
    function getInfoCour($NoCours):array
    {
     $lines = array();
@@ -158,6 +160,7 @@ function getTutorClasses($matricule)
        try{
            $request = "Insert Into élèves VALUES ('$matricule','$nom','$courriel','$programme','$telephone','$enseignant')";
            $result = $this->connexion->exec($request);
+            echo json_encode($matricule);
            return $result;
        }
        catch(PDOException $e) {
@@ -207,6 +210,14 @@ function getTutorClasses($matricule)
        }
    }
 
+   function newTutor($matricule){
+    try{
+    $request = "Insert Into tuteur(Matricule) VALUES ('$matricule')";
+    $result = $this->connexion->exec($request);
+    return $result;
+   }
+   catch(PDOException $e) {
+    return $e;
    function login($User,$Mdp)
    {
        $lines = array();
@@ -286,4 +297,6 @@ function getTutorClasses($matricule)
     }
    }
 
+}
+}
 }
