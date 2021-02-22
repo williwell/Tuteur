@@ -85,7 +85,7 @@ class Query
    {
    $lines = array();
        try {
-           $request = "SELECT e.Matricule,e.Nom, e.Courriel, e.Téléphone, p.Nom
+           $request = "SELECT e.Matricule,e.Nom, e.Courriel, e.Téléphone, p.Nom, t.password
                        FROM tuteur t 
                        INNER JOIN eleves e ON t.Matricule=e.Matricule 
                        INNER JOIN programme p ON e.Programme=p.Code 
@@ -105,7 +105,7 @@ class Query
    {
    $lines = array();
        try {
-           $request = "SELECT e.Matricule,e.Nom, e.Courriel, e.Téléphone, p.Nom
+           $request = "SELECT e.Matricule,e.Nom, e.Courriel, e.Téléphone, p.Nom, t.password
                        FROM tutorer t 
                        INNER JOIN eleves e ON t.Matricule=e.Matricule 
                        INNER JOIN programme p ON e.Programme=p.Code 
@@ -218,8 +218,10 @@ function getTutorClasses($matricule)
             if($lines[0][0]==1){
                 setcookie("isLogged", "1", time() + (86400 * 30), "/");
                 setcookie("MatriculeLogged", $User, time() + (86400 * 30), "/"); 
+                setcookie("isTutor", "1", time() + (86400 * 30), "/"); 
                 echo "Value is: " .$_COOKIE["isLogged"];
                 echo "Value is: " .$_COOKIE["MatriculeLogged"];
+                echo "Value is: " .$_COOKIE["isTutor"];
                 return $User;
             }
             else{
@@ -230,6 +232,7 @@ function getTutorClasses($matricule)
                 if($lines[0][0]==1){
                     setcookie("isLogged", "1", time() + (86400 * 30), "/");
                     setcookie("MatriculeLogged", $User, time() + (86400 * 30), "/");
+                    setcookie("isTutor", "2", time() + (86400 * 30), "/");
                     return $User;
                 }
             }
@@ -254,5 +257,33 @@ function getTutorClasses($matricule)
     }
    }
 
+
+   
+   function updateTutor($matricule,$nom,$courriel,$téléphone,$programme,$password){
+    $lines = array();
+    try{
+        $request = "SELECT tuteur.Nom, tutorer.Nom, st.date, st.Heure,st.accepter,st.Matricule_Tuteur, st.Matricule_Tutorer FROM session_tutorat st INNER JOIN eleves tuteur ON st.Matricule_Tuteur=tuteur.Matricule INNER JOIN eleves tutorer ON st.Matricule_Tutorer=tutorer.Matricule WHERE Matricule_Tuteur  LIKE ".$matricule." OR Matricule_Tutorer LIKE ".$matricule;
+        $result = $this->connexion->query($request);
+        $lines = $result->fetchAll();
+        return $lines;
+    }
+    catch(PDOException $e) {
+        return $lines;
+    }
+   }
+
+   
+   function updateAider($matricule,$nom,$courriel,$téléphone,$programme,$password){
+    $lines = array();
+    try{
+        $request = "SELECT tuteur.Nom, tutorer.Nom, st.date, st.Heure,st.accepter,st.Matricule_Tuteur, st.Matricule_Tutorer FROM session_tutorat st INNER JOIN eleves tuteur ON st.Matricule_Tuteur=tuteur.Matricule INNER JOIN eleves tutorer ON st.Matricule_Tutorer=tutorer.Matricule WHERE Matricule_Tuteur  LIKE ".$matricule." OR Matricule_Tutorer LIKE ".$matricule;
+        $result = $this->connexion->query($request);
+        $lines = $result->fetchAll();
+        return $lines;
+    }
+    catch(PDOException $e) {
+        return $lines;
+    }
+   }
 
 }

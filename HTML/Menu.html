@@ -54,12 +54,12 @@
 
         <div class="col ContactUsMenu sideItem">
             <i id="ContactUsMenuI" class="material-icons" style="padding: 5%;">contact_phone</i>
-            <p id="ContactUsMenuP">Contactez-nous</p>
+            <p id="ContactUsMenuP" style="cursor: pointer;">Contactez-nous</p>
         </div>
 
         <div class="col TutorMenu sideItem">
             <i id="TutorMenuI" class="material-icons" style="padding: 5%;">perm_identity</i>
-            <p id="TutorMenuP">Tuteur disponible</p>
+            <p id="TutorMenuP" style="cursor: pointer;">Tuteur disponible</p>
         </div>
 
         <div class="col CloseMenu sideItem">
@@ -109,7 +109,7 @@ jQuery('#SearchBar').load('RechercheBarre.html#searchBar');
     $("#ContactUsMenuI").on("mouseout", function() {menuMouseOut("#ContactUsMenuI","#ContactUsMenuP")});
 
     $("#TutorMenuI").on("mouseover", function() {menuMouseOver("#TutorMenuI","#TutorMenuP")});
-    $("#TutorMenuI").on("mouseout", function() {menuMouseOut("#TutorMenuI","TutorMenuP")});
+    $("#TutorMenuI").on("mouseout", function() {menuMouseOut("#TutorMenuI","#TutorMenuP")});
 
     $("#CloseMenuI").on("mouseover", function() {menuMouseOver("#CloseMenuI","#CloseMenuP")});
     $("#CloseMenuI").on("mouseout", function() {menuMouseOut("#CloseMenuI","#CloseMenuP")});
