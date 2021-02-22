@@ -21,28 +21,27 @@
     <div class="row">
         <div class="col-md-4"></div>
         <div class="col-md-8"><p>
-            <form method="post" action="../PHP/NewTutor.php" enctype="text/plain">
+            <form method="post" enctype="text/plain">
             <div class="col-md-3">
             <label for="Matricule">Matricule</label><br>
-            <input type="text" class="form-control" id=Matricule name=Matricule></div>
+            <input type="text" class="form-control" id=Matricule name=Matricule onchange=changeM()></div>
             <div class="col-md-3"><br>
             <label for="Nom">Nom</label><br>
-            <input type="text" class="form-control" id=Nom name=Nom></div>
+            <input type="text" class="form-control" id=Nom name=Nom onchange=changeN()></div>
             <div class="col-md-3"><br>
             <label for="Courriel">Courriel</label><br>
-            <input type="email" class="form-control" id=Courriel name=Courriel></div><br>
+            <input type="email" class="form-control" id=Courriel name=Courriel onchange=changeC()></div><br>
             <div class="col-md-3"><br>
             <label for="Programme">Programme</label><br>
-            <input type="text" class="form-control" id=Programme name=Programme></div><br>
+            <input type="text" class="form-control" id=Programme name=Programme onchange=changeP()></div><br>
             <div class="col-md-3"><br>
             <label for="Telephone">Telephone</label><br>
-            <input type="text" class="form-control" id=Telephone name=Telephone></div><br>
+            <input type="text" class="form-control" id=Telephone name=Telephone onchange=changeT()></div><br>
             <div class="col-md-3"><br>
             <label for="Enseignant">Matricule de l'enseignant ressource</label><br>
-            <input type="text" class="form-control" id="Enseignant" name="Enseignant"></div><br>
-            <!--<div class="col-md-2" onclick="this.closest('form').submit();return false;"><p class="horizontal"><span class="text">Envoyer</span></p></div>-->
-            <button id="btnAjoutNouveau"style="width:20%">Ajouter le nouveau tuteur</button><br>
-        </form></p></div>
+            <input type="text" class="form-control" id="Enseignant" name="Enseignant" onchange=changeE()></div><br>
+            </p>
+        </form><button id="btnAjoutNouveau"style="width:20%"disabled=true>Ajouter le nouveau tuteur</button><br></div>
     </div>
     
 </body>
@@ -69,17 +68,162 @@ $(document).ready(function(){
                 "telephone": telephone,
                 "enseignant": enseignant
             },
-            dataType: "json",
+            /*dataType: "json",*/
             success: function(reponse){
                 alert("Création du tuteur effectuée");
                 //window.open("Compte.html?email="+$("#iemail").val(), "_self");
             },
             error: function(message, e){
+                alert("erreur" + message +"    "+e);
                 console.log("erreur lors de l'ajout:" + er);
             }
         });
     });
 });
+function changeM(){
+    var regMat = new RegExp(/[0-9]{7}$/)
+    var regNom = new RegExp(/^[a-zA-Z\s]+$/);
+    var regMail = new RegExp(/^\S+@\S+$/);
+    var regTel = new RegExp(/[(]{0,1}\d\d\d[)]{0,1}[-]{0,1}[\s]{0,1}\d\d\d[-]{0,1}[\s]{0,1}\d\d\d\d$/);
+    var regProg = new RegExp(/(\d\d\d\.\w\w)$/);
+    document.getElementById("btnAjoutNouveau").disabled=true
+    if(regMat.test(document.getElementById("Matricule").value)){
+        document.getElementById("Matricule").style.background = "#FFFFFF";
+        if(regNom.test(document.getElementById("Nom").value)){
+            if(regMail.test(document.getElementById("Courriel").value)){
+                if(regProg.test(document.getElementById("Programme").value)){
+                    if(regTel.test(document.getElementById("Telephone").value)){
+                        if(regMat.test(document.getElementById("Enseignant").value)){
+                            document.getElementById("btnAjoutNouveau").disabled=false
+                        }
+                    }
+                }
+            }
+    }
+    }else{document.getElementById("Matricule").style.background = "#FF7575";}
+    
+}
+
+function changeN(){
+    var regMat = new RegExp(/[0-9]{7}$/)
+    var regNom = new RegExp(/^[a-zA-Z\s]+$/);
+    var regMail = new RegExp(/^\S+@\S+$/);
+    var regTel = new RegExp(/[(]{0,1}\d\d\d[)]{0,1}[-]{0,1}[\s]{0,1}\d\d\d[-]{0,1}[\s]{0,1}\d\d\d\d$/);
+    var regProg = new RegExp(/(\d\d\d\.\w\w)$/);
+    document.getElementById("btnAjoutNouveau").disabled=true
+    if(regNom.test(document.getElementById("Nom").value)){ 
+        document.getElementById("Nom").style.background = "#FFFFFF";
+        if(regMat.test(document.getElementById("Matricule").value)){    
+            if(regMail.test(document.getElementById("Courriel").value)){
+                if(regProg.test(document.getElementById("Programme").value)){
+                    if(regTel.test(document.getElementById("Telephone").value)){
+                        if(regMat.test(document.getElementById("Enseignant").value)){
+                            document.getElementById("btnAjoutNouveau").disabled=false
+                        }
+                    }
+                }
+            }
+    }
+    }else{document.getElementById("Nom").style.background = "#FF7575";}
+    
+}
+
+function changeC(){
+    var regMat = new RegExp(/[0-9]{7}$/)
+    var regNom = new RegExp(/^[a-zA-Z\s]+$/);
+    var regMail = new RegExp(/^\S+@\S+$/);
+    var regTel = new RegExp(/[(]{0,1}\d\d\d[)]{0,1}[-]{0,1}[\s]{0,1}\d\d\d[-]{0,1}[\s]{0,1}\d\d\d\d$/);
+    var regProg = new RegExp(/(\d\d\d\.\w\w)$/);
+    document.getElementById("btnAjoutNouveau").disabled=true
+    if(regMail.test(document.getElementById("Courriel").value)){
+        document.getElementById("Courriel").style.background = "#FFFFFF";
+        if(regNom.test(document.getElementById("Nom").value)){
+            if(regMat.test(document.getElementById("Matricule").value)){
+                if(regProg.test(document.getElementById("Programme").value)){
+                    if(regTel.test(document.getElementById("Telephone").value)){
+                        if(regMat.test(document.getElementById("Enseignant").value)){
+                            document.getElementById("btnAjoutNouveau").disabled=false
+                        }
+                    }
+                }
+            }
+    }
+    }else{document.getElementById("Courriel").style.background = "#FF7575";}
+    
+}
+
+function changeP(){
+    var regMat = new RegExp(/[0-9]{7}$/)
+    var regNom = new RegExp(/^[a-zA-Z\s]+$/);
+    var regMail = new RegExp(/^\S+@\S+$/);
+    var regTel = new RegExp(/[(]{0,1}\d\d\d[)]{0,1}[-]{0,1}[\s]{0,1}\d\d\d[-]{0,1}[\s]{0,1}\d\d\d\d$/);
+    var regProg = new RegExp(/(\d\d\d\.\w\w)$/);
+    document.getElementById("btnAjoutNouveau").disabled=true
+    if(regProg.test(document.getElementById("Programme").value)){
+        document.getElementById("Programme").style.background = "#FFFFFF";
+        if(regNom.test(document.getElementById("Nom").value)){
+            if(regMail.test(document.getElementById("Courriel").value)){
+                if(regMat.test(document.getElementById("Matricule").value)){
+                    if(regTel.test(document.getElementById("Telephone").value)){
+                        if(regMat.test(document.getElementById("Enseignant").value)){
+                            document.getElementById("btnAjoutNouveau").disabled=false
+                        }
+                    }
+                }
+            }
+    }
+    }else{document.getElementById("Programme").style.background = "#FF7575";}
+    
+}
+
+function changeT(){
+    var regMat = new RegExp(/[0-9]{7}$/)
+    var regNom = new RegExp(/^[a-zA-Z\s]+$/);
+    var regMail = new RegExp(/^\S+@\S+$/);
+    var regTel = new RegExp(/[(]{0,1}\d\d\d[)]{0,1}[-]{0,1}[\s]{0,1}\d\d\d[-]{0,1}[\s]{0,1}\d\d\d\d$/);
+    var regProg = new RegExp(/(\d\d\d\.\w\w)$/);
+    document.getElementById("btnAjoutNouveau").disabled=true
+    if(regTel.test(document.getElementById("Telephone").value)){ 
+        document.getElementById("Telephone").style.background = "#FFFFFF";
+        if(regNom.test(document.getElementById("Nom").value)){    
+            if(regMail.test(document.getElementById("Courriel").value)){
+                if(regProg.test(document.getElementById("Programme").value)){
+                    if(regMat.test(document.getElementById("Matricule").value)){
+                        if(regMat.test(document.getElementById("Enseignant").value)){
+                            document.getElementById("btnAjoutNouveau").disabled=false
+                        }
+                    }
+                }
+            }
+    }
+    }else{document.getElementById("Telephone").style.background = "#FF7575";}
+    
+}
+
+function changeE(){
+    var regMat = new RegExp(/[0-9]{7}$/)
+    var regNom = new RegExp(/^[a-zA-Z\s]+$/);
+    var regMail = new RegExp(/^\S+@\S+$/);
+    var regTel = new RegExp(/[(]{0,1}\d\d\d[)]{0,1}[-]{0,1}[\s]{0,1}\d\d\d[-]{0,1}[\s]{0,1}\d\d\d\d$/);
+    var regProg = new RegExp(/(\d\d\d\.\w\w)$/);
+    document.getElementById("btnAjoutNouveau").disabled=true
+    if(regMat.test(document.getElementById("Enseignant").value)){
+        document.getElementById("Enseignant").style.background = "#FFFFFF";
+        if(regNom.test(document.getElementById("Nom").value)){
+            if(regMail.test(document.getElementById("Courriel").value)){
+                if(regProg.test(document.getElementById("Programme").value)){
+                    if(regTel.test(document.getElementById("Telephone").value)){
+                        if(regMat.test(document.getElementById("Matricule").value)){
+                            document.getElementById("btnAjoutNouveau").disabled=false
+                        }
+                    }
+                }
+            }
+    }
+    }else{document.getElementById("Enseignant").style.background = "#FF7575";}
+    
+}
+
 
     </script>
 </html>

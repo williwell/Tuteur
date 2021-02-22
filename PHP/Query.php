@@ -119,32 +119,29 @@ function getTutorClasses($matricule)
     catch(PDOException $e) {
         return $lines;
     }
+}
 
-   function newTutor($matricule,$nom,$courriel,$programme,$telephone,$enseignant)
+   function newEtudiant($matricule,$nom,$courriel,$programme,$telephone,$enseignant)
    {
        try{
            $request = "Insert Into élèves VALUES ('$matricule','$nom','$courriel','$programme','$telephone','$enseignant')";
-           return $result;
            $result = $this->connexion->exec($request);
+            echo json_encode($matricule);
            return $result;
        }
        catch(PDOException $e) {
            return $e;
        }
    }
-/*
-   function creerComtpe($User,$Mdp):String
-   {
-       try{
-           $request = "insert into compte values($User,$Mdp)";
-           $result = $this->connexion->query($request);
-           return $result;
-       }
-       catch(PDOException $e) {
-           return $result;
-       }
-   }*/
+
+   function newTutor($matricule){
+    try{
+    $request = "Insert Into tuteur(Matricule) VALUES ('$matricule')";
+    $result = $this->connexion->exec($request);
+    return $result;
+   }
+   catch(PDOException $e) {
+    return $e;
 }
-
-
+}
 }
