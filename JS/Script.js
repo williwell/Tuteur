@@ -279,7 +279,7 @@ function fillInfoStudent(matricule,nom,courriel,téléphone,programme,password,i
     "<input id='inputTelephone' type='text' half placeholder='Téléphone' autocomplete='no' value='"+téléphone+"'>"+
     "<input id='inputProgramme' type='text' half placeholder='Programme' autocomplete='no' value='"+programme+"'>"+
     "<input id='inputPassword' type='password' placeholder='Mot de passe' autocomplete='no' value='"+password+"'>"+
-    "<input  type='submit' value='Effacer mon profil' onclick='deleteStudentProfile("+matricule+")'>"+
+    "<input  type='submit' value='Effacer mon profil' onclick='deleteStudentProfile("+isTuteur+")'>"+
     "<input  type='submit' value='Sauvegarder les changement' onclick='updateStudentProfile("+isTuteur+")'>"+
   "</form>"
   );
@@ -333,7 +333,27 @@ FORM.on("focusout", function (e) {
 });
 
 }
-function deleteStudentProfile(matricule){
+function deleteStudentProfile(isTuteur){
+  var matricule = $("#inputMatricule").val();
+  $.ajax({
+    url: "../PHP/DeleteStudent.php",
+    type: "POST",
+    data: {
+    "matricule": matricule,
+    "isTuteur": isTuteur
+    },
+    dataType: "json",
+    success: function(result){
+      alert(result);
+      document.cookie = "MatriculeLogged=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie = "isLogged=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie = "isTutor=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      location.replace("Login.html");
+    },
+    error: function (message, er) {
+      alert("OUF");
+    }
+  });
 }
 
 function updateStudentProfile(isTuteur){
