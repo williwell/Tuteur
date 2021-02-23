@@ -273,14 +273,14 @@ function fillInfoStudent(matricule,nom,courriel,téléphone,programme,password,i
   "<form autocomplete='off'>"+
   "<div id='focus'></div>"+
     "<h1>Mes informations</h1>"+
-    "<input id type='text' half placeholder='Matricule' autocomplete='no' value='"+matricule+"' readonly>"+
-    "<input type='text' half placeholder='Nom' autocomplete='no' value='"+nom+"'>"+
-    "<input type='text' placeholder='Couriel' autocomplete='no' value='"+courriel+"'>"+
-    "<input type='text' half placeholder='Téléphone' autocomplete='no' value='"+téléphone+"'>"+
-    "<input type='text' half placeholder='Programme' autocomplete='no' value='"+programme+"'>"+
-    "<input type='password' placeholder='Mot de passe' autocomplete='no' value='"+password+"'>"+
-    "<input type='submit' value='Effacer mon profil' onclick='deleteStudentProfile("+matricule+")'>"+
-    "<input type='submit' value='Sauvegarder les changement' onclick='updateStudentProfile("+isTuteur+")'>"+
+    "<input id='inputMatricule' type='text' half placeholder='Matricule' autocomplete='no' value='"+matricule+"' readonly>"+
+    "<input id='inputNom' type='text' half placeholder='Nom' autocomplete='no' value='"+nom+"'>"+
+    "<input id='inputCourriel' type='text' placeholder='Couriel' autocomplete='no' value='"+courriel+"'>"+
+    "<input id='inputTelephone' type='text' half placeholder='Téléphone' autocomplete='no' value='"+téléphone+"'>"+
+    "<input id='inputProgramme' type='text' half placeholder='Programme' autocomplete='no' value='"+programme+"'>"+
+    "<input id='inputPassword' type='password' placeholder='Mot de passe' autocomplete='no' value='"+password+"'>"+
+    "<input  type='submit' value='Effacer mon profil' onclick='deleteStudentProfile("+matricule+")'>"+
+    "<input  type='submit' value='Sauvegarder les changement' onclick='updateStudentProfile("+isTuteur+")'>"+
   "</form>"
   );
   const FORM = $("form"); // set form or other element here
@@ -337,12 +337,60 @@ function deleteStudentProfile(matricule){
 }
 
 function updateStudentProfile(isTuteur){
+var matricule = $("#inputMatricule").val();
+var nom = $("#inputNom").val();
+var courriel = $("#inputCourriel").val();
+var téléphone = $("#inputTelephone").val();
+var programme = $("#inputProgramme").val();
+var password = $("#inputPassword").val();
+
 
 if(isTuteur==1){
+  $.ajax({
+    url: "../PHP/UpdateTutor.php",
+    type: "POST",
+    data: {
+    "matricule": matricule,
+    "nom":nom,
+    "courriel":courriel,
+    "téléphone":téléphone,
+    "programme":programme,
+    "password":password
+    },
+    dataType: "json",
+    success: function(result){
+      alert(result);
+      alert(matricule);
+      alert(nom);
+      alert(téléphone);
+      alert(programme);
 
+    },
+    error: function (message, er) {
+      alert("OUF");
+    }
+});
 }
 else{
-  
+  $.ajax({
+    url: "../PHP/UpdateAider.php",
+    type: "POST",
+    data: {
+      "matricule": matricule,
+      "nom":nom,
+      "courriel":courriel,
+      "téléphone":téléphone,
+      "programme":programme,
+      "password":password
+    },
+    dataType: "json",
+    success: function(result){
+      alert("Les informations ont été mises à jour");
+    },
+    error: function (message, er) {
+
+    }
+});
 }
 
 }
