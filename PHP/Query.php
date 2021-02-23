@@ -102,38 +102,41 @@ class Query
    }
 
 
-function getTutorClasses($matricule)
-{
-    $lines = array();
-    try {
-        $request = "SELECT c.Code, c.Nom
-                     FROM tuteur t 
-                     INNER JOIN cours_enseigner ce ON t.Matricule=ce.Matricule 
-                     INNER JOIN cours c ON ce.Cours=c.Code 
-                     WHERE  t.Matricule LIKE ".$matricule;
-        $result = $this->connexion->query($request);
-        $lines = $result->fetchAll();
+    function getTutorClasses($matricule)
+    {
+        $lines = array();
+        try {
+            $request = "SELECT c.Code, c.Nom
+                        FROM tuteur t 
+                        INNER JOIN cours_enseigner ce ON t.Matricule=ce.Matricule 
+                        INNER JOIN cours c ON ce.Cours=c.Code 
+                        WHERE  t.Matricule LIKE ".$matricule;
+            $result = $this->connexion->query($request);
+            $lines = $result->fetchAll();
 
-        return $lines;
-    }
-    catch(PDOException $e) {
-        return $lines;
+            return $lines;
+        }
+        catch(PDOException $e) {
+            return $lines;
+        }
+
+  
     }
 
-   function getInfoCour($NoCours):array
-   {
-    $lines = array();
-    try{
-        $request = "SELECT * from cours where Code = '$NoCours'";
-        $result = $this->connexion->query($request);
-        $lines = $result->fetchAll();
-        return $lines;
+    function getInfoCour($NoCours):array
+    {
+     $lines = array();
+     try{
+         $request = "SELECT * from cours where Code = '$NoCours'";
+         $result = $this->connexion->query($request);
+         $lines = $result->fetchAll();
+         return $lines;
+     }
+     catch(PDOException $e) {
+         return $lines;
+     }
     }
-    catch(PDOException $e) {
-        return $lines;
-    }
-   }
-}
+    
    function newTutor($matricule,$nom,$courriel,$programme,$telephone,$enseignant)
    {
        try{

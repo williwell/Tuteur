@@ -54,9 +54,9 @@ function putCours(list) {
 						    "<h2>"+list[i][2]+"</h2>"+
 					    "</div>"+
 					    "<div id='course-info'>"+
-							    "<h6>"+list[i][0]+"</h6>"+
+							    "<h6 id='noCour'>"+list[i][0]+"</h6>"+
 							    "<h2>"+list[i][1]+"</h2>"+
-							    "<button id='btn2' class='"+list[i][0]+"'>Voir exercice</button>"+
+							    "<button id='btn2'>Voir exercice</button>"+
 					    "</div>"+
 				    "</div>"+
 			    "</div>"
@@ -72,9 +72,9 @@ function putCours(list) {
 							  "<h2>"+list[i][2]+"</h2>"+
 						  "</div>"+
 						  "<div id='course-info'>"+
-								  "<h6 id='test'>"+list[i][0]+"</h6>"+
+								  "<h6 id='noCour'>"+list[i][0]+"</h6>"+
 								  "<h2>"+list[i][1]+"</h2>"+
-								  "<button id='btn' class='"+list[i][0]+"'>Voir exercice</button>"+
+								  "<button id='btn'>Voir exercice</button>"+
 						  "</div>"+
 					  "</div>"+
 				  "</div>"
@@ -86,14 +86,14 @@ function putCours(list) {
 	console.log("téléchargement des cours: success");
 
 	document.getElementById("btn").onclick = function() {
-		console.log();
-		alert(document.getElementById("btn")[0].className);
-		localStorage.setItem("noCour",event.target.class);
+		console.log(document.getElementById("noCour").innerText)
+    localStorage.setItem("noCour",document.getElementById("noCour").innerText);
 		window.location = "http://localhost/Tuteur/HTML/Matière";
 	};
 
 	document.getElementById("btn2").onclick = function() {
-		localStorage.setItem("noCour",event.target.class);
+    console.log(document.getElementById("noCour").innerText)
+		localStorage.setItem("noCour",document.getElementById("noCour").innerText);
 		window.location = "http://localhost/Tuteur/HTML/Matière";
 	};
 }

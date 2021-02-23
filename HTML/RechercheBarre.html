@@ -13,10 +13,16 @@
 
 <body>
     <div id="searchBar" class="container">
-        <input type="text" placeholder="Recherche">
+        <form></form>
+        <input id="searchtest" type="text" placeholder="Recherche">
         <div class="search"></div>
       </div>
 </body>
 
+<script>
+    document.getElementById("searchtest").onclick = function() {
+        console.log(document.getElementById("searchtest").innerText);
+    }
+</script>
 
 </html>
