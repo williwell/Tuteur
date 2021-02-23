@@ -44,26 +44,58 @@ function putTutorClasses(list) {
 function putCours(list) {
 	$("#Cours").empty();
     for (var i = 0; i < list.length; i++) {
-		$("#Cours").append(
-			"<div class='courses-container'>"+
-				"<div class='course'>"+
-					"<div class='course-preview'>"+
-						"<h6># Programme</h6>"+
-						"<h2>"+list[i][2]+"</h2>"+
-					"</div>"+
-					"<div class='course-info'>"+
-						
-							"<h6>"+list[i][0]+"</h6>"+
-							"<h2>"+list[i][1]+"</h2>"+
-							"<button class='btn'>Continue</button>"+
-						
-					"</div>"+
-				"</div>"+
-			"</div>"
-	  	);
+    if(i%2 == 0)
+		  {
+			  $("#Cours").append(
+			    "<div id='courses-container'>"+
+				    "<div id='course'>"+
+					    "<div id='course-preview2'>"+
+						    "<h6># Programme</h6>"+
+						    "<h2>"+list[i][2]+"</h2>"+
+					    "</div>"+
+					    "<div id='course-info'>"+
+							    "<h6>"+list[i][0]+"</h6>"+
+							    "<h2>"+list[i][1]+"</h2>"+
+							    "<button id='btn2' class='"+list[i][0]+"'>Voir exercice</button>"+
+					    "</div>"+
+				    "</div>"+
+			    "</div>"
+        );
+		  }
+	  	  else
+		  {
+			  $("#Cours").append(
+				  "<div id='courses-container'>"+
+				  	"<div id='course'>"+
+						  "<div id='course-preview'>"+
+							  "<h6># Programme</h6>"+
+							  "<h2>"+list[i][2]+"</h2>"+
+						  "</div>"+
+						  "<div id='course-info'>"+
+								  "<h6 id='test'>"+list[i][0]+"</h6>"+
+								  "<h2>"+list[i][1]+"</h2>"+
+								  "<button id='btn' class='"+list[i][0]+"'>Voir exercice</button>"+
+						  "</div>"+
+					  "</div>"+
+				  "</div>"
+        );
+		  }
+    
 	};
 
 	console.log("téléchargement des cours: success");
+
+	document.getElementById("btn").onclick = function() {
+		console.log();
+		alert(document.getElementById("btn")[0].className);
+		localStorage.setItem("noCour",event.target.class);
+		window.location = "http://localhost/Tuteur/HTML/Matière";
+	};
+
+	document.getElementById("btn2").onclick = function() {
+		localStorage.setItem("noCour",event.target.class);
+		window.location = "http://localhost/Tuteur/HTML/Matière";
+	};
 }
 
 function putDocCours(list) {
