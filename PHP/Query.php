@@ -83,8 +83,8 @@ class Query
 
    function getMyTutor($matricule):array
    {
-   $lines = array();
-       try {
+        $lines = array();
+        try {
            $request = "SELECT e.Matricule,e.Nom, e.Courriel, e.Telephone, p.Nom, t.password
                        FROM tuteur t 
                        INNER JOIN eleves e ON t.Matricule=e.Matricule 
@@ -95,23 +95,28 @@ class Query
            $lines = $result->fetchAll();
 
            return $lines;
-       }
-       catch(PDOException $e) {
+        }
+        catch(PDOException $e) {
            return $lines;
-       }
-   }
+        }
+    }
 
    function getAider($matricule):array
-   {
-   $lines = array();
-       try {
-           $request = "SELECT e.Matricule,e.Nom, e.Courriel, e.Telephone, p.Nom, t.password
-                       FROM tutorer t 
-                       INNER JOIN eleves e ON t.Matricule=e.Matricule 
-                       INNER JOIN programme p ON e.Programme=p.Code 
-                       WHERE t.Matricule LIKE ".$matricule;
-           $result = $this->connexion->query($request);
-           $lines = $result->fetchAll();
+    {
+        $lines = array();
+        try {
+            $request = "SELECT e.Matricule,e.Nom, e.Courriel, e.Telephone, p.Nom, t.password
+                        FROM tutorer t 
+                        INNER JOIN eleves e ON t.Matricule=e.Matricule 
+                        INNER JOIN programme p ON e.Programme=p.Code 
+                        WHERE t.Matricule LIKE ".$matricule;
+            $result = $this->connexion->query($request);
+            $lines = $result->fetchAll();
+        }
+        catch(PDOException $e) {
+            return $lines;
+        }
+    }
 
     function getTutorClasses($matricule)
     {
@@ -133,52 +138,37 @@ class Query
 
   
     }
-    catch(PDOException $e) {
-        return $lines;
-    }
-}
 
     function getInfoCour($NoCours):array
     {
-     $lines = array();
-     try{
-         $request = "SELECT * from cours where Code = '$NoCours'";
-         $result = $this->connexion->query($request);
-         $lines = $result->fetchAll();
-         return $lines;
-     }
-     catch(PDOException $e) {
-         return $lines;
-     }
+        $lines = array();
+        try{
+            $request = "SELECT * from cours where Code = '$NoCours'";
+            $result = $this->connexion->query($request);
+            $lines = $result->fetchAll();
+            return $lines;
+        }
+        catch(PDOException $e) {
+            return $lines;
+        }
+    }
+
    function newEtudiant($matricule,$nom,$courriel,$programme,$telephone,$enseignant){
 
    }
-   function getInfoCour($NoCours):array
-   {
-    $lines = array();
-    try{
-        $request = "SELECT * from cours where Code = '$NoCours'";
-        $result = $this->connexion->query($request);
-        $lines = $result->fetchAll();
-        return $lines;
-    }
-    catch(PDOException $e) {
-        return $lines;
-    }
-   }
    
    function newTutor($matricule,$nom,$courriel,$programme,$telephone,$enseignant)
-   {
+    {
        try{
            $request = "Insert Into élèves VALUES ('$matricule','$nom','$courriel','$programme','$telephone','$enseignant')";
            $result = $this->connexion->exec($request);
             echo json_encode($matricule);
            return $result;
-       }
+        }
        catch(PDOException $e) {
            return $e;
-       }
-   }
+        }
+    }
 
 
    function getDispoTuteur($matricule){
@@ -211,7 +201,7 @@ class Query
     }
 
    function creerComtpe($User,$Mdp):String
-   {
+    {
        try{
            $request = "insert into compte values($User,$Mdp)";
            $result = $this->connexion->query($request);
@@ -220,10 +210,10 @@ class Query
        catch(PDOException $e) {
            return $result;
        }
-   }
+    }
 
    function login($User,$Mdp)
-   {
+    {
        $lines = array();
        try {
            $request = "SELECT COUNT(Matricule) FROM tuteur WHERE Matricule LIKE ".$User." AND password LIKE ".$Mdp;
@@ -256,46 +246,46 @@ class Query
        catch(PDOException $e) {
            return $lines;
        }
-   }
+    }
 
 
    function getTutoratDemand($matricule){
-    $lines = array();
-    try{
-        $request = "SELECT tuteur.Nom, tutorer.Nom, st.date, st.Heure,st.accepter,st.Matricule_Tuteur, st.Matricule_Tutorer FROM session_tutorat st INNER JOIN eleves tuteur ON st.Matricule_Tuteur=tuteur.Matricule INNER JOIN eleves tutorer ON st.Matricule_Tutorer=tutorer.Matricule WHERE Matricule_Tuteur  LIKE ".$matricule." OR Matricule_Tutorer LIKE ".$matricule;
-        $result = $this->connexion->query($request);
-        $lines = $result->fetchAll();
-        return $lines;
+        $lines = array();
+        try{
+            $request = "SELECT tuteur.Nom, tutorer.Nom, st.date, st.Heure,st.accepter,st.Matricule_Tuteur, st.Matricule_Tutorer FROM session_tutorat st INNER JOIN eleves tuteur ON st.Matricule_Tuteur=tuteur.Matricule INNER JOIN eleves tutorer ON st.Matricule_Tutorer=tutorer.Matricule WHERE Matricule_Tuteur  LIKE ".$matricule." OR Matricule_Tutorer LIKE ".$matricule;
+            $result = $this->connexion->query($request);
+            $lines = $result->fetchAll();
+            return $lines;
+        }
+        catch(PDOException $e) {
+            return $lines;
+        }
     }
-    catch(PDOException $e) {
-        return $lines;
-    }
-   }
 
 
    
    function updateTutor($matricule,$nom,$courriel,$téléphone,$programme,$password){
-    try{
-       $request = "UPDATE eleves e INNER JOIN tuteur t ON t.matricule=e.matricule INNER JOIN programme p ON e.Programme=p.code SET e.Nom='".$nom."', e.Courriel = '".$courriel."', e.Telephone = '".$téléphone."', p.Nom = '".$programme."', t.password = '".$password."' WHERE e.Matricule = ".$matricule;
-       $this->connexion->exec($request);
-       return "ok";
+        try{
+            $request = "UPDATE eleves e INNER JOIN tuteur t ON t.matricule=e.matricule INNER JOIN programme p ON e.Programme=p.code SET e.Nom='".$nom."', e.Courriel = '".$courriel."', e.Telephone = '".$téléphone."', p.Nom = '".$programme."', t.password = '".$password."' WHERE e.Matricule = ".$matricule;
+            $this->connexion->exec($request);
+            return "ok";
+        }
+        catch(PDOException $e) {
+            return  $e;
+        }
     }
-    catch(PDOException $e) {
-        return  $e;
-    }
-   }
 
    
    function updateAider($matricule,$nom,$courriel,$téléphone,$programme,$password){
        try{
-       $request = "UPDATE eleves e INNER JOIN tutorer t ON t.matricule=e.matricule INNER JOIN programme p ON e.Programme=p.code SET e.Nom='".$nom."', e.Courriel = '".$courriel."', e.Telephone = '".$téléphone."', p.Nom = '".$programme."', t.password = '".$password."' WHERE e.Matricule = ".$matricule;
-       $this->connexion->exec($request);
-       return "ok";
+        $request = "UPDATE eleves e INNER JOIN tutorer t ON t.matricule=e.matricule INNER JOIN programme p ON e.Programme=p.code SET e.Nom='".$nom."', e.Courriel = '".$courriel."', e.Telephone = '".$téléphone."', p.Nom = '".$programme."', t.password = '".$password."' WHERE e.Matricule = ".$matricule;
+        $this->connexion->exec($request);
+        return "ok";
+        }
+        catch(PDOException $e) {
+            return  $e;
+        }
     }
-    catch(PDOException $e) {
-        return  $e;
-    }
-   }
 
 }
 

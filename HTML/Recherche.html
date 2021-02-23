@@ -12,18 +12,9 @@
     </head>
     <body>
         <div id="MenuBar"></div>
-        <div id="ContainerSearch" class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-10">
-                <form>
-                    <label for="fSearch">Rechercher</label>
-                    <input type="text" id="search"><br>
-                </form>
-            </div>
-        </div>
 
         <div class="row" style="margin-left: 5%; margin-top: 5%;">
-            <h3>Cours</h3>
+            <h1>Cours</h3>
           </div>
       
           <div id="Cours" class="row" style="margin-left: 5%; margin-right: 5%;"></div>
@@ -43,24 +34,20 @@
         $(window).on("resize", resize);
         resize(); // call once initially
 
-        $("form").keypress(function(e) {
-            var input = $("#search").val();
+        $(document).ready(function () {   
             $.ajax({
                 url:"../PHP/GetCours.php",
                 type: "POST",
                 dataType: "Json",
-                data: {"search":input},
+                data: {"search":localStorage.getItem("search")},
                 success:function(result){
                     putCours(result);
                 },
                 error: function(message, er) {
-                    console.log("erreur lors du chargment des actualités:" + er);
+                    console.log("erreur lors du chargment des cours:" + er);
                 }
             });
-            return e.keyCode != 13;
-        });
-
-        
+        });    
             
     </script>
 </html>

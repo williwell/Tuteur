@@ -86,16 +86,18 @@ function putCours(list) {
 	console.log("téléchargement des cours: success");
 
 	document.getElementById("btn").onclick = function() {
-		console.log(document.getElementById("noCour").innerText)
+		localStorage.setItem("style","btn");   
     localStorage.setItem("noCour",document.getElementById("noCour").innerText);
 		window.location = "http://localhost/Tuteur/HTML/Matière";
 	};
 
 	document.getElementById("btn2").onclick = function() {
-    console.log(document.getElementById("noCour").innerText)
+    localStorage.setItem("style","btn2"); 
 		localStorage.setItem("noCour",document.getElementById("noCour").innerText);
 		window.location = "http://localhost/Tuteur/HTML/Matière";
 	};
+
+
 }
 
 function putDocCours(list) {
@@ -254,13 +256,13 @@ function profileTutorDispo(listeDispo){
 
 function putInfoCour(list) {
 	$("#InfoCour").append(
-		"<div class='row'>"+
-			"<div class='row' style='margin-left: 5%; margin-top: 3%'>"+	
-				"<h3>"+list[0][0]+"</h3>"+
-				"<h3>"+list[0][1]+"</h3>"+
+			"<div class='row' style='margin-left: 5%; margin-top: 3%'>"+
+        "<div id='"+localStorage.getItem("style")+"' style='position: static; max-width: 100%; width: 40%; border-radius: 25px;'>"+	
+				  "<h3>"+list[0][0]+"</h3>"+
+				  "<h3>"+list[0][1]+"</h3>"+
+        "</div>"+
 				"<h5 style='margin-left:2%; margin-top: 1%'>Fichier disponible pour téléchargement</h5>"+
-			"</div>"+
-		"</div>"
+			"</div>"
 	);
 }
 
