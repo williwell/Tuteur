@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="../CSS/UserProfile.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+        <script src="../JS/Script.js"></script>
+        <meta charset="utf-8" />
+        <meta name="author" content="Alexandra Sirois, William-Arthur Cinq-Mars, Mathieu Harvey">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Accueil</title>
+    </head>
+
+<body>
+    <div id="MenuBar"></div>
+
+        <div class="multi-button" style="margin-top:4%">
+            <button onclick="loadMyInfo()">Mes informations</button>
+            <button onclick="loadTutoratDemand()">Demandes de tutorat</button>
+            <button  onclick="logOut()">Me déconnecter</button>
+        </div>
+
+
+        <div id="demandeTutorat" class="row" style="margin:1%;margin-top:5%">
+                <div id="tableHeaderDeamnde" class="table">
+                </div>
+                <div id="TableDemande" class="table-content">
+                </div>
+        </div>
+
+        <div id="Info" class="row justify-content-evenly">
+            <div id="myInfo"></div>
+            <div id="myPhoto"></div>
+        </div>
+</body>
+
+
+
+    <script type="text/javascript">
+        jQuery('#MenuBar').load('Menu.html#Menu'); 
+        var matricule = getCookie("MatriculeLogged");
+        var isTutor = getCookie("isTutor");
+        function logOut(){
+            document.cookie = "MatriculeLogged=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "isLogged=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "isTutor=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            location.replace("Login.html");
+        }
+
+        function loadMyInfo(){
+        $("#tableHeaderDeamnde").empty();
+        $("#TableDemande").empty()
+
+        if(isTutor==1){
+            $.ajax({
+            url: "../PHP/GetTutor.php",
+            type: "POST",
+            data: {
+            "matricule": matricule
+            },
+            dataType: "json",
+            success: function(result){
+                var matricule = result[0][0];
+                var nom = result[0][1];
+                var courriel = result[0][2];
+                var téléphone = result[0][3];
+                var programme = result[0][4];
+                var password = result[0][5];
+                fillInfoStudent(matricule,nom,courriel,téléphone,programme,password,isTutor);
+            },
+            error: function (message, er) {
+                console.log("login: " + message);
+            }
+        });
+        }
+        else if(isTutor==2){
+            $.ajax({
+            url: "../PHP/GetAider.php",
+            type: "POST",
+            data: {
+            "matricule": matricule
+            },
+            dataType: "json",
+            success: function(result){
+                var matricule = result[0][0];
+                var nom = result[0][1];
+                var courriel = result[0][2];
+                var téléphone = result[0][3];
+                var programme = result[0][4];
+                var password = result[0][5];
+                fillInfoStudent(matricule,nom,courriel,téléphone,programme,password,isTutor);
+            },
+            error: function (message, er) {
+                console.log("login: " + message);
+            }
+        });
+    }
+        }
+
+
+        function loadTutoratDemand(){
+          
+            $.ajax({
+            url: "../PHP/GetTutoratDemand.php",
+            type: "POST",
+            data: {
+                "matricule": matricule
+            },
+            dataType: "json",
+            success: function(result){
+                demandeTutorat(result);
+
+            },
+            error: function (message, er) {
+                console.log("login: " + message);
+            }
+        });
+        
+        }
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+    </script>
+</html>

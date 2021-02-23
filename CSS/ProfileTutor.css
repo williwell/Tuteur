@@ -1,5 +1,5 @@
 @import "Buttons.css";
-
+@import "Recherche.css";
 .card {
   background-color: var(--background);
   display:flex;
@@ -79,7 +79,7 @@ h2 small {
   margin-bottom: 25px;
 }
 .responsive-table .table-header {
-  background-color: #22d2a0;
+  background-color: #30d3d7;
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.03em;
@@ -123,7 +123,7 @@ h2 small {
     padding: 10px 0;
   }
   .responsive-table .col:before {
-    color: #30e79d;
+    color: #30d3d7;
     padding-right: 10px;
     content: attr(data-label);
     flex-basis: 50%;

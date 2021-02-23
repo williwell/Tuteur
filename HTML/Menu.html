@@ -54,12 +54,12 @@
 
         <div class="col ContactUsMenu sideItem">
             <i id="ContactUsMenuI" class="material-icons" style="padding: 5%;">contact_phone</i>
-            <p id="ContactUsMenuP">Contactez-nous</p>
+            <p id="ContactUsMenuP" style="cursor: pointer;">Contactez-nous</p>
         </div>
 
         <div class="col TutorMenu sideItem">
             <i id="TutorMenuI" class="material-icons" style="padding: 5%;">perm_identity</i>
-            <p id="TutorMenuP">Tuteur disponible</p>
+            <p id="TutorMenuP" style="cursor: pointer;">Tuteur disponible</p>
         </div>
 
         <div class="col CloseMenu sideItem">
@@ -81,6 +81,9 @@
       </script>
 
 </body>
+
+<script src="../JS/Script.js"></script>
+
 
 <script>
 
@@ -106,7 +109,7 @@ jQuery('#SearchBar').load('RechercheBarre.html#searchBar');
     $("#ContactUsMenuI").on("mouseout", function() {menuMouseOut("#ContactUsMenuI","#ContactUsMenuP")});
 
     $("#TutorMenuI").on("mouseover", function() {menuMouseOver("#TutorMenuI","#TutorMenuP")});
-    $("#TutorMenuI").on("mouseout", function() {menuMouseOut("#TutorMenuI","TutorMenuP")});
+    $("#TutorMenuI").on("mouseout", function() {menuMouseOut("#TutorMenuI","#TutorMenuP")});
 
     $("#CloseMenuI").on("mouseover", function() {menuMouseOver("#CloseMenuI","#CloseMenuP")});
     $("#CloseMenuI").on("mouseout", function() {menuMouseOut("#CloseMenuI","#CloseMenuP")});
@@ -136,12 +139,6 @@ jQuery('#SearchBar').load('RechercheBarre.html#searchBar');
     $("#HomeMenuP").click(function() {
         location.replace("Accueil.html");
     });
-    $("#ConnexionMenuI").click(function() {
-        location.replace("Login.html");
-    });
-    $("#ConnexionMenuP").click(function() {
-        location.replace("Login.html");
-    });
     $("#SearchMenuI").click(function() {
         location.replace("Recherche.html");
     });
@@ -165,6 +162,29 @@ jQuery('#SearchBar').load('RechercheBarre.html#searchBar');
     });
     $("#TutorMenuP").click(function() {
         location.replace("Tuteur.html");
+    });
+
+
+    $(document).ready(function () {
+        if(getCookie("isLogged")==1){
+            $("#ConnexionMenuP").text("Mon Profil");
+            $("#ConnexionMenuI").click(function() {
+            location.replace("UserProfile.html");
+            });
+            $("#ConnexionMenuP").click(function() {
+                location.replace("UserProfile.html");
+            });
+        }
+        else{
+            $("#ConnexionMenuP").text("Connexion");
+            $("#ConnexionMenuI").click(function() {
+            location.replace("Login.html");
+            });
+            $("#ConnexionMenuP").click(function() {
+                location.replace("Login.html");
+            });
+        }
+        
     });
 
 
