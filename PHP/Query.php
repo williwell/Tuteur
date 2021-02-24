@@ -83,7 +83,7 @@ class Query
 
    function getMyTutor($matricule):array
    {
-   $lines = array();
+    $lines = array();
        try {
            $request = "SELECT e.Matricule,e.Nom, e.Courriel, e.Telephone, p.Nom, t.password
                        FROM tuteur t 
@@ -112,16 +112,18 @@ class Query
                        WHERE t.Matricule LIKE ".$matricule;
            $result = $this->connexion->query($request);
            $lines = $result->fetchAll();
+        }
+        
+        catch(PDOException $e) {
+            return $lines;
+        }
+    }
 
-    function getTutorClasses($matricule)
+    function getTutorClasses($matricule):array
     {
         $lines = array();
         try {
-            $request = "SELECT c.Code, c.Nom
-                        FROM tuteur t 
-                        INNER JOIN cours_enseigner ce ON t.Matricule=ce.Matricule 
-                        INNER JOIN cours c ON ce.Cours=c.Code 
-                        WHERE  t.Matricule LIKE ".$matricule;
+            $request = "SELECT c.Code, c.Nom FROM tuteur t INNER JOIN cours_enseigner ce ON t.Matricule=ce.Matricule INNER JOIN cours c ON ce.Cours=c.Code WHERE  t.Matricule LIKE ".$matricule;
             $result = $this->connexion->query($request);
             $lines = $result->fetchAll();
 
@@ -130,19 +132,13 @@ class Query
         catch(PDOException $e) {
             return $lines;
         }
-
-  
     }
-    catch(PDOException $e) {
-        return $lines;
-    }
-}
 
     function getInfoCour($NoCours):array
     {
      $lines = array();
      try{
-         $request = "SELECT * from cours where Code = '$NoCours'";
+         $request = "SELECT * from cours where Code = ".$NoCours;
          $result = $this->connexion->query($request);
          $lines = $result->fetchAll();
          return $lines;
@@ -150,27 +146,18 @@ class Query
      catch(PDOException $e) {
          return $lines;
      }
+    }
+
    function newEtudiant($matricule,$nom,$courriel,$programme,$telephone,$enseignant){
 
    }
-   function getInfoCour($NoCours):array
-   {
-    $lines = array();
-    try{
-        $request = "SELECT * from cours where Code = '$NoCours'";
-        $result = $this->connexion->query($request);
-        $lines = $result->fetchAll();
-        return $lines;
-    }
-    catch(PDOException $e) {
-        return $lines;
-    }
-   }
+
+
    
    function newTutor($matricule,$nom,$courriel,$programme,$telephone,$enseignant)
    {
        try{
-           $request = "Insert Into élèves VALUES ('$matricule','$nom','$courriel','$programme','$telephone','$enseignant')";
+           $request = "Insert Into élèves VALUES (".$matricule.",".$nom.",".$courriel.",".$programme.",".$telephone.",".$enseignant.")";
            $result = $this->connexion->exec($request);
             echo json_encode($matricule);
            return $result;
@@ -290,7 +277,7 @@ class Query
        try{
             $request = "UPDATE eleves e INNER JOIN tutorer t ON t.matricule=e.matricule INNER JOIN programme p ON e.Programme=p.code SET e.Nom='".$nom."', e.Courriel = '".$courriel."', e.Telephone = '".$téléphone."', p.Nom = '".$programme."', t.password = '".$password."' WHERE e.Matricule = ".$matricule;
             $this->connexion->exec($request);
-       return "ok";
+            return "ok";
         }
         catch(PDOException $e) {
             return  $e;
@@ -301,12 +288,6 @@ class Query
 
    function deleteStudent($matricule,$isTutor){
     try{
-        $request = "DELETE FROM tuteur WHERE Matricule LIKE ".$matricule;
-        return $request;
-        $this->connexion->exec($request);
-        $request = "DELETE FROM eleves WHERE Matricule LIKE ".$matricule;
-        $this->connexion->exec($request);
-        return "ok";
         if($isTutor==1){
             $request = "DELETE FROM tuteur WHERE Matricule LIKE ".$matricule;
             return $request;

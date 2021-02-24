@@ -302,7 +302,7 @@ function goProfileAider(matricule){
 
 function fillInfoStudent(matricule,nom,courriel,téléphone,programme,password,isTuteur){
   $("#TableDemande").append(
-  "<form autocomplete='off'>"+
+  "<form id='formInfo' autocomplete='off'>"+
   "<div id='focus'></div>"+
     "<h1>Mes informations</h1>"+
     "<input id='inputMatricule' type='text' half placeholder='Matricule' autocomplete='no' value='"+matricule+"' readonly>"+
