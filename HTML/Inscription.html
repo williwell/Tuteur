@@ -21,7 +21,7 @@
             <div class="login">Inscription</div>
           </div>
           <div class="right">
-            <svg viewBox="0 0 320 300">
+            <!--<svg viewBox="0 0 320 300">
               <defs>
                 <lineargradient
                                 inkscape:collect="always"
@@ -42,15 +42,44 @@
                 </lineargradient>
               </defs>
               <path d="m 40,120.00016 239.99984,-3.2e-4 c 0,0 24.99263,0.79932 25.00016,35.00016 0.008,34.20084 -25.00016,35 -25.00016,35 h -239.99984 c 0,-0.0205 -25,4.01348 -25,38.5 0,34.48652 25,38.5 25,38.5 h 215 c 0,0 20,-0.99604 20,-25 0,-24.00396 -20,-25 -20,-25 h -190 c 0,0 -20,1.71033 -20,25 0,24.00396 20,25 20,25 h 168.57143" />
-            </svg>
+            </svg>-->
             <div class="form">
-              <label for="matricule">Matricule</label>
-              <input type="text" id="matricule" onchange="change()"> <div id="errMat"></div>
-              <label for="password">Mot de passe</label>
-              <input type="password" id="password" onchange="change()">
-              <label for="password2">Confirmez le mot de passe</label>
-              <input type="password" id="password2" onchange="change()"><div id="errPas"></div>
-              <input type="submit" id="submit" value="Submit" disabled=true onclick="Signup()">
+                <form method="post" enctype="text/plain">
+                    <div style="display:flex;flex-direction:row;">
+                    <div style="width:35%;margin:3px;">
+                    <label for="Matricule">Matricule</label><br>
+                    <input type="text" class="form-control" id=Matricule name=Matricule onchange=changeM()></div>
+                    <div style="width:65%;margin:3px;">
+                        <label for="Enseignant">Enseignant ressource</label><br>
+                        <input type="text" class="form-control" id="Enseignant" name="Enseignant" onchange=changeE()></div>
+                    </div>
+                    <div style="display:flex;flex-direction:row;">
+                    <div style="width:50%;margin:3px;">
+                    <label for="Nom">Nom</label><br>
+                    <input type="text" class="form-control" id=Nom name=Nom onchange=changeN()></div>
+                    <div style="width:50%;margin:3px;">
+                    <label for="Prenom">Prénom</label><br>
+                    <input type="text" class="form-control" id=Prenom name=Prenom onchange=changePn()></div>
+                    </div>
+                    <div>
+                    <label for="Courriel">Courriel</label><br>
+                    <input type="email" class="form-control" id=Courriel name=Courriel onchange=changeC()></div>
+                    <div style="display:flex;flex-direction:row;">
+                    <div style="width:60%;margin:3px;">
+                    <label for="Telephone">Telephone</label>
+                    <input type="text" class="form-control" id=Telephone name=Telephone onchange=changeT()></div>
+                    <div style="width:50%;margin:3px;">
+                        <label for="Programme">Programme</label><br>
+                        <input type="text" class="form-control" id=Programme name=Programme onchange=changeP()></div>
+                    </div>
+                    <div>
+                    <label for="password">Mot de passe</label>
+                    <input type="password" class="form-control" id="password" onchange="changePw()"></div>
+                    <div>
+                    <label for="password2">Confirmez le mot de passe</label>
+                    <input type="password" class="form-control" id="password2" onchange="changePw()"><div id="errPas"></div>
+                    <input type="submit" id="submit" value="Submit" disabled=true onclick="Signup()">
+            </form>
             </div>
           </div>
         </div>
