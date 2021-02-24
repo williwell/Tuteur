@@ -382,12 +382,14 @@ function deleteStudentProfile(isTuteur){
       document.cookie = "MatriculeLogged=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       document.cookie = "isLogged=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       document.cookie = "isTutor=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      location.replace("Login.html");
+      //location.replace("Login.html");
     },
     error: function (message, er) {
       alert("OUF");
     }
   });
+  alert("dechet");
+  alert(matricule);
 }
 
 function updateStudentProfile(isTuteur){
