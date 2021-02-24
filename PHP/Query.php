@@ -278,14 +278,49 @@ class Query
    
    function updateAider($matricule,$nom,$courriel,$téléphone,$programme,$password){
        try{
-        $request = "UPDATE eleves e INNER JOIN tutorer t ON t.matricule=e.matricule INNER JOIN programme p ON e.Programme=p.code SET e.Nom='".$nom."', e.Courriel = '".$courriel."', e.Telephone = '".$téléphone."', p.Nom = '".$programme."', t.password = '".$password."' WHERE e.Matricule = ".$matricule;
-        $this->connexion->exec($request);
-        return "ok";
+            $request = "UPDATE eleves e INNER JOIN tutorer t ON t.matricule=e.matricule INNER JOIN programme p ON e.Programme=p.code SET e.Nom='".$nom."', e.Courriel = '".$courriel."', e.Telephone = '".$téléphone."', p.Nom = '".$programme."', t.password = '".$password."' WHERE e.Matricule = ".$matricule;
+            $this->connexion->exec($request);
+       return "ok";
         }
         catch(PDOException $e) {
             return  $e;
         }
+   }
+
+
+
+   function deleteStudent($matricule,$isTutor){
+    try{
+        $request = "DELETE FROM tuteur WHERE Matricule LIKE ".$matricule;
+        return $request;
+        $this->connexion->exec($request);
+        $request = "DELETE FROM eleves WHERE Matricule LIKE ".$matricule;
+        $this->connexion->exec($request);
+        return "ok";
+        if($isTutor==1){
+            $request = "DELETE FROM tuteur WHERE Matricule LIKE ".$matricule;
+            return $request;
+            $this->connexion->exec($request);
+            $request = "DELETE FROM eleves WHERE Matricule LIKE ".$matricule;
+            $this->connexion->exec($request);
+            return "ok";
+        }
+        else if($isTutor==2){
+            $request = "DELETE FROM tutorer WHERE Matricule LIKE ".$matricule;
+            $this->connexion->exec($request);
+            $request = "DELETE FROM eleves WHERE Matricule LIKE ".$matricule;
+            $this->connexion->exec($request);
+            return "ok";
+        }
+      
     }
+    catch(PDOException $e) {
+        return  $e;
+    }
+
+   }
+
+
 
 }
 
