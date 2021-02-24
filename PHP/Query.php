@@ -112,10 +112,10 @@ class Query
                        WHERE t.Matricule LIKE ".$matricule;
            $result = $this->connexion->query($request);
            $lines = $result->fetchAll();
-        }
-        
+           return  $lines;
+       }
         catch(PDOException $e) {
-            return $lines;
+            return $e;
         }
     }
 
