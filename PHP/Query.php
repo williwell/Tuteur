@@ -171,7 +171,7 @@ class Query
    function getDispoTuteur($matricule){
         $lines = array();
         try {
-            $request = "SELECT Jours,Session,Annee,CONCAT('Entre ',CONCAT(Heure_debut,CONCAT('h et ',CONCAT(Heure_fin,'h')))) FROM disponibiliter d Inner Join dispo_tuteur dt On d.Code = dt.Code_Dispo where dt.Matricule LIKE ".$matricule;
+            $request = "SELECT Jours,Session,Annee,CONCAT('Entre ',CONCAT(Heure_debut,CONCAT('h et ',CONCAT(Heure_fin,'h')))), d.Session_tutorat   FROM disponibiliter d Inner Join dispo_tuteur dt On d.Code = dt.Code_Dispo where dt.Matricule LIKE ".$matricule;
             $result = $this->connexion->query($request);
             $lines = $result->fetchAll();
 
@@ -187,6 +187,20 @@ class Query
         $lines = array();
         try {
             $request = "SELECT Jours,Session,Annee,CONCAT('Entre ',CONCAT(Heure_debut,CONCAT('h et ',CONCAT(Heure_fin,'h')))) FROM disponibiliter d Inner Join dispo_tuteur dt On d.Code = dt.Code_Dispo where dt.Matricule LIKE ".$matricule." AND d.Jours LIKE '%".$jour."%'";
+            $result = $this->connexion->query($request);
+            $lines = $result->fetchAll();
+    
+            return $lines;
+        }
+        catch(PDOException $e) {
+            return $lines;
+        }
+    }
+
+    function getAllDispo($jour){
+        $lines = array();
+        try {
+            $request = "SELECT Jours,Session,Annee,CONCAT('Entre ',CONCAT(Heure_debut,CONCAT('h et ',CONCAT(Heure_fin,'h')))), d.Code,Heure_debut,Heure_fin FROM disponibiliter d where d.Jours LIKE '%".$jour."%' ORDER BY Heure_debut";
             $result = $this->connexion->query($request);
             $lines = $result->fetchAll();
     

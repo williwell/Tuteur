@@ -444,12 +444,103 @@ else{
       alert("Les informations ont été mises à jour");
     },
     error: function (message, er) {
-
+      console.log(message);
     }
 });
 }
 
 }
+
+
+
+
+function UpdateTutorDispo(listeDispo,dispo){
+  $("#TableDispo").empty();
+alert("bruh");
+
+  var dispoSuivant=dispo+4;
+  var dispoPrecedent=dispo-4;
+
+  $("#TableDispo").append(
+    "<li class='table-header'>"+
+      "<div class='col col-1'>Jour</div>"+
+      "<div class='col col-2'>Heure</div>"+
+      "<div class='col col-3'>Disponible</div>"+
+    "</li>"
+  );
+  for (var i = dispo; i < dispoSuivant; i++) {
+      $("#TableDispo").append(
+        "<li class='table-row colorWhite'>"+
+        "<div class='col col-1'>"+listeDispo[i][0]+"</div>"+
+        "<div class='col col-2'>"+listeDispo[i][3]+"</div>"+
+        "<div class='col col-3'><input type='checkbox' id='"+listeDispo[i][4]+"' name='"+listeDispo[i][4]+"' value='"+listeDispo[i][4]+"'></input></div>"+
+        "</li>");
+  }
+
+  $("#TableDispo").append(   
+    "<div class = 'row'>"+ 
+      "<div class = 'col'>"+  
+        "<p class='horizontal' onclick='UpdateTutorDispo("+listeDispo+","+dispoPrecedent+")'><span class='text'>Précédent</span></p>"+
+      "</div>"+
+      "<div class = 'col'>"+  
+        "<p class='horizontal' onclick='UpdateTutorDispo("+listeDispo+","+dispoSuivant+")'><span class='text'>Suivant</span></p>"+ 
+      "</div>"+
+    "</div>"
+  );
+  
+}
+
+function addFilterDispo(){
+  $("#filtreDispo").append(
+    "<div style='font-size: 40px;'>Filtrer les disponibilités</div>"+
+    "<div class='row  row-cols-4 row-cols-md-2 g-3 justify-content-evenly'>"+
+            "<div class = 'col'>"+  
+                "<p class='horizontal' onclick='disponibiliteFilter(\"Lundi\")'><span class='text'>Lundi</span></p>"+
+            "</div>"+
+            "<div class = 'col'>"+  
+                "<p class='horizontal' onclick='disponibiliteFilter(\"Mardi\")'><span class='text'>Mardi</span></p>"+
+            "</div>"+
+            "<div class = 'col'>"+  
+                "<p class='horizontal' onclick='disponibiliteFilter(\"Mercredi\")'><span class='text'>Mercredi</span></p>"+
+            "</div>"+
+            "<div class = 'col'>"+  
+                "<p class='horizontal' onclick='disponibiliteFilter(\"Jeudi\")'><span class='text'>Jeudi</span></p>"+
+            "</div>"+
+            "<div class = 'col'>"+  
+                "<p class='horizontal' onclick='disponibiliteFilter(\"Vendredi\")'><span class='text'>Vendredi</span></p>"+
+            "</div>"+
+            "<div class = 'col'>"+  
+                "<p class='horizontal' onclick='disponibiliteFilter(\"Samedi\")'><span class='text'>Samedi</span></p>"+
+            "</div>"+
+            "<div class = 'col'>"+  
+                "<p class='horizontal' onclick='disponibiliteFilter(\"Dimanche\")'><span class='text'>Dimanche</span></p></div>"+
+            "</div>"+
+        "</div>"+   
+    "</div>"+
+"</div>"
+
+  );
+}
+
+
+function disponibiliteFilter(nomJour){
+  var matricule = getCookie("MatriculeLogged");
+  
+  $.ajax({
+      url: "../PHP/GetAllDispo.php",
+      type: "POST",
+      data: {
+          "jour": nomJour
+      },
+      dataType: "json",
+      success: function(result){
+          UpdateTutorDispo(result,0);
+      },
+      error: function (message, er) {
+          console.log("login: " + message);
+      }
+  });
+};
 
 
 
