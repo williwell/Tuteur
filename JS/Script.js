@@ -368,7 +368,9 @@ FORM.on("focusout", function (e) {
 
 }
 function deleteStudentProfile(isTuteur){
+
   var matricule = $("#inputMatricule").val();
+
   $.ajax({
     url: "../PHP/DeleteStudent.php",
     type: "POST",
@@ -378,18 +380,16 @@ function deleteStudentProfile(isTuteur){
     },
     dataType: "json",
     success: function(result){
-      alert(result);
+      location.replace("Login.html");
       document.cookie = "MatriculeLogged=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       document.cookie = "isLogged=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       document.cookie = "isTutor=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      //location.replace("Login.html");
     },
     error: function (message, er) {
-      alert("OUF");
+      console.log(message);
     }
   });
-  alert("dechet");
-  alert(matricule);
+  location.replace("Login.html");
 }
 
 function updateStudentProfile(isTuteur){

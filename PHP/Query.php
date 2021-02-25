@@ -286,17 +286,16 @@ class Query
 
 
 
-   function deleteStudent($matricule,$isTutor){
+   function deleteStudent($matricule,$isTuteur){
     try{
-        if($isTutor==1){
+        if($isTuteur==1){
             $request = "DELETE FROM tuteur WHERE Matricule LIKE ".$matricule;
-            return $request;
             $this->connexion->exec($request);
             $request = "DELETE FROM eleves WHERE Matricule LIKE ".$matricule;
             $this->connexion->exec($request);
             return "ok";
         }
-        else if($isTutor==2){
+        else if($isTuteur==2){
             $request = "DELETE FROM tutorer WHERE Matricule LIKE ".$matricule;
             $this->connexion->exec($request);
             $request = "DELETE FROM eleves WHERE Matricule LIKE ".$matricule;
@@ -306,7 +305,7 @@ class Query
       
     }
     catch(PDOException $e) {
-        return  $e;
+        return $e;
     }
 
    }
