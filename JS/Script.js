@@ -456,10 +456,15 @@ else{
 
 function UpdateTutorDispo(listeDispo,dispo){
   $("#TableDispo").empty();
-alert("bruh");
+  var dispoSuivant=(dispo+4);
+  var dispoPrecedent=(dispo-4);
 
-  var dispoSuivant=dispo+4;
-  var dispoPrecedent=dispo-4;
+  if(dispoSuivant>=listeDispo.length){
+    dispoSuivant=listeDispo.length;
+  }
+  if(dispoPrecedent<0){
+    dispoPrecedent=0;
+  }
 
   $("#TableDispo").append(
     "<li class='table-header'>"+
@@ -468,27 +473,94 @@ alert("bruh");
       "<div class='col col-3'>Disponible</div>"+
     "</li>"
   );
-  for (var i = dispo; i < dispoSuivant; i++) {
-      $("#TableDispo").append(
-        "<li class='table-row colorWhite'>"+
-        "<div class='col col-1'>"+listeDispo[i][0]+"</div>"+
-        "<div class='col col-2'>"+listeDispo[i][3]+"</div>"+
-        "<div class='col col-3'><input type='checkbox' id='"+listeDispo[i][4]+"' name='"+listeDispo[i][4]+"' value='"+listeDispo[i][4]+"'></input></div>"+
-        "</li>");
+
+
+    for (var i = dispo; i < dispoSuivant; i++) {
+      console.log(listeDispo[i][4]+","+listeDispo[i][5]);
+      if(listeDispo[i][7]>1){
+        $("#TableDispo").append(
+          "<li class='table-row colorWhite'>"+
+          "<div class='col col-1'>"+listeDispo[i][0]+"</div>"+
+          "<div class='col col-2'>"+listeDispo[i][3]+"</div>"+
+          "<div class='col col-3'><input type='checkbox' id='"+listeDispo[i][4]+"' name='"+listeDispo[i][4]+"' value='"+listeDispo[i][4]+"' checked></input></div>"+
+          "</li>");
+      }
+      else{
+        $("#TableDispo").append(
+          "<li class='table-row colorWhite'>"+
+          "<div class='col col-1'>"+listeDispo[i][0]+"</div>"+
+          "<div class='col col-2'>"+listeDispo[i][3]+"</div>"+
+          "<div class='col col-3'><input type='checkbox' id='"+listeDispo[i][4]+"' name='"+listeDispo[i][4]+"' value='"+listeDispo[i][4]+"'></input></div>"+
+          "</li>");
+      }
   }
+ 
 
   $("#TableDispo").append(   
-    "<div class = 'row'>"+ 
-      "<div class = 'col'>"+  
-        "<p class='horizontal' onclick='UpdateTutorDispo("+listeDispo+","+dispoPrecedent+")'><span class='text'>Précédent</span></p>"+
+    "<div class='row'>"+ 
+      "<div class='col'>"+  
+        "<p id='dispoPrecedent' class='horizontal'><span class='text'>Précédent</span></p>"+
       "</div>"+
-      "<div class = 'col'>"+  
-        "<p class='horizontal' onclick='UpdateTutorDispo("+listeDispo+","+dispoSuivant+")'><span class='text'>Suivant</span></p>"+ 
+      "<div class='col'>"+  
+        "<p id='dispoSuivant' class='horizontal' ><span class='text'>Suivant</span></p>"+ 
       "</div>"+
     "</div>"
   );
-  
+
+$("#dispoPrecedent").click(function() {
+  $("#TableDispo").empty();
+  UpdateTutorDispo(listeDispo,dispoPrecedent);
+});
+
+
+$("#dispoSuivant").click(function() {
+  $("#TableDispo").empty();
+  UpdateTutorDispo(listeDispo,dispoSuivant);
+});
+
+  $(document).ready(function(){
+    var matricule = $("#inputMatricule").val();
+    $('input[type="checkbox"]').click(function(){
+        if($(this).prop("checked") == true){
+          $.ajax({
+            url: "../PHP/AddDispoTutor.php",
+            type: "POST",
+            data: {
+                "matricule": matricule,
+                "code":this.id
+            },
+            dataType: "json",
+            success: function(result){
+                console.log("Changement dispo fait");
+            },
+            error: function (message, er) {
+                console.log("erreur: " + message);
+            }
+        });
+        }
+        else if($(this).prop("checked") == false){
+          $.ajax({
+            url: "../PHP/DeleteDispoTutor.php",
+            type: "POST",
+            data: {
+                "matricule": matricule,
+                "code":this.id
+            },
+            dataType: "json",
+            success: function(result){
+                console.log("Changement dispo fait");
+            },
+            error: function (message, er) {
+                console.log("erreur: " + message);
+            }
+        });
+        }
+    });
+  });
 }
+
+
+
 
 function addFilterDispo(){
   $("#filtreDispo").append(
@@ -515,32 +587,72 @@ function addFilterDispo(){
             "<div class = 'col'>"+  
                 "<p class='horizontal' onclick='disponibiliteFilter(\"Dimanche\")'><span class='text'>Dimanche</span></p></div>"+
             "</div>"+
+            "<div class = 'col justify-content-evenly' style='display:flex;margin:5%;text-aling:center;align-content:center;justify-content:center'>"+ 
+              "<label for='filtreHeureDebut'>Heure de début:</label>"+
+              "<select id='filtreHeureDebut' name='filtreHeureDebut'>"+
+              " </select>"+
+            "</div>"+
+            "<div class = 'col justify-content-evenly' ' style='display:flex;margin:5%;text-aling:center;align-content:center;justify-content:center'>"+  
+              "<label for='filtreHeureFin'>Heure de fin:</label>"+
+              "<select id='filtreHeureFin' name='filtreHeureFin'>"+
+              " </select>"+
+            "</div>"+
         "</div>"+   
     "</div>"+
 "</div>"
-
   );
+
+  $("#filtreHeureDebut").on('change', function() {
+    if(this.value>= $("#filtreHeureFin").val()){
+      alert("L'heure de debut ne peut pas etre plus grande ou egale a l'heure de fin");
+      this.value = $("#filtreHeureFin").val()-1;
+      changeDispo("",$("#filtreHeureDebut").val(),$("#filtreHeureFin").val());
+    }
+  });
+  $("#filtreHeureFin").on('change', function() {
+    if(this.value<= $("#filtreHeureDebut").val()){
+      alert("L'heure de fin ne peut pas etre plus petite ou egale a l'heure de debut");
+      this.value = $("#filtreHeureDebut").val()+1;
+      changeDispo("",$("#filtreHeureDebut").val(),$("#filtreHeureFin").val());
+    }
+  });
+
+  $("#filtreHeureDebut").click(function() {
+    changeDispo("",$("#filtreHeureDebut").val(),$("#filtreHeureFin").val());
+  });
+
+  $("#filtreHeureFin").click(function() {
+    changeDispo("",$("#filtreHeureDebut").val(),$("#filtreHeureFin").val());
+  });
 }
 
 
 function disponibiliteFilter(nomJour){
   var matricule = getCookie("MatriculeLogged");
-  
-  $.ajax({
-      url: "../PHP/GetAllDispo.php",
-      type: "POST",
-      data: {
-          "jour": nomJour
-      },
-      dataType: "json",
-      success: function(result){
-          UpdateTutorDispo(result,0);
-      },
-      error: function (message, er) {
-          console.log("login: " + message);
-      }
-  });
+  changeDispo(nomJour,$("#filtreHeureDebut").val(),$("#filtreHeureFin").val());
 };
+
+
+function changeDispo(jour,debut,fin){
+  var matricule = $("#inputMatricule").val();
+  $.ajax({
+    url: "../PHP/GetAllDispo.php",
+    type: "POST",
+    data: {
+        "jour": jour,
+        "debut":debut,
+        "fin":fin,
+        "matricule":matricule
+    },
+    dataType: "json",
+    success: function(result){
+        UpdateTutorDispo(result,0);
+    },
+    error: function (message, er) {
+        console.log("login: " + message);
+    }
+});
+}
 
 
 

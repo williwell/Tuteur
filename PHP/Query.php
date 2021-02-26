@@ -197,10 +197,10 @@ class Query
         }
     }
 
-    function getAllDispo($jour){
+    function getAllDispo($jour,$debut,$fin,$matricule){
         $lines = array();
         try {
-            $request = "SELECT Jours,Session,Annee,CONCAT('Entre ',CONCAT(Heure_debut,CONCAT('h et ',CONCAT(Heure_fin,'h')))), d.Code,Heure_debut,Heure_fin FROM disponibiliter d where d.Jours LIKE '%".$jour."%' ORDER BY Heure_debut";
+            $request = "SELECT Jours,Session,Annee,CONCAT('Entre ',CONCAT(Heure_debut,CONCAT('h et ',CONCAT(Heure_fin,'h')))), d.Code,Heure_debut,Heure_fin, (SELECT dt.Matricule FROM dispo_tuteur dt WHERE dt.Matricule = 1734055 AND d.Code = dt.Code_Dispo) FROM disponibiliter d where d.Jours LIKE '%".$jour."%' AND Heure_debut>=".$debut." AND Heure_debut<".$fin." AND Heure_fin<=".$fin." AND Heure_fin>".$debut." ORDER BY Heure_debut";
             $result = $this->connexion->query($request);
             $lines = $result->fetchAll();
     
@@ -210,6 +210,7 @@ class Query
             return $lines;
         }
     }
+
 
    function creerComtpe($User,$Mdp):String
     {
@@ -325,7 +326,29 @@ class Query
    }
 
 
+   function AddDispo($matricule,$code){
+    try{
+        $request = "INSERT INTO dispo_tuteur VALUES('".$matricule."','".$code."')";
+        $result = $this->connexion->exec($request);
+        return "ok";
+      
+    }
+    catch(PDOException $e) {
+        return $e;
+    }
+   }
 
+   function DeleteDispo($matricule,$code){
+    try{
+        $request = "DELETE FROM dispo_tuteur d WHERE d.Matricule LIKE '".$matricule."' AND d.Code_Dispo LIKE '".$code."'";
+        $result = $this->connexion->exec($request);
+        return "ok";
+      
+    }
+    catch(PDOException $e) {
+        return $e;
+    }
+   }
 }
 
 

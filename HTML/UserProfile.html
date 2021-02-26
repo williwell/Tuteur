@@ -117,12 +117,28 @@
             url: "../PHP/GetAllDispo.php",
             type: "POST",
             data: {
-                "jour": ""
+                "jour": "",
+                "debut":0,
+                "fin":24,
+                "matricule": matricule
             },
             dataType: "json",
             success: function(result){
                 UpdateTutorDispo(result,0);
                 addFilterDispo();
+                    for(var i=0;i<=24;i++){
+                        if(i==0){
+                            $("#filtreHeureDebut").append("<option value="+i+">"+i+"</option>");
+                        }
+                        else if(i==24){
+                            $("#filtreHeureFin").append("<option value="+i+">"+i+"</option>");  
+                        }
+                        else{
+                            $("#filtreHeureDebut").append("<option value="+i+">"+i+"</option>");
+                            $("#filtreHeureFin").append("<option value="+i+">"+i+"</option>");
+                        }
+                    }
+                $("#filtreHeureFin").append();
             },
             error: function (message, er) {
                 console.log("login: " + message);

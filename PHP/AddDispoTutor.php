@@ -4,10 +4,8 @@ require_once('Query.php');
 $lines = array();
 $query = new Query();
 
-$jour = $_POST['jour'];
-$debut = $_POST['debut'];
-$fin = $_POST['fin'];
 $matricule = $_POST['matricule'];
+$code = $_POST['code'];
 
-$lines = $query->getAllDispo($jour,$debut,$fin,$matricule);
+$lines = $query->AddDispo($matricule,$code);
 echo json_encode($lines);
