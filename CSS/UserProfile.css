@@ -5,6 +5,10 @@
 
   @import url("ProfileTutor.css");
 
+  *{
+    align-content: center;text-align: center;justify-content: center;
+  }
+
 :root {
     --border-size: 0.125rem;
     --duration: 250ms;
@@ -83,7 +87,6 @@
   .table {
     display: flex;
     width: 100%;
-    border: 1px solid #eeeeee;
   }
   
   .table-header {

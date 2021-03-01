@@ -32,7 +32,7 @@ class Query
    {
        $lines = array();
        try {
-           $request = "SELECT e.Matricule,e.Nom, e.Courriel, e.Telephone, p.Nom
+           $request = "SELECT e.Matricule,e.Nom, e.Courriel, e.Telephone, p.Nom, e.Prenom
                         FROM tuteur t 
                         INNER JOIN eleves e ON t.Matricule=e.Matricule 
                         INNER JOIN programme p ON e.Programme=p.Code 
@@ -85,7 +85,7 @@ class Query
    {
     $lines = array();
        try {
-           $request = "SELECT e.Matricule,e.Nom, e.Courriel, e.Telephone, p.Nom, t.password
+           $request = "SELECT e.Matricule,e.Nom, e.Courriel, e.Telephone, p.Nom, t.password, e.prenom
                        FROM tuteur t 
                        INNER JOIN eleves e ON t.Matricule=e.Matricule 
                        INNER JOIN programme p ON e.Programme=p.Code 
@@ -105,7 +105,7 @@ class Query
    {
    $lines = array();
        try {
-           $request = "SELECT e.Matricule,e.Nom, e.Courriel, e.Telephone, p.Nom, t.password
+           $request = "SELECT e.Matricule,e.Nom, e.Courriel, e.Telephone, p.Nom, t.password, e.prenom
                        FROM tutorer t 
                        INNER JOIN eleves e ON t.Matricule=e.Matricule 
                        INNER JOIN programme p ON e.Programme=p.Code 
@@ -264,7 +264,7 @@ class Query
    function getTutoratDemand($matricule){
         $lines = array();
         try{
-            $request = "SELECT tuteur.Nom, tutorer.Nom, st.date, st.Heure,st.accepter,st.Matricule_Tuteur, st.Matricule_Tutorer FROM session_tutorat st INNER JOIN eleves tuteur ON st.Matricule_Tuteur=tuteur.Matricule INNER JOIN eleves tutorer ON st.Matricule_Tutorer=tutorer.Matricule WHERE Matricule_Tuteur  LIKE ".$matricule." OR Matricule_Tutorer LIKE ".$matricule;
+            $request = "SELECT tuteur.Nom, tutorer.Nom, st.date, st.Heure,st.accepter,st.Matricule_Tuteur, st.Matricule_Tutorer,tuteur.Prenom,tutorer.prenom FROM session_tutorat st INNER JOIN eleves tuteur ON st.Matricule_Tuteur=tuteur.Matricule INNER JOIN eleves tutorer ON st.Matricule_Tutorer=tutorer.Matricule WHERE Matricule_Tuteur  LIKE ".$matricule." OR Matricule_Tutorer LIKE ".$matricule;
             $result = $this->connexion->query($request);
             $lines = $result->fetchAll();
             return $lines;
@@ -276,9 +276,9 @@ class Query
 
 
    
-   function updateTutor($matricule,$nom,$courriel,$téléphone,$programme,$password){
+   function updateTutor($matricule,$nom,$courriel,$téléphone,$programme,$password,$prenom){
         try{
-            $request = "UPDATE eleves e INNER JOIN tuteur t ON t.matricule=e.matricule INNER JOIN programme p ON e.Programme=p.code SET e.Nom='".$nom."', e.Courriel = '".$courriel."', e.Telephone = '".$téléphone."', p.Nom = '".$programme."', t.password = '".$password."' WHERE e.Matricule = ".$matricule;
+            $request = "UPDATE eleves e INNER JOIN tuteur t ON t.matricule=e.matricule INNER JOIN programme p ON e.Programme=p.code SET e.Nom='".$nom."', e.Courriel = '".$courriel."', e.Telephone = '".$téléphone."', p.Nom = '".$programme."', t.password = '".$password."', e.Prenom = '".$prenom."' WHERE e.Matricule = ".$matricule;
             $this->connexion->exec($request);
             return "ok";
         }
@@ -288,9 +288,9 @@ class Query
     }
 
    
-   function updateAider($matricule,$nom,$courriel,$téléphone,$programme,$password){
+   function updateAider($matricule,$nom,$courriel,$téléphone,$programme,$password,$prenom){
        try{
-            $request = "UPDATE eleves e INNER JOIN tutorer t ON t.matricule=e.matricule INNER JOIN programme p ON e.Programme=p.code SET e.Nom='".$nom."', e.Courriel = '".$courriel."', e.Telephone = '".$téléphone."', p.Nom = '".$programme."', t.password = '".$password."' WHERE e.Matricule = ".$matricule;
+            $request = "UPDATE eleves e INNER JOIN tutorer t ON t.matricule=e.matricule INNER JOIN programme p ON e.Programme=p.code SET e.Nom='".$nom."', e.Courriel = '".$courriel."', e.Telephone = '".$téléphone."', p.Nom = '".$programme."', t.password = '".$password."', e.Prenom = '".$prenom."'  WHERE e.Matricule = ".$matricule;
             $this->connexion->exec($request);
             return "ok";
         }

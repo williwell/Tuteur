@@ -8,9 +8,9 @@ function putTutor(list) {
               "<div class='inner-div'>"+
                 "<div class='front'>"+
                   "<div class='front__bkg-photo'></div>"+
-                  "<div class='front__face-photo' style='background:url(../RESSOURCE/Picture_Tuteur/"+list[i][0]+".png);background-size: cover;'></div>"+
+                  "<div class='front__face-photo' style='background:url(../RESSOURCE/Picture/"+list[i][0]+".png);background-size: cover;'></div>"+
                   "<div class='front__text'>"+
-                    "<h3 class='front__text-header'>"+list[i][1]+"</h3>"+
+                    "<h3 class='front__text-header'>"+list[i][5]+" "+list[i][1]+"</h3>"+
                     "<p class='front__text-para'></i>"+list[i][4]+"</p><br><br>"+
                     "<p class='front__text-para'></i>"+list[i][2]+"</p>"+
                     "<p class='front__text-para'></i>"+list[i][3]+"</p>"+
@@ -155,24 +155,25 @@ function getCookie(cname) {
 
 
 
-function profileTutorInfo(matricule,nom,courriel,téléphone,programme){
+function profileTutorInfo(matricule,prenom,nom,courriel,téléphone,programme){
 	$("#Info").append(
     "<div class='course'>"+
     "<div class='course-preview'>"+
-    "<img  src='../RESSOURCE/Picture_Tuteur/"+matricule+".png' width='100%' height='80%'></img>"+ 
+    "<img  src='../RESSOURCE/Picture/"+matricule+".png' width='100%' height='80%'></img>"+ 
     "</div>"+
-    "<div class='course-info'>"+
+    "<div class='course-info' style='text-align:center;justify-content:center;align-content:center;'>"+
     "<div  STYLE='MARGIN:5%;>"+    
     "<h6 style='margin:3%;'>NOM</h6>"+
-    "<h4 style='margin:3%;'>"+nom+"</h4>"+  
+    "<h4 style='margin:3%;'>"+prenom+" "+nom+"</h4>"+  
     "<h6 style='margin:3%;'>COURRIEL</h6>"+
     "<h4 style='margin:3%;'>"+courriel+"</h4>"+
     "<h6 style='margin:2%;'>TÉLÉPHONE</h6>"+
     "<h4 style='margin:2%;'>"+téléphone+"</h4>"+
     "<h6 style='margin:2%;'>PROGRAMME D'ÉTUDE</h6>"+
     "<h4 style='margin:2%;'>"+programme+"</h4>"+
+  
+    "<p class='horizontal' style='margin-left:17%'><span class='text'>Demande de tutorat</span></p>"+
     "</div>"+
-    "<p class='horizontal'><span class='text'>Demande de tutorat</span></p>"+
 
     "</div>"+   
     "</div>"
@@ -180,16 +181,16 @@ function profileTutorInfo(matricule,nom,courriel,téléphone,programme){
 }
 
 
-function profileAiderInfo(matricule,nom,courriel,téléphone,programme){
+function profileAiderInfo(matricule,prenom,nom,courriel,téléphone,programme){
 	$("#Info").append(
     "<div class='course'>"+
     "<div class='course-preview'>"+
-    "<img  src='../RESSOURCE/Picture_Aider/"+matricule+".png' width='100%' height='80%'></img>"+ 
+    "<img  src='../RESSOURCE/Picture/"+matricule+".png' width='100%' height='80%'></img>"+ 
     "</div>"+
-    "<div class='course-info'>"+
+    "<div class='course-info' style='text-align:center;justify-content:center;align-content:center;'>"+
     "<div  STYLE='MARGIN:5%;>"+    
     "<h6 style='margin:3%;'>NOM</h6>"+
-    "<h4 style='margin:3%;'>"+nom+"</h4>"+  
+    "<h4 style='margin:3%;'>"+prenom+" "+nom+"</h4>"+  
     "<h6 style='margin:3%;'>COURRIEL</h6>"+
     "<h4 style='margin:3%;'>"+courriel+"</h4>"+
     "<h6 style='margin:2%;'>TÉLÉPHONE</h6>"+
@@ -268,9 +269,9 @@ function putInfoCour(list) {
 
 
 function demandeTutorat(liste){
-  $("#TableDemande").empty();
-  $("#tableHeaderDeamnde").empty();
-  $("#tableHeaderDeamnde").append(
+  $("#TableDemandeTutorat").empty();
+  $("#tableHeaderDeamndeTutorat").empty();
+  $("#tableHeaderDeamndeTutorat").append(
     "<div class='table-header'>"+
       "<div class='header__item'><a id='name' class='filter__link' href='#'>Nom du tuteur</a></div>"+
       "<div class='header__item'><a id='name' class='filter__link' href='#'>Nom de l'aider</a></div>"+
@@ -282,10 +283,10 @@ function demandeTutorat(liste){
     for (var i = 0; i < liste.length; i++) {
 
       if(liste[i][4]==0){
-        $("#TableDemande").append(
+        $("#TableDemandeTutorat").append(
           "<div class='table-row'>"+
-          "<div  style='cursor: pointer;' class='table-data' onclick='goProfileTutor("+liste[i][5]+")'>"+liste[i][0]+"</div>"+
-          "<div  style='cursor: pointer;' class='table-data' onclick='goProfileAider("+liste[i][6]+")'>"+liste[i][1]+"</div>"+
+          "<div  style='cursor: pointer;' class='table-data' onclick='goProfileTutor("+liste[i][5]+")'>"+liste[i][7]+" "+liste[i][0]+"</div>"+
+          "<div  style='cursor: pointer;' class='table-data' onclick='goProfileAider("+liste[i][6]+")'>"+liste[i][8]+" "+liste[i][1]+"</div>"+
           "<div style='cursor: default;' class='table-data'>"+liste[i][2]+"</div>"+
           "<div style='cursor: default;' class='table-data'>"+liste[i][3]+"</div>"+
           "<div style='cursor: default;' class='table-data'>"+liste[i][4]+"</div>"+
@@ -302,19 +303,20 @@ function goProfileAider(matricule){
 }
 
 
-function fillInfoStudent(matricule,nom,courriel,téléphone,programme,password,isTuteur){
+function fillInfoStudent(matricule,prenom,nom,courriel,téléphone,programme,password,isTuteur){
   $("#TableDemande").append(
   "<form id='formInfo' autocomplete='off'>"+
   "<div id='focus'></div>"+
     "<h1>Mes informations</h1>"+
-    "<input id='inputMatricule' type='text' half placeholder='Matricule' autocomplete='no' value='"+matricule+"' readonly>"+
+    "<input id='inputPrenom' type='text' half placeholder='Prénom' autocomplete='no' value='"+prenom+"'>"+
     "<input id='inputNom' type='text' half placeholder='Nom' autocomplete='no' value='"+nom+"'>"+
+    "<input id='inputMatricule' type='text' placeholder='Matricule' autocomplete='no' value='"+matricule+"' readonly>"+
     "<input id='inputCourriel' type='text' placeholder='Couriel' autocomplete='no' value='"+courriel+"'>"+
     "<input id='inputTelephone' type='text' half placeholder='Téléphone' autocomplete='no' value='"+téléphone+"'>"+
     "<input id='inputProgramme' type='text' half placeholder='Programme' autocomplete='no' value='"+programme+"'>"+
     "<input id='inputPassword' type='password' placeholder='Mot de passe' autocomplete='no' value='"+password+"'>"+
-    "<input  type='submit' value='Effacer mon profil' onclick='deleteStudentProfile("+isTuteur+")'>"+
-    "<input  type='submit' value='Sauvegarder les changement' onclick='updateStudentProfile("+isTuteur+")'>"+
+    "<input  type='submit' value='Supprimer' onclick='deleteStudentProfile("+isTuteur+")'>"+
+    "<input  type='submit' value='Sauvegarder' onclick='updateStudentProfile("+isTuteur+")'>"+
   "</form>"
   );
   const FORM = $("form"); // set form or other element here
@@ -399,7 +401,7 @@ var courriel = $("#inputCourriel").val();
 var téléphone = $("#inputTelephone").val();
 var programme = $("#inputProgramme").val();
 var password = $("#inputPassword").val();
-
+var prenom = $("#inputPrenom").val();
 
 if(isTuteur==1){
   $.ajax({
@@ -411,16 +413,13 @@ if(isTuteur==1){
     "courriel":courriel,
     "téléphone":téléphone,
     "programme":programme,
-    "password":password
+    "password":password,
+    "prenom":prenom
     },
     dataType: "json",
     success: function(result){
       alert(result);
-      alert(matricule);
-      alert(nom);
-      alert(téléphone);
-      alert(programme);
-
+      
     },
     error: function (message, er) {
       alert("OUF");
