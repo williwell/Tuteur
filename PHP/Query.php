@@ -139,16 +139,16 @@ class Query
 
     function getInfoCour($NoCours):array
     {
-     $lines = array();
-     try{
-         $request = "SELECT * from cours where Code = ".$NoCours;
-         $result = $this->connexion->query($request);
-         $lines = $result->fetchAll();
-         return $lines;
-     }
-     catch(PDOException $e) {
-         return $lines;
-     }
+        $lines = array();
+        try{
+            $request = "SELECT * from cours where Code = '".$NoCours."'";
+            $result = $this->connexion->query($request);
+            $lines = $result->fetchAll();
+            return $lines;
+        }
+        catch(PDOException $e) {
+            return $lines;
+        }
     }
 
    function newEtudiant($matricule,$nom,$courriel,$programme,$telephone,$enseignant){
@@ -368,13 +368,26 @@ class Query
    function newMatiere($lien,$noCours,$titre,$decription)
     {
        try{
-           $request = "Insert Into matières VALUES ('$lien','$noCOurs','$titre','$decription')";
+           $request = "Insert Into matières VALUES ('$lien','$noCours','$titre','$decription')";
            $result = $this->connexion->exec($request);
-            echo json_encode("No problèmo pipito");
            return $result;
         }
        catch(PDOException $e) {
            return $e;
+        }
+    }
+
+    function checkMatiere($fichier,$noCour)
+    {
+        try{
+            $request = "SELECT * from matières where Lien = '".$fichier."' and NoCour = '".$noCour."'";
+            $result = $this->connexion->query($request);
+            $lines = $result->fetchAll();
+
+            return $lines;
+        }
+        catch(PDOException $e){
+            return $e;
         }
     }
 }

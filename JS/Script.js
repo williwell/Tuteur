@@ -397,63 +397,63 @@ function deleteStudentProfile(isTuteur){
 }
 
 function updateStudentProfile(isTuteur){
-var matricule = $("#inputMatricule").val();
-var nom = $("#inputNom").val();
-var courriel = $("#inputCourriel").val();
-var téléphone = $("#inputTelephone").val();
-var programme = $("#inputProgramme").val();
-var password = $("#inputPassword").val();
-var prenom = $("#inputPrenom").val();
+  var matricule = $("#inputMatricule").val();
+  var nom = $("#inputNom").val();
+  var courriel = $("#inputCourriel").val();
+  var téléphone = $("#inputTelephone").val();
+  var programme = $("#inputProgramme").val();
+  var password = $("#inputPassword").val();
+  var prenom = $("#inputPrenom").val();
 
-if(isTuteur==1){
-  $.ajax({
-    url: "../PHP/UpdateTutor.php",
-    type: "POST",
-    data: {
-    "matricule": matricule,
-    "nom":nom,
-    "courriel":courriel,
-    "téléphone":téléphone,
-    "programme":programme,
-    "password":password,
-    "prenom":prenom
-    },
-    dataType: "json",
-    success: function(result){
-      alert(result);
-      
-    },
-    error: function (message, er) {
-      alert("OUF");
-    }
-});
-}
-else{
-  $.ajax({
-    url: "../PHP/UpdateAider.php",
-    type: "POST",
-    data: {
+  if(isTuteur==1){
+    $.ajax({
+      url: "../PHP/UpdateTutor.php",
+      type: "POST",
+      data: {
       "matricule": matricule,
       "nom":nom,
       "courriel":courriel,
       "téléphone":téléphone,
       "programme":programme,
-      "password":password
-    },
-    dataType: "json",
-    success: function(result){
-      alert("Les informations ont été mises à jour");
-    },
-    error: function (message, er) {
-      console.log(message);
-    }
-});
+      "password":password,
+      "prenom":prenom
+      },
+      dataType: "json",
+      success: function(result){
+        alert(result);
+      },
+      error: function (message, er) {
+        alert("OUF");
+      }
+    });
+  }
+  else{
+    $.ajax({
+      url: "../PHP/UpdateAider.php",
+      type: "POST",
+      data: {
+        "matricule": matricule,
+        "nom":nom,
+        "courriel":courriel,
+        "téléphone":téléphone,
+        "programme":programme,
+        "password":password
+      },
+      dataType: "json",
+      success: function(result){
+        alert("Les informations ont été mises à jour");
+      },
+      error: function (message, er) {
+        console.log(message);
+      }
+    });
+  }
 }
 
 function listNoCours(list) {
   for(var i = 0; i < list.length; i++) {
     $("#noCours").append(
-      "<option value='"+list[i][0]+"'>"
+      "<option value='"+list[i][0]+"'>",
     );
   }
 }
@@ -658,10 +658,5 @@ function changeDispo(jour,debut,fin){
     error: function (message, er) {
         console.log("login: " + message);
     }
-});
+  });
 }
-
-
-
-
-
