@@ -46,6 +46,13 @@
             <div class="form">
                 <form method="post" enctype="text/plain">
                     <div style="display:flex;flex-direction:row;">
+                    <div style="width:100%;margin:3px;">  
+                        <input type="radio" id="tuteur" name="role" value="tuteur" class="form-radio">
+                            <label for="tuteur">Je veux être Tuteur</label><br>
+                        <input type="radio" id="tutore" name="role" value="tutore" class="form-radio">
+                            <label for="tutore">Je veux être Tutoré</label>
+                    </div></div>
+                    <div style="display:flex;flex-direction:row;">
                     <div style="width:35%;margin:3px;">
                     <label for="Matricule">Matricule</label><br>
                     <input type="text" class="form-control" id=Matricule name=Matricule onchange=changeM()></div>
@@ -77,9 +84,9 @@
                     <input type="password" class="form-control" id="password" onchange="changePw()"></div>
                     <div>
                     <label for="password2">Confirmez le mot de passe</label>
-                    <input type="password" class="form-control" id="password2" onchange="changePw()"><div id="errPas"></div>
-                    <input type="submit" id="submit" value="Submit" disabled=true onclick="Signup()">
+                    <input type="password" class="form-control" id="password2" onchange="changePw()"></div><div id="errPas"></div>     
             </form>
+            <input type="submit" id="submit" value="Submit" disabled=true onclick="Signup()">
             </div>
           </div>
         </div>
@@ -88,6 +95,7 @@
 </body>
 
     <script type="text/javascript">
+
         jQuery('#MenuBar').load('Menu.html#Menu'); 
         var current = null;
         document.querySelector("#matricule").addEventListener("focus", function (e) {
@@ -141,32 +149,73 @@
 
 
         function Signup(){
-            var username  = $("#matricule").val();
-            var password  = $("#password").val();
-            var confirm  = $("#password2").val();
-            if(password==confirm){
+            var username = $("#Matricule").val();
+            var password = $("#password").val();
+            var enseignant = $("#Enseignant").val();
+            var nom = $("#Nom").val();
+            var prenom = $("#Prenom").val();
+            var courriel = $("#Courriel").val();
+            var programme = $("#Programme").val();
+            var telephone = $("#Telephone").val();
                $.ajax({
                     url: "../PHP/Signup.php",
                     type: "POST",
                     data: {
                         "matricule": username,
+                        "password":password,
+                        "enseignant":enseignant,
+                        "nom":nom,
+                        "prenom":prenom,
+                        "courriel":courriel,
+                        "programme":programme,
+                        "telephone":telephone
+                    },
+                    /*dataType: "json",*/
+            success: function(message){
+                console.log("Création du tuteur effectuée");
+                //window.open("Compte.html?email="+$("#iemail").val(), "_self");
+                if(document.getElementById("tuteur").checked==true){
+                $.ajax({
+                    url: "../PHP/Tuteur.php",
+                    type: "POST",
+                    data: {
+                        "matricule": username,
                         "password":password
                     },
-                    dataType: "json",
-                    success: function(result){
-                        if(result=username){
-                            location.replace("UserProfile.html");
-                        }
-                        else{
-                            alert("Informations entrer invalide");
-                        }
-                        location.reload();
-                    },
-                    error: function (message, er) {
-                        console.log("erreur lors de la connexion: " + er);
-                        location.reload();
-                    }
+                    /*dataType: "json",*/
+            success: function(message){
+                console.log("Création du tuteur effectuée");
+                //window.open("Compte.html?email="+$("#iemail").val(), "_self");
+            },
+            error: function(message, e){
+                console.log("erreur lors de l'ajout:" + er);
+            }
                 });}
+                else{ if(document.getElementById("tutore").checked==true){
+                    $.ajax({
+                    url: "../PHP/Tutore.php",
+                    type: "POST",
+                    data: {
+                        "matricule": username,
+                        "password":password
+                    },
+                    /*dataType: "json",*/
+            success: function(message){
+                console.log("Création du tuteur effectuée");
+                //window.open("Compte.html?email="+$("#iemail").val(), "_self");
+            },
+            error: function(message, e){
+                console.log("erreur lors de l'ajout:" + er);
+            }
+                });
+                }
+                }
+            },
+            error: function(message, e){
+                console.log("erreur lors de l'ajout:" + er);
+                alert("Le matricule utilisé a déjà un compte");
+            }
+                });
         }
 
         function change(){
@@ -198,5 +247,268 @@
             }
         }
 
+        function changeM(){
+    var regMat = new RegExp(/[0-9]{7}$/)
+    var regNom = new RegExp(/^[a-zA-Z\s]+$/);
+    var regMail = new RegExp(/^\S+@\S+$/);
+    var regTel = new RegExp(/[(]{0,1}\d\d\d[)]{0,1}[-]{0,1}[\s]{0,1}\d\d\d[-]{0,1}[\s]{0,1}\d\d\d\d$/);
+    var regProg = new RegExp(/(\d\d\d\.\w\w)$/);
+    document.getElementById("submit").disabled=true;
+    if(regMat.test(document.getElementById("Matricule").value)){
+        if(document.getElementById("tuteur").checked==true || document.getElementById("tutore").checked==true){
+        if(regNom.test(document.getElementById("Nom").value)){
+            if(regMail.test(document.getElementById("Courriel").value)){
+                if(regProg.test(document.getElementById("Programme").value)){
+                    if(regTel.test(document.getElementById("Telephone").value)){
+                        if(regMat.test(document.getElementById("Enseignant").value)){
+                            if(regNom.test(document.getElementById("Prenom").value)){
+                                if($("#password").val()==$("#password2").val()&&$("#password").val().length>0){
+                                    document.getElementById("submit").disabled=false;
+                                    document.getElementById("submit").style.color="white";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+    }else{
+        document.getElementById("Matricule").style.background = "#FF7575";
+        document.getElementById("submit").style.color="grey";
+        document.getElementById("submit").disabled=true;}
+    
+}
+
+function changeE(){
+    var regMat = new RegExp(/[0-9]{7}$/)
+    var regNom = new RegExp(/^[a-zA-Z\s]+$/);
+    var regMail = new RegExp(/^\S+@\S+$/);
+    var regTel = new RegExp(/[(]{0,1}\d\d\d[)]{0,1}[-]{0,1}[\s]{0,1}\d\d\d[-]{0,1}[\s]{0,1}\d\d\d\d$/);
+    var regProg = new RegExp(/(\d\d\d\.\w\w)$/);
+    document.getElementById("submit").disabled=true;
+    if(regMat.test(document.getElementById("Enseignant").value)){
+        document.getElementById("Enseignant").style.background = "#FFFFFF";
+        if(document.getElementById("tuteur").checked==true || document.getElementById("tutore").checked==true){
+        if(regNom.test(document.getElementById("Nom").value)){
+            if(regMail.test(document.getElementById("Courriel").value)){
+                if(regProg.test(document.getElementById("Programme").value)){
+                    if(regTel.test(document.getElementById("Telephone").value)){
+                        if(regMat.test(document.getElementById("Matricule").value)){
+                            if(regNom.test(document.getElementById("Prenom").value)){
+                                if($("#password").val()==$("#password2").val()&&$("#password").val().length>0){
+                                    document.getElementById("submit").disabled=false;
+                                    document.getElementById("submit").style.color="white";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    }
+}
+    }else{
+        document.getElementById("Enseignant").style.background = "#FF7575";
+        document.getElementById("submit").style.color="grey";
+        document.getElementById("submit").disabled=true;}
+}
+
+function changeN(){
+    var regMat = new RegExp(/[0-9]{7}$/)
+    var regNom = new RegExp(/^[a-zA-Z\s]+$/);
+    var regMail = new RegExp(/^\S+@\S+$/);
+    var regTel = new RegExp(/[(]{0,1}\d\d\d[)]{0,1}[-]{0,1}[\s]{0,1}\d\d\d[-]{0,1}[\s]{0,1}\d\d\d\d$/);
+    var regProg = new RegExp(/(\d\d\d\.\w\w)$/);
+    document.getElementById("submit").disabled=true;
+    if(regNom.test(document.getElementById("Nom").value)){
+        document.getElementById("Nom").style.background = "#FFFFFF";
+        if(document.getElementById("tuteur").checked==true || document.getElementById("tutore").checked==true){
+        if(regMat.test(document.getElementById("Enseignant").value)){
+            if(regMail.test(document.getElementById("Courriel").value)){
+                if(regProg.test(document.getElementById("Programme").value)){
+                    if(regTel.test(document.getElementById("Telephone").value)){
+                        if(regMat.test(document.getElementById("Matricule").value)){
+                            if(regNom.test(document.getElementById("Prenom").value)){
+                                if($("#password").val()==$("#password2").val()&&$("#password").val().length>0){
+                                    document.getElementById("submit").disabled=false;
+                                    document.getElementById("submit").style.color="white";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    }else{
+        document.getElementById("Nom").style.background = "#FF7575";
+        document.getElementById("submit").style.color="grey";
+        document.getElementById("submit").disabled=true;}
+}
+
+function changePn(){
+    var regMat = new RegExp(/[0-9]{7}$/)
+    var regNom = new RegExp(/^[a-zA-Z\s]+$/);
+    var regMail = new RegExp(/^\S+@\S+$/);
+    var regTel = new RegExp(/[(]{0,1}\d\d\d[)]{0,1}[-]{0,1}[\s]{0,1}\d\d\d[-]{0,1}[\s]{0,1}\d\d\d\d$/);
+    var regProg = new RegExp(/(\d\d\d\.\w\w)$/);
+    document.getElementById("submit").disabled=true;
+    if(regNom.test(document.getElementById("Prenom").value)){
+        document.getElementById("Prenom").style.background = "#FFFFFF";
+        if(document.getElementById("tuteur").checked==true || document.getElementById("tutore").checked==true){
+        if(regNom.test(document.getElementById("Nom").value)){
+            if(regMail.test(document.getElementById("Courriel").value)){
+                if(regProg.test(document.getElementById("Programme").value)){
+                    if(regTel.test(document.getElementById("Telephone").value)){
+                        if(regMat.test(document.getElementById("Enseignant").value)){
+                            if(regMat.test(document.getElementById("Matricule").value)){
+                                if($("#password").val()==$("#password2").val()&&$("#password").val().length>0){
+                                    document.getElementById("submit").disabled=false;
+                                    document.getElementById("submit").style.color="white";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    }else{
+        document.getElementById("Prenom").style.background = "#FF7575";
+        document.getElementById("submit").style.color="grey";
+        document.getElementById("submit").disabled=true;}
+}
+
+function changeC(){
+    var regMat = new RegExp(/[0-9]{7}$/)
+    var regNom = new RegExp(/^[a-zA-Z\s]+$/);
+    var regMail = new RegExp(/^\S+@\S+$/);
+    var regTel = new RegExp(/[(]{0,1}\d\d\d[)]{0,1}[-]{0,1}[\s]{0,1}\d\d\d[-]{0,1}[\s]{0,1}\d\d\d\d$/);
+    var regProg = new RegExp(/(\d\d\d\.\w\w)$/);
+    document.getElementById("submit").disabled=true;
+    if(regMail.test(document.getElementById("Courriel").value)){
+        document.getElementById("Courriel").style.background = "#FFFFFF";
+        if(document.getElementById("tuteur").checked==true || document.getElementById("tutore").checked==true){
+        if(regNom.test(document.getElementById("Nom").value)){
+            if(regNom.test(document.getElementById("Prenom").value)){
+                if(regProg.test(document.getElementById("Programme").value)){
+                    if(regTel.test(document.getElementById("Telephone").value)){
+                        if(regMat.test(document.getElementById("Enseignant").value)){
+                            if(regMat.test(document.getElementById("Matricule").value)){
+                                if($("#password").val()==$("#password2").val()&&$("#password").val().length>0){
+                                    document.getElementById("submit").disabled=false;
+                                    document.getElementById("submit").style.color="white";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    }else{
+        document.getElementById("Courriel").style.background = "#FF7575";
+        document.getElementById("submit").style.color="grey";
+        document.getElementById("submit").disabled=true;}
+}
+
+function changeT(){
+    var regMat = new RegExp(/[0-9]{7}$/)
+    var regNom = new RegExp(/^[a-zA-Z\s]+$/);
+    var regMail = new RegExp(/^\S+@\S+$/);
+    var regTel = new RegExp(/[(]{0,1}\d\d\d[)]{0,1}[-]{0,1}[\s]{0,1}\d\d\d[-]{0,1}[\s]{0,1}\d\d\d\d$/);
+    var regProg = new RegExp(/(\d\d\d\.\w\w)$/);
+    document.getElementById("submit").disabled=true;
+    if(regTel.test(document.getElementById("Telephone").value)){
+        document.getElementById("Telephone").style.background = "#FFFFFF";
+        if(document.getElementById("tuteur").checked==true || document.getElementById("tutore").checked==true){
+        if(regNom.test(document.getElementById("Nom").value)){
+            if(regMail.test(document.getElementById("Courriel").value)){
+                if(regProg.test(document.getElementById("Programme").value)){
+                    if(regMat.test(document.getElementById("Matricule").value)){
+                        if(regMat.test(document.getElementById("Enseignant").value)){
+                            if(regNom.test(document.getElementById("Prenom").value)){
+                                if($("#password").val()==$("#password2").val()&&$("#password").val().length>0){
+                                    document.getElementById("submit").disabled=false;
+                                    document.getElementById("submit").style.color="white";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    }else{
+        document.getElementById("Telephone").style.background = "#FF7575";
+        document.getElementById("submit").style.color="grey";
+        document.getElementById("submit").disabled=true;}
+}
+
+function changeP(){
+    var regMat = new RegExp(/[0-9]{7}$/)
+    var regNom = new RegExp(/^[a-zA-Z\s]+$/);
+    var regMail = new RegExp(/^\S+@\S+$/);
+    var regTel = new RegExp(/[(]{0,1}\d\d\d[)]{0,1}[-]{0,1}[\s]{0,1}\d\d\d[-]{0,1}[\s]{0,1}\d\d\d\d$/);
+    var regProg = new RegExp(/(\d\d\d\.\w\w)$/);
+    document.getElementById("submit").disabled=true;
+    if(regProg.test(document.getElementById("Programme").value)){
+        document.getElementById("Programme").style.background = "#FFFFFF";
+        if(document.getElementById("tuteur").checked==true || document.getElementById("tutore").checked==true){
+        if(regNom.test(document.getElementById("Nom").value)){
+            if(regMail.test(document.getElementById("Courriel").value)){
+                if(regMat.test(document.getElementById("Matricule").value)){
+                    if(regTel.test(document.getElementById("Telephone").value)){
+                        if(regMat.test(document.getElementById("Enseignant").value)){
+                            if(regNom.test(document.getElementById("Prenom").value)){
+                                if($("#password").val()==$("#password2").val()&&$("#password").val().length>0){
+                                    document.getElementById("submit").disabled=false;
+                                    document.getElementById("submit").style.color="white";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    }else{
+        document.getElementById("Programme").style.background = "#FF7575";
+        document.getElementById("submit").style.color="grey";
+        document.getElementById("submit").disabled=true;}
+}
+
+function changePw(){
+    var regMat = new RegExp(/[0-9]{7}$/)
+    var regNom = new RegExp(/^[a-zA-Z\s]+$/);
+    var regMail = new RegExp(/^\S+@\S+$/);
+    var regTel = new RegExp(/[(]{0,1}\d\d\d[)]{0,1}[-]{0,1}[\s]{0,1}\d\d\d[-]{0,1}[\s]{0,1}\d\d\d\d$/);
+    var regProg = new RegExp(/(\d\d\d\.\w\w)$/);
+    document.getElementById("submit").disabled=true;
+    if($("#password").val()==$("#password2").val()&&$("#password").val().length>0){
+        document.getElementById("password2").style.background = "#FFFFFF";
+        if(document.getElementById("tuteur").checked==true || document.getElementById("tutore").checked==true){
+    if(regProg.test(document.getElementById("Programme").value)){
+        if(regNom.test(document.getElementById("Nom").value)){
+            if(regMail.test(document.getElementById("Courriel").value)){
+                if(regMat.test(document.getElementById("Matricule").value)){
+                    if(regTel.test(document.getElementById("Telephone").value)){
+                        if(regMat.test(document.getElementById("Enseignant").value)){
+                            if(regNom.test(document.getElementById("Prenom").value)){
+                                    document.getElementById("submit").disabled=false;
+                                    document.getElementById("submit").style.color="white";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    }
+}else{
+        document.getElementById("password2").style.background = "#FF7575";
+        document.getElementById("submit").style.color="grey";
+        document.getElementById("submit").disabled=true;}
+}
     </script>
 </html>
