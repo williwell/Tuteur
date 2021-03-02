@@ -648,27 +648,27 @@ if(isTuteur==1){
 });
 }
 else{
-  $.ajax({
-    url: "../PHP/UpdateAider.php",
-    type: "POST",
-    data: {
-      "matricule": matricule,
-      "nom":nom,
-      "courriel":courriel,
-      "téléphone":téléphone,
-      "programme":programme,
-      "password":password
-    },
-    dataType: "json",
-    success: function(result){
-      alert("Les informations ont été mises à jour");
-    },
-    error: function (message, er) {
-      console.log(message);
-    }
-});
+    $.ajax({
+      url: "../PHP/UpdateAider.php",
+      type: "POST",
+      data: {
+        "matricule": matricule,
+        "nom":nom,
+        "courriel":courriel,
+        "téléphone":téléphone,
+        "programme":programme,
+        "password":password
+      },
+      dataType: "json",
+      success: function(result){
+        alert("Les informations ont été mises à jour");
+      },
+      error: function (message, er) {
+        console.log(message);
+      }
+  });
 }
-
+}
 function listNoCours(list) {
   for(var i = 0; i < list.length; i++) {
     $("#noCours").append(
@@ -692,13 +692,13 @@ function UpdateTutorDispo(listeDispo,dispo){
     dispoPrecedent=0;
   }
 
-  $("#TableDispo").append(
-    "<li class='table-header'>"+
-      "<div class='col col-1'>Jour</div>"+
-      "<div class='col col-2'>Heure</div>"+
-      "<div class='col col-3'>Disponible</div>"+
-    "</li>"
-  );
+    $("#TableDispo").append(
+      "<li class='table-header'>"+
+        "<div class='col col-1'>Jour</div>"+
+        "<div class='col col-2'>Heure</div>"+
+        "<div class='col col-3'>Disponible</div>"+
+      "</li>"
+    );
 
 
     for (var i = dispo; i < dispoSuivant; i++) {
@@ -733,16 +733,16 @@ function UpdateTutorDispo(listeDispo,dispo){
     "</div>"
   );
 
-$("#dispoPrecedent").click(function() {
-  $("#TableDispo").empty();
-  UpdateTutorDispo(listeDispo,dispoPrecedent);
-});
+  $("#dispoPrecedent").click(function() {
+    $("#TableDispo").empty();
+    UpdateTutorDispo(listeDispo,dispoPrecedent);
+  });
 
 
-$("#dispoSuivant").click(function() {
-  $("#TableDispo").empty();
-  UpdateTutorDispo(listeDispo,dispoSuivant);
-});
+  $("#dispoSuivant").click(function() {
+    $("#TableDispo").empty();
+    UpdateTutorDispo(listeDispo,dispoSuivant);
+  });
 
   $(document).ready(function(){
     var matricule = $("#inputMatricule").val();
@@ -789,67 +789,67 @@ $("#dispoSuivant").click(function() {
 
 
 function addFilterDispo(){
-  $("#filtreDispo").append(
-    "<div style='font-size: 40px;'>Filtrer les disponibilités</div>"+
-    "<div class='row  row-cols-4 row-cols-md-2 g-3 justify-content-evenly'>"+
-            "<div class = 'col'>"+  
-                "<p class='horizontal' onclick='disponibiliteFilter(\"Lundi\")'><span class='text'>Lundi</span></p>"+
-            "</div>"+
-            "<div class = 'col'>"+  
-                "<p class='horizontal' onclick='disponibiliteFilter(\"Mardi\")'><span class='text'>Mardi</span></p>"+
-            "</div>"+
-            "<div class = 'col'>"+  
-                "<p class='horizontal' onclick='disponibiliteFilter(\"Mercredi\")'><span class='text'>Mercredi</span></p>"+
-            "</div>"+
-            "<div class = 'col'>"+  
-                "<p class='horizontal' onclick='disponibiliteFilter(\"Jeudi\")'><span class='text'>Jeudi</span></p>"+
-            "</div>"+
-            "<div class = 'col'>"+  
-                "<p class='horizontal' onclick='disponibiliteFilter(\"Vendredi\")'><span class='text'>Vendredi</span></p>"+
-            "</div>"+
-            "<div class = 'col'>"+  
-                "<p class='horizontal' onclick='disponibiliteFilter(\"Samedi\")'><span class='text'>Samedi</span></p>"+
-            "</div>"+
-            "<div class = 'col'>"+  
-                "<p class='horizontal' onclick='disponibiliteFilter(\"Dimanche\")'><span class='text'>Dimanche</span></p></div>"+
-            "</div>"+
-            "<div class = 'col justify-content-evenly' style='display:flex;margin:5%;text-aling:center;align-content:center;justify-content:center'>"+ 
-              "<label for='filtreHeureDebut'>Heure de début:</label>"+
-              "<select id='filtreHeureDebut' name='filtreHeureDebut'>"+
-              " </select>"+
-            "</div>"+
-            "<div class = 'col justify-content-evenly' ' style='display:flex;margin:5%;text-aling:center;align-content:center;justify-content:center'>"+  
-              "<label for='filtreHeureFin'>Heure de fin:</label>"+
-              "<select id='filtreHeureFin' name='filtreHeureFin'>"+
-              " </select>"+
-            "</div>"+
-        "</div>"+   
-    "</div>"+
-"</div>"
-  );
+    $("#filtreDispo").append(
+      "<div style='font-size: 40px;'>Filtrer les disponibilités</div>"+
+      "<div class='row  row-cols-4 row-cols-md-2 g-3 justify-content-evenly'>"+
+              "<div class = 'col'>"+  
+                  "<p class='horizontal' onclick='disponibiliteFilter(\"Lundi\")'><span class='text'>Lundi</span></p>"+
+              "</div>"+
+              "<div class = 'col'>"+  
+                  "<p class='horizontal' onclick='disponibiliteFilter(\"Mardi\")'><span class='text'>Mardi</span></p>"+
+              "</div>"+
+              "<div class = 'col'>"+  
+                  "<p class='horizontal' onclick='disponibiliteFilter(\"Mercredi\")'><span class='text'>Mercredi</span></p>"+
+              "</div>"+
+              "<div class = 'col'>"+  
+                  "<p class='horizontal' onclick='disponibiliteFilter(\"Jeudi\")'><span class='text'>Jeudi</span></p>"+
+              "</div>"+
+              "<div class = 'col'>"+  
+                  "<p class='horizontal' onclick='disponibiliteFilter(\"Vendredi\")'><span class='text'>Vendredi</span></p>"+
+              "</div>"+
+              "<div class = 'col'>"+  
+                  "<p class='horizontal' onclick='disponibiliteFilter(\"Samedi\")'><span class='text'>Samedi</span></p>"+
+              "</div>"+
+              "<div class = 'col'>"+  
+                  "<p class='horizontal' onclick='disponibiliteFilter(\"Dimanche\")'><span class='text'>Dimanche</span></p></div>"+
+              "</div>"+
+              "<div class = 'col justify-content-evenly' style='display:flex;margin:5%;text-aling:center;align-content:center;justify-content:center'>"+ 
+                "<label for='filtreHeureDebut'>Heure de début:</label>"+
+                "<select id='filtreHeureDebut' name='filtreHeureDebut'>"+
+                " </select>"+
+              "</div>"+
+              "<div class = 'col justify-content-evenly' ' style='display:flex;margin:5%;text-aling:center;align-content:center;justify-content:center'>"+  
+                "<label for='filtreHeureFin'>Heure de fin:</label>"+
+                "<select id='filtreHeureFin' name='filtreHeureFin'>"+
+                " </select>"+
+              "</div>"+
+          "</div>"+   
+      "</div>"+
+  "</div>"
+    );
 
-  $("#filtreHeureDebut").on('change', function() {
-    if(this.value>= $("#filtreHeureFin").val()){
-      alert("L'heure de debut ne peut pas etre plus grande ou egale a l'heure de fin");
-      this.value = $("#filtreHeureFin").val()-1;
+    $("#filtreHeureDebut").on('change', function() {
+      if(this.value>= $("#filtreHeureFin").val()){
+        alert("L'heure de debut ne peut pas etre plus grande ou egale a l'heure de fin");
+        this.value = $("#filtreHeureFin").val()-1;
+        changeDispo("",$("#filtreHeureDebut").val(),$("#filtreHeureFin").val());
+      }
+    });
+    $("#filtreHeureFin").on('change', function() {
+      if(this.value<= $("#filtreHeureDebut").val()){
+        alert("L'heure de fin ne peut pas etre plus petite ou egale a l'heure de debut");
+        this.value = $("#filtreHeureDebut").val()+1;
+        changeDispo("",$("#filtreHeureDebut").val(),$("#filtreHeureFin").val());
+      }
+    });
+
+    $("#filtreHeureDebut").click(function() {
       changeDispo("",$("#filtreHeureDebut").val(),$("#filtreHeureFin").val());
-    }
-  });
-  $("#filtreHeureFin").on('change', function() {
-    if(this.value<= $("#filtreHeureDebut").val()){
-      alert("L'heure de fin ne peut pas etre plus petite ou egale a l'heure de debut");
-      this.value = $("#filtreHeureDebut").val()+1;
+    });
+
+    $("#filtreHeureFin").click(function() {
       changeDispo("",$("#filtreHeureDebut").val(),$("#filtreHeureFin").val());
-    }
-  });
-
-  $("#filtreHeureDebut").click(function() {
-    changeDispo("",$("#filtreHeureDebut").val(),$("#filtreHeureFin").val());
-  });
-
-  $("#filtreHeureFin").click(function() {
-    changeDispo("",$("#filtreHeureDebut").val(),$("#filtreHeureFin").val());
-  });
+    });
 }
 
 
