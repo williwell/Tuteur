@@ -238,9 +238,19 @@ function profileAiderInfo(matricule,prenom,nom,courriel,téléphone,programme){
     "</div>"+   
     "</div>"
     );
+
+
+
 }
 
-
+function ajouterCommentaire(liste){
+  for(var i = 0; i < liste.length; i++) {
+    $("#noteTuteur").append(
+      "<div class='col' style='border: 1px solid black;margin:2%;padding:2%'>"+
+      "<h5>"+liste[i][0]+"</h5>"+
+      "</div>");
+  };
+}
 
 
 function profileTutorClasses(listeCours){
@@ -509,7 +519,7 @@ function updateDemande(id_session){
           },
           dataType: "json",
           success: function(result){
-            
+
             $("#infoDemand").empty();
             location.replace("Login.html");
           },

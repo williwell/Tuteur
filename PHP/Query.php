@@ -448,4 +448,22 @@ class Query
            return $e;
         }
     }
+
+
+    function getCommentaire($matricule)
+    {
+    $lines = array();
+       try{
+           $request = " SELECT ct.Commentaire FROM commentaire_tuteur ct WHERE ct.Matricule_Tutorer='".$matricule."'";
+           $result = $this->connexion->query($request);
+           $lines = $result->fetchAll();
+
+           return $lines;
+       }
+       catch(PDOException $e) {
+           return $lines;
+       }
+    }
+
+   
 }
