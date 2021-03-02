@@ -172,7 +172,7 @@ function profileTutorInfo(matricule,prenom,nom,courriel,téléphone,programme){
     "<h6 style='margin:2%;'>PROGRAMME D'ÉTUDE</h6>"+
     "<h4 style='margin:2%;'>"+programme+"</h4>"+
   
-    "<p class='horizontal' style='margin-left:17%'><span class='text'>Demande de tutorat</span></p>"+
+    "<p class='horizontal' onclick='sendDemand("+matricule+")' style='margin-left:17%'><span class='text'>Demande de tutorat</span></p>"+
     "</div>"+
 
     "</div>"+   
@@ -180,6 +180,40 @@ function profileTutorInfo(matricule,prenom,nom,courriel,téléphone,programme){
     );
 }
 
+function sendDemand(matricule){
+  var now = new Date();
+
+  var MatriculeLogged = getCookie("MatriculeLogged");
+  var isTuteur= getCookie("isTutor");
+  var date = now.getFullYear()+"-"+now.getMonth() + 1+"-"+now.getDate();
+  var heure = now.getHours()+":"+now.getMinutes();
+alert(isTuteur);
+  if (MatriculeLogged == null) {
+  location.replace("Login.html");
+  }
+  else if(isTuteur==1) {
+    alert("Vous devez être connecter sur un profil aider pour pouvoir faire une demande de tutorat");
+  }
+  else{
+    $.ajax({
+      url: "../PHP/AddDemandTutor.php",
+      type: "POST",
+      data: {
+      "matriculeAider": MatriculeLogged,
+      "matriculeTuteur": matricule,
+      "date": date,
+      "heure": heure
+      },
+      dataType: "json",
+      success: function(result){
+        alert("La demande à bien été envoyé, le tuteur vous contactera sous peu");
+      },
+      error: function (message, er) {
+        console.log(message);
+      }
+    });
+  }
+}
 
 function profileAiderInfo(matricule,prenom,nom,courriel,téléphone,programme){
 	$("#Info").append(
@@ -281,7 +315,7 @@ function demandeTutorat(liste){
     "</div>");
 
     for (var i = 0; i < liste.length; i++) {
-
+      var mystudent = liste[i];
       if(liste[i][4]==0){
         $("#TableDemandeTutorat").append(
           "<div class='table-row'>"+
@@ -289,12 +323,197 @@ function demandeTutorat(liste){
           "<div  style='cursor: pointer;' class='table-data' onclick='goProfileAider("+liste[i][6]+")'>"+liste[i][8]+" "+liste[i][1]+"</div>"+
           "<div style='cursor: default;' class='table-data'>"+liste[i][2]+"</div>"+
           "<div style='cursor: default;' class='table-data'>"+liste[i][3]+"</div>"+
-          "<div style='cursor: default;' class='table-data'>"+liste[i][4]+"</div>"+
+          "<div style='cursor: pointer;' class='table-data' onclick='updateDemande("+liste[i][9]+")'>En attente d'acceptation</div>"+
+          "</div>");
+      } 
+      else if(liste[i][4]==1){
+        $("#TableDemandeTutorat").append(
+          "<div class='table-row'>"+
+          "<div  style='cursor: pointer;' class='table-data' onclick='goProfileTutor("+liste[i][5]+")'>"+liste[i][7]+" "+liste[i][0]+"</div>"+
+          "<div  style='cursor: pointer;' class='table-data' onclick='goProfileAider("+liste[i][6]+")'>"+liste[i][8]+" "+liste[i][1]+"</div>"+
+          "<div style='cursor: default;' class='table-data'>"+liste[i][2]+"</div>"+
+          "<div style='cursor: default;' class='table-data'>"+liste[i][3]+"</div>"+
+          "<div style='cursor: pointer;' class='table-data' onclick='updateDemande("+liste[i][9]+")'>En attente du rapport du tuteur</div>"+
+          "</div>");
+      }
+      else if(liste[i][4]==2){
+        $("#TableDemandeTutorat").append(
+          "<div class='table-row'>"+
+          "<div  style='cursor: pointer;' class='table-data' onclick='goProfileTutor("+liste[i][5]+")'>"+liste[i][7]+" "+liste[i][0]+"</div>"+
+          "<div  style='cursor: pointer;' class='table-data' onclick='goProfileAider("+liste[i][6]+")'>"+liste[i][8]+" "+liste[i][1]+"</div>"+
+          "<div style='cursor: default;' class='table-data'>"+liste[i][2]+"</div>"+
+          "<div style='cursor: default;' class='table-data'>"+liste[i][3]+"</div>"+
+          "<div style='cursor: pointer;' class='table-data' onclick='updateDemande("+liste[i][9]+")'>En attente du rapport du tutorer</div>"+
+          "</div>");
+      }
+      else if(liste[i][4]==3){
+        $("#TableDemandeTutorat").append(
+          "<div class='table-row'>"+
+          "<div  style='cursor: pointer;' class='table-data' onclick='goProfileTutor("+liste[i][5]+")'>"+liste[i][7]+" "+liste[i][0]+"</div>"+
+          "<div  style='cursor: pointer;' class='table-data' onclick='goProfileAider("+liste[i][6]+")'>"+liste[i][8]+" "+liste[i][1]+"</div>"+
+          "<div style='cursor: default;' class='table-data'>"+liste[i][2]+"</div>"+
+          "<div style='cursor: default;' class='table-data'>"+liste[i][3]+"</div>"+
+          "<div style='cursor: pointer;' class='table-data' onclick='updateDemande("+liste[i][9]+")'>Terminer</div>"+
           "</div>");
       }
 
+
+
     }
   
+}
+
+
+function updateDemande(id_session){
+  $("#infoDemand").empty();
+  var matricule = getCookie("MatriculeLogged");
+  $.ajax({
+    url: "../PHP/GetOneDemand.php",
+    type: "POST",
+    data: {
+    "id_session": id_session
+    },
+    dataType: "json",
+    success: function(result){
+     var matriculeTuteur = result[0][4];
+     var matriculeAider = result[0][5];
+     var nomTuteur = result[0][0];
+     var nomAider = result[0][1];
+     var commentaire = result[0][2];
+     var noteTuteur = result[0][3];
+     var date = result[0][6];
+     var heure = result[0][7];
+     
+     if(matricule==matriculeTuteur){
+       if(commentaire==null){
+        $("#infoDemand").append(
+          "<form id='formInfo' autocomplete='off' style='margin:15%;margin-top:0%'>"+
+            "<div id='focus'></div>"+
+            "<h1>Demande de tutorat</h1>"+
+            "<div class='row'>"+
+                "<div class='row'>"+
+                  "<h5>Nom du tuteur</h5>"+
+                  "<input id='inputNomTuteur' readonly type='text' half placeholder='Nom du tuteur' autocomplete='no' value='"+nomTuteur+"'>"+
+                "</div>"+
+                "<div class='row'>"+
+                  "<h5>Nom de l'aider</h5>"+
+                  "<input id='inputNomAider' readonly type='text' half placeholder='Nom de l'aider' autocomplete='no' value='"+nomAider+"'>"+
+                "</div>"+
+            "</div>"+
+            "<div class='row'>"+
+              "<h5>Date de la demande</h5>"+
+              "<input id='inputDate' readonly type='text' half placeholder='Date de la demande' autocomplete='no' value='"+date+"'>"+
+              "<input id='inputHeure' readonly type='text' half placeholder='Heure' autocomplete='no' value='"+heure+"'>"+
+            "</div>"+
+            "<div class='row'>"+
+              "<h5>Commentaire sur la session</h5>"+
+              "<textarea id='w3review' name='w3review' rows='4' cols='50'></textarea>"+
+            "</div>"+
+            "<p id='btnEffacer' class='horizontal' style='margin-left:25%; max-width:300px;max-height:75px;'><span class='text'>Refuser la demande</span></p>"+
+            "<input id='btnSauvegarder' type='submit' value='Annuler'>"+
+            "<input id='btnAnnuler' type='submit' value='Sauvegarder'>"+
+          "</form>"
+        );
+       }
+       else{
+        $("#infoDemand").append(
+          "<form id='formInfo' autocomplete='off' style='margin:15%;margin-top:0%'>"+
+            "<div id='focus'></div>"+
+            "<h1>Demande de tutorat</h1>"+
+            "<div class='row'>"+
+                "<div class='row'>"+
+                  "<h5>Nom du tuteur</h5>"+
+                  "<input id='inputNomTuteur' readonly type='text' half placeholder='Nom du tuteur' autocomplete='no' value='"+nomTuteur+"'>"+
+                "</div>"+
+                "<div class='row'>"+
+                  "<h5>Nom de l'aider</h5>"+
+                  "<input id='inputNomAider' readonly type='text' half placeholder='Nom de l'aider' autocomplete='no' value='"+nomAider+"'>"+
+                "</div>"+
+            "</div>"+
+            "<div class='row'>"+
+              "<h5>Date de la demande</h5>"+
+              "<input id='inputDate' readonly type='text' half placeholder='Date de la demande' autocomplete='no' value='"+date+"'>"+
+              "<input id='inputHeure' readonly type='text' half placeholder='Heure' autocomplete='no' value='"+heure+"'>"+
+            "</div>"+
+            "<div class='row'>"+
+              "<h5>Commentaire sur la session</h5>"+
+              "<textarea id='w3review' name='w3review' rows='4' cols='50'>"+commentaire+"</textarea>"+
+            "</div>"+
+            "<p id='btnEffacer' class='horizontal' style='margin-left:25%; max-width:300px;max-height:75px;'><span class='text'>Refuser la demande</span></p>"+
+            "<input id='btnSauvegarder' type='submit' value='Annuler'>"+
+            "<input id='btnAnnuler' type='submit' value='Sauvegarder'>"+
+          "</form>"
+        );
+       }
+     }
+     else{
+      $("#infoDemand").append(
+        "<form id='formInfo' autocomplete='off' style='margin:15%;margin-top:0%'>"+
+          "<div id='focus'></div>"+
+          "<h1>Demande de tutorat</h1>"+
+          "<div class='row'>"+
+              "<div class='row'>"+
+                "<h5>Nom du tuteur</h5>"+
+                "<input id='inputNomTuteur' readonly type='text' half placeholder='Nom du tuteur' autocomplete='no' value='"+nomTuteur+"'>"+
+              "</div>"+
+              "<div class='row'>"+
+                "<h5>Nom de l'aider</h5>"+
+                "<input id='inputNomAider' readonly type='text' half placeholder='Nom de l'aider' autocomplete='no' value='"+nomAider+"'>"+
+              "</div>"+
+          "</div>"+
+          "<div class='row'>"+
+            "<h5>Date de la demande</h5>"+
+            "<input id='inputDate' readonly type='text' half placeholder='Date de la demande' autocomplete='no' value='"+date+"'>"+
+            "<input id='inputHeure' readonly type='text' half placeholder='Heure' autocomplete='no' value='"+heure+"'>"+
+          "</div>"+
+          "<div class='row'>"+
+            "<h5>Note du tuteur</h5>"+
+            "<input id='inputNote' type='number' half placeholder='Note' min='1' max='5' autocomplete='no' value='"+heure+"'>"+
+          "</div>"+
+          "<p id='btnEffacer' class='horizontal' style='margin-left:25%; max-width:300px;max-height:75px;'><span class='text'>Refuser la demande</span></p>"+
+          "<input id='btnSauvegarder' type='submit' value='Annuler'>"+
+          "<input id='btnAnnuler' type='submit' value='Sauvegarder'>"+
+        "</form>"
+      );
+     }
+    
+
+      document.getElementById("btnAnnuler").onclick = function() {
+        $("#infoDemand").empty();
+      };
+
+      document.getElementById("btnSauvegarder").onclick = function() {
+        $("#infoDemand").empty();
+      };
+
+      document.getElementById("btnEffacer").onclick = function() {
+        id_session
+        $.ajax({
+          url: "../PHP/DeleteDemandTutorat.php",
+          type: "POST",
+          data: {
+          "id_session": id_session
+          },
+          dataType: "json",
+          success: function(result){
+            $("#infoDemand").empty();
+            location.replace("Login.html");
+          },
+          error: function (message, er) {
+            console.log(message);
+          }
+        });
+      };
+
+
+    },
+    error: function (message, er) {
+      console.log(message);
+    }
+  });
+
+  
+
 }
 
 function goProfileAider(matricule){
