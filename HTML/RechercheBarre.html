@@ -34,6 +34,7 @@
                 data: {"search":document.getElementById("searching").elements[0].value},
                 success:function(result){
                     putCours(result);
+                    localStorage.setItem("search",document.getElementById("searching").elements[0].value);
                 },
                 error: function(message, er) {
                     console.log("erreur lors du chargment des cours:" + er);
