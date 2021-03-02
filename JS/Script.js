@@ -752,6 +752,14 @@ function listNoCours(list) {
   }
 }
 
+function listNoCours(list) {
+  for(var i = 0; i < list.length; i++) {
+    $("#noCours").append(
+      "<option value='"+list[i][0]+"'>",
+    );
+  }
+}
+
 
 
 
@@ -952,10 +960,5 @@ function changeDispo(jour,debut,fin){
     error: function (message, er) {
         console.log("login: " + message);
     }
-});
+  });
 }
-
-
-
-
-
