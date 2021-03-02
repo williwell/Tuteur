@@ -47,7 +47,19 @@
                     console.log("erreur lors du chargment des cours:" + er);
                 }
             });
-        });    
+        }); 
+        
+        function btn() {
+            localStorage.setItem("style","btn");
+            localStorage.setItem("noCour",event.target.className);
+            window.location = "http://localhost/Tuteur/HTML/Matière";
+        }
+
+        function btn2() {
+            localStorage.setItem("style","btn2"); 
+            localStorage.setItem("noCour",event.target.className);
+            window.location = "http://localhost/Tuteur/HTML/Matière";
+        }
             
     </script>
 </html>

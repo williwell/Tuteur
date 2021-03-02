@@ -54,9 +54,9 @@ function putCours(list) {
 						    "<h2>"+list[i][2]+"</h2>"+
 					    "</div>"+
 					    "<div id='course-info'>"+
-							    "<h6 id='noCour'>"+list[i][0]+"</h6>"+
+							    "<h6>"+list[i][0]+"</h6>"+
 							    "<h2>"+list[i][1]+"</h2>"+
-							    "<button id='btn2'>Voir exercice</button>"+
+							    "<button id='btn2' onclick='btn2()' class="+list[i][0]+">Voir exercice</button>"+
 					    "</div>"+
 				    "</div>"+
 			    "</div>"
@@ -72,9 +72,9 @@ function putCours(list) {
 							  "<h2>"+list[i][2]+"</h2>"+
 						  "</div>"+
 						  "<div id='course-info'>"+
-								  "<h6 id='noCour'>"+list[i][0]+"</h6>"+
+								  "<h6>"+list[i][0]+"</h6>"+
 								  "<h2>"+list[i][1]+"</h2>"+
-								  "<button id='btn'>Voir exercice</button>"+
+								  "<button id='btn' onclick='btn()' class="+list[i][0]+">Voir exercice</button>"+
 						  "</div>"+
 					  "</div>"+
 				  "</div>"
@@ -85,19 +85,14 @@ function putCours(list) {
 
 	console.log("téléchargement des cours: success");
 
-	document.getElementById("btn").onclick = function() {
-		localStorage.setItem("style","btn");   
-    localStorage.setItem("noCour",document.getElementById("noCour").innerText);
-		window.location = "http://localhost/Tuteur/HTML/Matière";
-	};
-
-	document.getElementById("btn2").onclick = function() {
-    localStorage.setItem("style","btn2"); 
-		localStorage.setItem("noCour",document.getElementById("noCour").innerText);
-		window.location = "http://localhost/Tuteur/HTML/Matière";
-	};
-
-
+  if(list.length < 1)
+  {
+    $("#Cours").append(
+      "<div>"+
+        "<p>Il n'y a pas de cours qui convient a cette recherche</p>"+
+      "</div>"
+    );
+  }
 }
 
 function putDocCours(list) {
@@ -105,11 +100,18 @@ function putDocCours(list) {
 	{
 		for(var i = 0; i < list.length; i++) {
 			$("#DocCour").append(
-				"<div id='telechargerDoc' class='row' style='margin-bottom: 2%; cursor: pointer; margin-left: 8%;'>"+
-					"<a href='../Cours/"+list[i][1]+"/"+list[i][0]+"' download>"+
-						"<h5>"+list[i][2]+"</h5>"+
-					"</a>"+
-					"<p>"+list[i][3]+"</p>"+
+        "<div id='telechargerDoc' class='row'>"+
+            "<div class='col-md-1'>"+
+              "<a href='../Cours/"+list[i][1]+"/"+list[i][0]+"' download>"+
+                "<img src='../RESSOURCE/logo_download.png' alt='Logo download' style='width: 30px; height; 30px;'></img>"+
+              "</a>"+  
+            "</div>"+
+            "<div class='col-md-11'>"+
+              "<div class='row'>"+
+                "<h5>"+list[i][2]+"</h5>"+
+                "<p>"+list[i][3]+"</p>"+
+              "</div>"+  
+            "</div>"+ 
 				"</div>");
 		};
 		console.log("téléchargement des documents: success");
@@ -256,7 +258,7 @@ function profileTutorDispo(listeDispo){
 
 function putInfoCour(list) {
 	$("#InfoCour").append(
-			"<div class='row' style='margin-left: 5%; margin-top: 3%'>"+
+			"<div class='row' style='margin-left: 5%; margin-top: 3%; margin-bottom: 3%;'>"+
         "<div id='"+localStorage.getItem("style")+"' style='position: static; max-width: 100%; width: 40%; border-radius: 25px;'>"+	
 				  "<h3>"+list[0][0]+"</h3>"+
 				  "<h3>"+list[0][1]+"</h3>"+
@@ -391,65 +393,67 @@ function deleteStudentProfile(isTuteur){
 }
 
 function updateStudentProfile(isTuteur){
-var matricule = $("#inputMatricule").val();
-var nom = $("#inputNom").val();
-var courriel = $("#inputCourriel").val();
-var téléphone = $("#inputTelephone").val();
-var programme = $("#inputProgramme").val();
-var password = $("#inputPassword").val();
+  var matricule = $("#inputMatricule").val();
+  var nom = $("#inputNom").val();
+  var courriel = $("#inputCourriel").val();
+  var téléphone = $("#inputTelephone").val();
+  var programme = $("#inputProgramme").val();
+  var password = $("#inputPassword").val();
 
 
-if(isTuteur==1){
-  $.ajax({
-    url: "../PHP/UpdateTutor.php",
-    type: "POST",
-    data: {
-    "matricule": matricule,
-    "nom":nom,
-    "courriel":courriel,
-    "téléphone":téléphone,
-    "programme":programme,
-    "password":password
-    },
-    dataType: "json",
-    success: function(result){
-      alert(result);
-      alert(matricule);
-      alert(nom);
-      alert(téléphone);
-      alert(programme);
+  if(isTuteur==1){
+    $.ajax({
+      url: "../PHP/UpdateTutor.php",
+      type: "POST",
+      data: {
+        "matricule": matricule,
+        "nom":nom,
+        "courriel":courriel,
+        "téléphone":téléphone,
+        "programme":programme,
+        "password":password
+      },
+      dataType: "json",
+      success: function(result){
+        alert(result);
+        alert(matricule);
+        alert(nom);
+        alert(téléphone);
+        alert(programme);
 
-    },
-    error: function (message, er) {
-      alert("OUF");
-    }
-});
+      },
+      error: function (message, er) {
+        alert("OUF");
+      }
+    });
+  }
+  else{
+    $.ajax({
+      url: "../PHP/UpdateAider.php",
+      type: "POST",
+      data: {
+        "matricule": matricule,
+        "nom":nom,
+        "courriel":courriel,
+        "téléphone":téléphone,
+        "programme":programme,
+        "password":password
+      },
+      dataType: "json",
+      success: function(result){
+        alert("Les informations ont été mises à jour");
+      },
+      error: function (message, er) {
+
+      }
+    });
+  }
 }
-else{
-  $.ajax({
-    url: "../PHP/UpdateAider.php",
-    type: "POST",
-    data: {
-      "matricule": matricule,
-      "nom":nom,
-      "courriel":courriel,
-      "téléphone":téléphone,
-      "programme":programme,
-      "password":password
-    },
-    dataType: "json",
-    success: function(result){
-      alert("Les informations ont été mises à jour");
-    },
-    error: function (message, er) {
 
-    }
-});
+function listNoCours(list) {
+  for(var i = 0; i < list.length; i++) {
+    $("#noCours").append(
+      "<option value='"+list[i][0]+"'>"
+    );
+  }
 }
-
-}
-
-
-
-
-

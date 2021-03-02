@@ -8,3 +8,13 @@
   padding-bottom: 1%;
   margin-top: 2%;
 }
+
+#telechargerDoc{
+  margin-bottom: 2%;
+  margin-left: 8%;
+  border-bottom: thin solid black;
+}
+
+#description{
+  vertical-align: top;
+}

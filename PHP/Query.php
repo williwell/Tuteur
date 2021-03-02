@@ -17,7 +17,10 @@ class Query
    {
        $lines = array();
        try {
-           $request = "SELECT * FROM cours where Code like '%$search%' order by CodeProgramme";
+           $request = "SELECT * FROM cours where    Code like '%$search%' or
+                                                    CodeProgramme like '%$search%'or
+                                                    Nom like '%$search%' 
+                                                    order by CodeProgramme";
            $result = $this->connexion->query($request);
            $lines = $result->fetchAll();
 
@@ -320,8 +323,31 @@ class Query
 
    }
 
+   function getNoCours():array
+   {
+       $lines = array();
+       try {
+           $request = "SELECT Code FROM cours";
+           $result = $this->connexion->query($request);
+           $lines = $result->fetchAll();
 
+           return $lines;
+       }
+       catch(PDOException $e) {
+           return $lines;
+       }
+   }
 
+   function newMatiere($lien,$noCours,$titre,$decription)
+    {
+       try{
+           $request = "Insert Into matières VALUES ('$lien','$noCOurs','$titre','$decription')";
+           $result = $this->connexion->exec($request);
+            echo json_encode("No problèmo pipito");
+           return $result;
+        }
+       catch(PDOException $e) {
+           return $e;
+        }
+    }
 }
-
-
