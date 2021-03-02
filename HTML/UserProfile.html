@@ -5,6 +5,7 @@
         <link rel="stylesheet" type="text/css" href="../CSS/UserProfile.css"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+        <script src="../JS/Script.js"></script>
         <meta charset="utf-8" />
         <meta name="author" content="Alexandra Sirois, William-Arthur Cinq-Mars, Mathieu Harvey">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,36 +21,202 @@
             <button  onclick="logOut()">Me déconnecter</button>
         </div>
 
-
-        <div class="row" style="margin:1%;margin-top:5%">
-                <div id="tableHeaderDeamnde" class="table">
+        <div class="container-fluid">
+            <div  class=" row justify-content-evenly" style="align-content: center;text-align: center;justify-content: center;margin:5%;border: hidden;">
+                <div id="infoDemand" class="table justify-content-evenly" style="align-content: center;text-align: center;justify-content: center;">
+                
+                
                 </div>
-                <div id="TableDemande" class="table-content">
+                <div id="tableHeaderDeamndeTutorat" class="table justify-content-evenly" style="align-content: center;text-align: center;justify-content: center;">
+                </div>
+                <div id="TableDemandeTutorat" class="table-content justify-content-evenly"  style="align-content: center;text-align: center;justify-content: center;">
                 </div>
             </div>
+
+            <div id="demandeTutorat" class="row justify-content-evenly" style="margin:1%;margin-top:5%;display: flex;align-content: center;text-align: center;justify-content: center;">
+                    <div  class="col-8 justify-content-evenly" style="align-content: center;text-align: center;justify-content: center;">
+                        <div id="tableHeaderDeamnde" class="table justify-content-evenly" style="align-content: center;text-align: center;justify-content: center;">
+                        
+                        </div>
+                        <div id="TableDemande" class="table-content justify-content-evenly"  style="align-content: center;text-align: center;justify-content: center;">
+                        
+                        </div>
+                    </div>
+
+                    <div id="myPhoto" class="col-4 justify-content-evenly" style="display: flex;align-content: center;text-align: center;justify-content: center;">  
+                      
+                    </div>
+            
+            </div>
+        
+            <div id="Info" class="row justify-content-evenly">
+                <div id="myInfo">
+                    <div id="Dispo" class="row" style="padding: 5%;">
+                        <div  class="col"> 
+                            <div class="col"  > 
+                                <ul id="TableDispo"  class='responsive-table'> </ul>
+                            </div>
+                        </div>
+                        <div id="filtreDispo" class="col"  style="margin: 0%;">
+                        </div>
+                    </div>
+            </div>
+
+        </div>
+        
+     
 </body>
 
 
 
-<script src="../JS/Script.js"></script>
-
     <script type="text/javascript">
         jQuery('#MenuBar').load('Menu.html#Menu'); 
+        var matricule = getCookie("MatriculeLogged");
+        var isTutor = getCookie("isTutor");
+
 
         function logOut(){
             document.cookie = "MatriculeLogged=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             document.cookie = "isLogged=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "isTutor=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             location.replace("Login.html");
         }
 
         function loadMyInfo(){
-            $("#tableHeaderDeamnde").empty();
-            $("#TableDemande").empty();
+        $("#tableHeaderDeamnde").empty();
+        $("#TableDemande").empty();
+        $("#tableHeaderDeamndeTutorat").empty();
+        $("#TableDemandeTutorat").empty();
+        $("#TableDispo").empty();
+        $("#filtreDispo").empty();
+        $("#myPhoto").empty();
+        $("#infoDemand").empty();
+        if(isTutor==1){
+            $.ajax({
+            url: "../PHP/GetTutor.php",
+            type: "POST",
+            data: {
+            "matricule": matricule
+            },
+            dataType: "json",
+            success: function(result){
+                var matricule = result[0][0];
+                var nom = result[0][1];
+                var courriel = result[0][2];
+                var téléphone = result[0][3];
+                var programme = result[0][4];
+                var password = result[0][5];
+                var prenom = result[0][6];
+                fillInfoStudent(matricule,prenom,nom,courriel,téléphone,programme,password,isTutor);
+            },
+            error: function (message, er) {
+                console.log("login: " + message);
+            }
+        });
+        }
+        else if(isTutor==2){
+            $.ajax({
+            url: "../PHP/GetAider.php",
+            type: "POST",
+            data: {
+            "matricule": matricule
+            },
+            dataType: "json",
+            success: function(result){
+                var matricule = result[0][0];
+                var nom = result[0][1];
+                var courriel = result[0][2];
+                var téléphone = result[0][3];
+                var programme = result[0][4];
+                var password = result[0][5];
+                var prenom = result[0][6];
+                fillInfoStudent(matricule,prenom,nom,courriel,téléphone,programme,password,isTutor);
+            },
+            error: function (message, er) {
+                console.log("login: " + message);
+            }
+        });
+    }
+            $.ajax({
+            url: "../PHP/GetAllDispo.php",
+            type: "POST",
+            data: {
+                "jour": "",
+                "debut":0,
+                "fin":24,
+                "matricule": matricule
+            },
+            dataType: "json",
+            success: function(result){
+                UpdateTutorDispo(result,0);
+                addFilterDispo();
+                    for(var i=0;i<=24;i++){
+                        if(i==0){
+                            $("#filtreHeureDebut").append("<option value="+i+">"+i+"</option>");
+                        }
+                        else if(i==24){
+                            $("#filtreHeureFin").append("<option value="+i+">"+i+"</option>");  
+                        }
+                        else{
+                            $("#filtreHeureDebut").append("<option value="+i+">"+i+"</option>");
+                            $("#filtreHeureFin").append("<option value="+i+">"+i+"</option>");
+                        }
+                    }
+                $("#filtreHeureFin").append();
+            },
+            error: function (message, er) {
+                console.log("login: " + message);
+            }
+            });
+
+
+            $("#myPhoto").append( 
+                "<div class='container-fluid' style='display: flex;align-content: center;text-align: center;justify-content: center;'>"+
+                    "<div class='row' style='display: flex;align-content: center;text-align: center;justify-content: center; margin-right:5%;'>"+
+                    "<div class='col' style='display: flex;align-content: center;text-align: center;justify-content: center; margin-right:5%;'>"+
+                        "<img  id='profilePictureDiv' src='../RESSOURCE/Picture/"+matricule+".png' style='max-width:300px;max-height: 300px;'></img>"+ 
+                    "</div>"+
+                    "<div class='col' style='display: flex;align-content: center;text-align: center;justify-content: center;'>"+
+                        "<div class='row' style='display: flex;align-content: center;text-align: center;justify-content: center;'>"+
+                        "<input type='file'  onchange='changePicture()' id='fileToUpload'>"+
+                        "<p value='Upload Image' name='submit' class='horizontal' style='max-width:400px;max-height: 100px;'><span class='text'>Sauvegarder</span></p>"+
+                        "</div>"+
+                    "</div>"+
+                    "</div>"+
+                "</div>"
+                );
+
         }
 
 
+        function changePicture(){
+            
+            $.ajax({
+            url: "../PHP/upload.php",
+            type: "POST",
+            data: {
+                "matricule": matricule,
+                "file": file
+            },
+            dataType: "json",
+            success: function(result){
+
+            },
+            error: function (message, er) {
+                console.log("login: " + message);
+            }
+        });
+
+        }
+
         function loadTutoratDemand(){
-            var matricule = getCookie("MatriculeLogged");
+            $("#tableHeaderDeamnde").empty();
+            $("#TableDemande").empty();
+            $("#TableDispo").empty();
+            $("#filtreDispo").empty();
+            $("#myPhoto").empty();
+            $("#infoDemand").empty();
+
             $.ajax({
             url: "../PHP/GetTutoratDemand.php",
             type: "POST",
@@ -65,7 +232,7 @@
                 console.log("login: " + message);
             }
         });
-        
+
         }
 
         function getCookie(cname) {
@@ -82,6 +249,9 @@
                 }
             }
             return "";
-        }
+        }   
+
+        
+
     </script>
 </html>

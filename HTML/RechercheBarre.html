@@ -13,10 +13,40 @@
 
 <body>
     <div id="searchBar" class="container">
-        <input type="text" placeholder="Recherche">
-        <div class="search"></div>
+        <form id="searching" action="javascript:;" onsubmit="search()">
+            <input type="text" placeholder="Recherche">
+            <div class="search"></div>
+        </form>
+        
       </div>
 </body>
 
+<script src="../JS/Script.js"></script>
+
+<script type="text/javascript">
+    function search(){
+        if( window.location == "http://localhost/Tuteur/HTML/Recherche")
+        {
+            $.ajax({
+                url:"../PHP/GetCours.php",
+                type: "POST",
+                dataType: "Json",
+                data: {"search":document.getElementById("searching").elements[0].value},
+                success:function(result){
+                    putCours(result);
+                    localStorage.setItem("search",document.getElementById("searching").elements[0].value);
+                },
+                error: function(message, er) {
+                    console.log("erreur lors du chargment des cours:" + er);
+                }
+            });
+        }
+        else
+        {
+            localStorage.setItem("search",document.getElementById("searching").elements[0].value);
+            window.location = "http://localhost/Tuteur/HTML/Recherche";
+        }
+    }
+</script>
 
 </html>

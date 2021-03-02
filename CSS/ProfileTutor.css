@@ -130,3 +130,72 @@ h2 small {
     text-align: right;
   }
 }
+
+
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+
+
+.course {
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+	display: flex;
+	max-width: 100%;
+	margin: 20px;
+	overflow: hidden;
+	
+}
+
+.course-sm {
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+	display: flex;
+	flex-direction: column;
+	max-width: 100%;
+	margin: 20px;
+	overflow: hidden;
+}
+
+.course h6 {
+	opacity: 0.6;
+	margin: 0;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+
+.course h2 {
+	letter-spacing: 1px;
+	margin: 10px 0;
+}
+
+.course-preview {
+	background-color: #30c5e7;
+	color: #fff;
+	padding: 30px;
+	max-width: 250px;
+}
+
+.course-preview2 {
+	background-color: #22d2a0;
+	color: #fff;
+	padding: 30px;
+	max-width: 250px;
+}
+
+.course-info {
+    display: flex;
+	padding: 30px;
+	position: relative;
+    align-items: left;
+	width: 100%;
+}
+
+.course-info-sm {
+    display: flex;
+	flex-direction: column;
+	padding: 30px;
+	position: relative;
+    align-items: left;
+	width: 100%;
+}

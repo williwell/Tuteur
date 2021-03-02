@@ -3,6 +3,7 @@
     <head>
         <link rel="stylesheet" type="text/css" href="../CSS/Style.css"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" type="text/css" href="../CSS/Recherche.css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
         <meta charset="utf-8" />
@@ -12,8 +13,8 @@
     <body>
         <div id="MenuBar"></div>
 
-        <div class="row" id="InfoCour"></div>
-        <div class="row" id="DocCour" style="margin-left: 3%;"></div>
+        <div class="row" id="InfoCour" style="width: 90%;"></div>
+        <div class="row" id="DocCour" style="margin-left: 3%; width: 75%;"></div>
     </body>
 
     <script src="../JS/Script.js"></script>
@@ -57,8 +58,7 @@
                     console.log("erreur lors du chragement des informations du cours" + er);
                 }
             });
-            
-            
+
         });
     </script>
 </html>
