@@ -89,6 +89,7 @@
                 var courriel = result[0][2];
                 var téléphone = result[0][3];
                 var programme = result[0][4];
+                var prenom = result[0][6];
                 $.ajax({
                     url: "../PHP/GetClassOneTutor.php",
                     type: "POST",
@@ -97,7 +98,7 @@
                     },
                     dataType: "json",
                 success: function(result1){
-                    profileTutorInfo(matricule,nom,courriel,téléphone,programme);
+                    profileTutorInfo(matricule,prenom,nom,courriel,téléphone,programme);
                     profileTutorClasses(result1);
                 },
                 error: function (message, er) {

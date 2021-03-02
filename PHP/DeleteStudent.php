@@ -1,11 +1,14 @@
 <?php
-require_once('Query.php');
+try {
+    require_once('Query.php');
 $lines = array();
 $query = new Query();
-
 $matricule = $_POST['matricule'];
-$isTutor = $_POST['isTutor'];
+$isTuteur = $_POST['isTuteur'];
 
-
-$lines = $query->deleteStudent($matricule,$isTutor);
+$lines = $query->deleteStudent($matricule,$isTuteur);
 echo json_encode($lines);
+}
+catch(Exception $e) {
+    echo json_encode($e);
+}

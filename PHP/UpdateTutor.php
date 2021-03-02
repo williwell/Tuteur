@@ -11,8 +11,9 @@ try {
     $téléphone=$_POST['téléphone'];
     $programme=$_POST['programme'];
     $password=$_POST['password'];
+    $prenom=$_POST['prenom'];
     
-    $lines = $query->updateTutor($matricule,$nom,$courriel,$téléphone,$programme,$password);
+    $lines = $query->updateTutor($matricule,$nom,$courriel,$téléphone,$programme,$password,$prenom);
     echo json_encode($lines);
 
 }
