@@ -345,7 +345,7 @@ function demandeTutorat(liste){
           "<div  style='cursor: pointer;' class='table-data' onclick='goProfileAider("+liste[i][6]+")'>"+liste[i][8]+" "+liste[i][1]+"</div>"+
           "<div style='cursor: default;' class='table-data'>"+liste[i][2]+"</div>"+
           "<div style='cursor: default;' class='table-data'>"+liste[i][3]+"</div>"+
-          "<div style='cursor: pointer;' class='table-data' onclick='updateDemande("+liste[i][9]+")'>En attente du rapport du tutorer</div>"+
+          "<div style='cursor: pointer;' class='table-data' onclick='updateDemande("+liste[i][9]+")'>En attente du rapport de l'aider</div>"+
           "</div>");
       }
       else if(liste[i][4]==3){
@@ -385,6 +385,7 @@ function updateDemande(id_session){
      var noteTuteur = result[0][3];
      var date = result[0][6];
      var heure = result[0][7];
+     var etatDemande =result[0][8];
      
      if(matricule==matriculeTuteur){
        if(commentaire==null){
@@ -485,13 +486,13 @@ function updateDemande(id_session){
       });
 
       $("#btnSauvegarderTuteur").click(function() {
-
+        
         var updateCommentaire = $("#zoneCommentaire").val();
         
-        if(updateCommentaire==null || updateCommentaire==""){
+        if(updateCommentaire==null||updateCommentaire==""){
           etatDemande=1;
         }
-        else if(note==null || note==0){
+        else if(noteTuteur==null||noteTuteur==0){
           etatDemande=2;
         }
         else{
@@ -503,12 +504,12 @@ function updateDemande(id_session){
           data: {
           "id_session": id_session,
           "commentaire": updateCommentaire,
-          "note": note,
+          "note": noteTuteur,
           "etatDemande": etatDemande
           },
           dataType: "json",
           success: function(result){
-            alert(result);
+            
             $("#infoDemand").empty();
             location.replace("Login.html");
           },

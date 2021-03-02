@@ -287,7 +287,7 @@ class Query
     function getOneDemand($id_session){
          $lines = array();
          try{
-             $request = "SELECT CONCAT(CONCAT(tuteur.prenom,' '),tuteur.Nom), CONCAT(CONCAT(tutorer.prenom,' '),tutorer.Nom), cTuteur.Commentaire, cTutorer.Note_tuteur, tuteur.Matricule, tutorer.Matricule, st.Date, st.Heure
+             $request = "SELECT CONCAT(CONCAT(tuteur.prenom,' '),tuteur.Nom), CONCAT(CONCAT(tutorer.prenom,' '),tutorer.Nom), cTuteur.Commentaire, cTutorer.Note_tuteur, tuteur.Matricule, tutorer.Matricule, st.Date, st.Heure,st.accepter
              FROM Session_tutorat st
               INNER JOIN eleves tuteur ON st.Matricule_Tuteur=tuteur.Matricule
               INNER JOIN eleves tutorer ON st.Matricule_Tutorer=tutorer.Matricule
