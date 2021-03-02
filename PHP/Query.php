@@ -333,11 +333,13 @@ class Query
    
    function updateDemande($id_session,$commentaire,$note,$etatDemande){
     try{
-        $request = "UPDATE eleves e 
-        INNER JOIN tuteur t ON t.matricule=e.matricule 
-        INNER JOIN programme p ON e.Programme=p.code 
-        SET e.Nom='".$nom."', e.Courriel = '".$courriel."', e.Telephone = '".$téléphone."', p.Nom = '".$programme."', t.password = '".$password."', e.Prenom = '".$prenom."' WHERE e.Matricule = ".$matricule;
+        $request = "UPDATE Session_tutorat SET accepter=".$etatDemande." WHERE Session_tutorat=".$id_session;
         $this->connexion->exec($request);
+        $request = "UPDATE commentaire_tuteur SET Commentaire = '".$commentaire."' WHERE Session_tutorat = ".$id_session;
+        $this->connexion->exec($request);
+        $request = "UPDATE commentaire_tutorer SET Note_tuteur = '".$note."' WHERE Session_tutorat = ".$id_session;
+        $this->connexion->exec($request);
+
         return "ok";
     }
     catch(PDOException $e) {
@@ -402,6 +404,29 @@ class Query
    function AddDispo($matricule,$code){
     try{
         $request = "INSERT INTO dispo_tuteur VALUES('".$matricule."','".$code."')";
+        $result = $this->connexion->exec($request);
+        return "ok";
+      
+    }
+    catch(PDOException $e) {
+        return $e;
+    }
+   }
+
+   function AddDemande($matriculeAider,$matriculeTuteur,$date,$heure){
+    $lines = array();
+    try{
+        $request = "INSERT INTO session_tutorat (Session_tutorat, Matricule_Tuteur, Matricule_Tutorer, Date, Heure, accepter) VALUES (NULL, '".$matriculeTuteur."', '".$matriculeAider."', '".$date."', '".$heure."', '0')";
+        $result = $this->connexion->exec($request);
+
+        $request = "SELECT Session_tutorat FROM Session_tutorat WHERE Matricule_Tutorer like '".$matriculeAider."' AND Matricule_tuteur like '".$matriculeTuteur."'";
+        $result = $this->connexion->query($request);
+        $lines = $result->fetchAll();
+        $i = count($lines)-1;
+        $sessionTutorat = $lines[$i][0];
+        $request = "INSERT INTO commentaire_tuteur (Session_tutorat, Matricule_Tuteur, Matricule_Tutorer,Commentaire) VALUES ('".$sessionTutorat."', '".$matriculeTuteur."', '".$matriculeAider."', '')";
+        $result = $this->connexion->exec($request);
+        $request = "INSERT INTO commentaire_tutorer (Session_tutorat,Matricule_Tutorer, Matricule_Tuteur,Note_tuteur) VALUES ('".$sessionTutorat."', '".$matriculeAider."', '".$matriculeTuteur."', 0)";
         $result = $this->connexion->exec($request);
         return "ok";
       

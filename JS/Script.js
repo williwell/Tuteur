@@ -189,9 +189,9 @@ function sendDemand(matricule){
   var isTuteur= getCookie("isTutor");
   var date = now.getFullYear()+"-"+now.getMonth() + 1+"-"+now.getDate();
   var heure = now.getHours()+":"+now.getMinutes();
-alert(isTuteur);
+
   if (MatriculeLogged == null) {
-  location.replace("Login.html");
+    location.replace("Login.html");
   }
   else if(isTuteur==1) {
     alert("Vous devez être connecter sur un profil aider pour pouvoir faire une demande de tutorat");
@@ -409,11 +409,11 @@ function updateDemande(id_session){
             "</div>"+
             "<div class='row'>"+
               "<h5>Commentaire sur la session</h5>"+
-              "<textarea id='w3review' name='w3review' rows='4' cols='50'></textarea>"+
+              "<textarea id='zoneCommentaire' name='w3review' rows='4' cols='50'></textarea>"+
             "</div>"+
             "<p id='btnEffacer' class='horizontal' style='margin-left:25%; max-width:300px;max-height:75px;'><span class='text'>Refuser la demande</span></p>"+
-            "<input id='btnSauvegarder' type='submit' value='Annuler'>"+
-            "<input id='btnAnnuler' type='submit' value='Sauvegarder'>"+
+            "<input id='btnSauvegarderTuteur' type='submit' value='Sauvegarder'>"+
+            "<input id='btnAnnuler' type='submit' value='Annuler'>"+
           "</form>"
         );
        }
@@ -439,11 +439,11 @@ function updateDemande(id_session){
             "</div>"+
             "<div class='row'>"+
               "<h5>Commentaire sur la session</h5>"+
-              "<textarea id='w3review' name='w3review' rows='4' cols='50'>"+commentaire+"</textarea>"+
+              "<textarea id='zoneCommentaire' name='w3review' rows='4' cols='50'>"+commentaire+"</textarea>"+
             "</div>"+
             "<p id='btnEffacer' class='horizontal' style='margin-left:25%; max-width:300px;max-height:75px;'><span class='text'>Refuser la demande</span></p>"+
-            "<input id='btnSauvegarder' type='submit' value='Annuler'>"+
-            "<input id='btnAnnuler' type='submit' value='Sauvegarder'>"+
+            "<input id='btnSauvegarderTuteur' type='submit' value='Sauvegarder'>"+
+            "<input id='btnAnnuler' type='submit' value='Annuler'>"+
           "</form>"
         );
        }
@@ -470,26 +470,90 @@ function updateDemande(id_session){
           "</div>"+
           "<div class='row'>"+
             "<h5>Note du tuteur</h5>"+
-            "<input id='inputNote' type='number' half placeholder='Note' min='1' max='5' autocomplete='no' value='"+heure+"'>"+
+            "<input id='inputNote' type='number' half placeholder='Note' min='1' max='5' autocomplete='no' value='"+noteTuteur+"'>"+
           "</div>"+
           "<p id='btnEffacer' class='horizontal' style='margin-left:25%; max-width:300px;max-height:75px;'><span class='text'>Refuser la demande</span></p>"+
-          "<input id='btnSauvegarder' type='submit' value='Annuler'>"+
-          "<input id='btnAnnuler' type='submit' value='Sauvegarder'>"+
+          "<input id='btnSauvegarderAider' type='submit' value='Sauvegarder'>"+
+          "<input id='btnAnnuler' type='submit' value='Annuler'>"+
         "</form>"
       );
      }
     
 
-      document.getElementById("btnAnnuler").onclick = function() {
+      $("#btnAnnuler").click(function() {
         $("#infoDemand").empty();
-      };
+      });
 
-      document.getElementById("btnSauvegarder").onclick = function() {
+      $("#btnSauvegarderTuteur").click(function() {
+
+        var updateCommentaire = $("#zoneCommentaire").val();
+        
+        if(updateCommentaire==null || updateCommentaire==""){
+          etatDemande=1;
+        }
+        else if(note==null || note==0){
+          etatDemande=2;
+        }
+        else{
+          etatDemande=3;
+        }
+        $.ajax({
+          url: "../PHP/updateDemande.php",
+          type: "POST",
+          data: {
+          "id_session": id_session,
+          "commentaire": updateCommentaire,
+          "note": note,
+          "etatDemande": etatDemande
+          },
+          dataType: "json",
+          success: function(result){
+            alert(result);
+            $("#infoDemand").empty();
+            location.replace("Login.html");
+          },
+          error: function (message, er) {
+            console.log(message);
+          }
+        });
         $("#infoDemand").empty();
-      };
+      });
 
-      document.getElementById("btnEffacer").onclick = function() {
-        id_session
+      $("#btnSauvegarderAider").click(function() {
+
+        var updateNote = $("#inputNote").val();
+        if(commentaire==null || commentaire==""){
+          etatDemande=1;
+        }
+        else if(updateNote==null || updateNote==0){
+          etatDemande=2;
+        }
+        else{
+          etatDemande=3;
+        }
+        $.ajax({
+          url: "../PHP/updateDemande.php",
+          type: "POST",
+          data: {
+          "id_session": id_session,
+          "commentaire": commentaire,
+          "note": updateNote,
+          "etatDemande": etatDemande
+          },
+          dataType: "json",
+          success: function(result){
+            alert(result);
+            $("#infoDemand").empty();
+            location.replace("Login.html");
+          },
+          error: function (message, er) {
+            console.log(message);
+          }
+        });
+
+      });
+
+      $("#btnEffacer").click(function() {
         $.ajax({
           url: "../PHP/DeleteDemandTutorat.php",
           type: "POST",
@@ -505,7 +569,7 @@ function updateDemande(id_session){
             console.log(message);
           }
         });
-      };
+      });
 
 
     },
