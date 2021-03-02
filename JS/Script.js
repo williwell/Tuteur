@@ -174,7 +174,7 @@ function profileTutorInfo(matricule,prenom,nom,courriel,téléphone,programme){
     "<h6 style='margin:2%;'>PROGRAMME D'ÉTUDE</h6>"+
     "<h4 style='margin:2%;'>"+programme+"</h4>"+
   
-    "<p class='horizontal' style='margin-left:17%'><span class='text'>Demande de tutorat</span></p>"+
+    "<p class='horizontal' onclick='sendDemand("+matricule+")' style='margin-left:17%'><span class='text'>Demande de tutorat</span></p>"+
     "</div>"+
 
     "</div>"+   
@@ -182,6 +182,40 @@ function profileTutorInfo(matricule,prenom,nom,courriel,téléphone,programme){
     );
 }
 
+function sendDemand(matricule){
+  var now = new Date();
+
+  var MatriculeLogged = getCookie("MatriculeLogged");
+  var isTuteur= getCookie("isTutor");
+  var date = now.getFullYear()+"-"+now.getMonth() + 1+"-"+now.getDate();
+  var heure = now.getHours()+":"+now.getMinutes();
+
+  if (MatriculeLogged == null) {
+    location.replace("Login.html");
+  }
+  else if(isTuteur==1) {
+    alert("Vous devez être connecter sur un profil aider pour pouvoir faire une demande de tutorat");
+  }
+  else{
+    $.ajax({
+      url: "../PHP/AddDemandTutor.php",
+      type: "POST",
+      data: {
+      "matriculeAider": MatriculeLogged,
+      "matriculeTuteur": matricule,
+      "date": date,
+      "heure": heure
+      },
+      dataType: "json",
+      success: function(result){
+        alert("La demande à bien été envoyé, le tuteur vous contactera sous peu");
+      },
+      error: function (message, er) {
+        console.log(message);
+      }
+    });
+  }
+}
 
 function profileAiderInfo(matricule,prenom,nom,courriel,téléphone,programme){
 	$("#Info").append(
@@ -283,7 +317,7 @@ function demandeTutorat(liste){
     "</div>");
 
     for (var i = 0; i < liste.length; i++) {
-
+      var mystudent = liste[i];
       if(liste[i][4]==0){
         $("#TableDemandeTutorat").append(
           "<div class='table-row'>"+
@@ -291,12 +325,262 @@ function demandeTutorat(liste){
           "<div  style='cursor: pointer;' class='table-data' onclick='goProfileAider("+liste[i][6]+")'>"+liste[i][8]+" "+liste[i][1]+"</div>"+
           "<div style='cursor: default;' class='table-data'>"+liste[i][2]+"</div>"+
           "<div style='cursor: default;' class='table-data'>"+liste[i][3]+"</div>"+
-          "<div style='cursor: default;' class='table-data'>"+liste[i][4]+"</div>"+
+          "<div style='cursor: pointer;' class='table-data' onclick='updateDemande("+liste[i][9]+")'>En attente d'acceptation</div>"+
+          "</div>");
+      } 
+      else if(liste[i][4]==1){
+        $("#TableDemandeTutorat").append(
+          "<div class='table-row'>"+
+          "<div  style='cursor: pointer;' class='table-data' onclick='goProfileTutor("+liste[i][5]+")'>"+liste[i][7]+" "+liste[i][0]+"</div>"+
+          "<div  style='cursor: pointer;' class='table-data' onclick='goProfileAider("+liste[i][6]+")'>"+liste[i][8]+" "+liste[i][1]+"</div>"+
+          "<div style='cursor: default;' class='table-data'>"+liste[i][2]+"</div>"+
+          "<div style='cursor: default;' class='table-data'>"+liste[i][3]+"</div>"+
+          "<div style='cursor: pointer;' class='table-data' onclick='updateDemande("+liste[i][9]+")'>En attente du rapport du tuteur</div>"+
+          "</div>");
+      }
+      else if(liste[i][4]==2){
+        $("#TableDemandeTutorat").append(
+          "<div class='table-row'>"+
+          "<div  style='cursor: pointer;' class='table-data' onclick='goProfileTutor("+liste[i][5]+")'>"+liste[i][7]+" "+liste[i][0]+"</div>"+
+          "<div  style='cursor: pointer;' class='table-data' onclick='goProfileAider("+liste[i][6]+")'>"+liste[i][8]+" "+liste[i][1]+"</div>"+
+          "<div style='cursor: default;' class='table-data'>"+liste[i][2]+"</div>"+
+          "<div style='cursor: default;' class='table-data'>"+liste[i][3]+"</div>"+
+          "<div style='cursor: pointer;' class='table-data' onclick='updateDemande("+liste[i][9]+")'>En attente du rapport de l'aider</div>"+
+          "</div>");
+      }
+      else if(liste[i][4]==3){
+        $("#TableDemandeTutorat").append(
+          "<div class='table-row'>"+
+          "<div  style='cursor: pointer;' class='table-data' onclick='goProfileTutor("+liste[i][5]+")'>"+liste[i][7]+" "+liste[i][0]+"</div>"+
+          "<div  style='cursor: pointer;' class='table-data' onclick='goProfileAider("+liste[i][6]+")'>"+liste[i][8]+" "+liste[i][1]+"</div>"+
+          "<div style='cursor: default;' class='table-data'>"+liste[i][2]+"</div>"+
+          "<div style='cursor: default;' class='table-data'>"+liste[i][3]+"</div>"+
+          "<div style='cursor: pointer;' class='table-data' onclick='updateDemande("+liste[i][9]+")'>Terminer</div>"+
           "</div>");
       }
 
+
+
     }
   
+}
+
+
+function updateDemande(id_session){
+  $("#infoDemand").empty();
+  var matricule = getCookie("MatriculeLogged");
+  $.ajax({
+    url: "../PHP/GetOneDemand.php",
+    type: "POST",
+    data: {
+    "id_session": id_session
+    },
+    dataType: "json",
+    success: function(result){
+     var matriculeTuteur = result[0][4];
+     var matriculeAider = result[0][5];
+     var nomTuteur = result[0][0];
+     var nomAider = result[0][1];
+     var commentaire = result[0][2];
+     var noteTuteur = result[0][3];
+     var date = result[0][6];
+     var heure = result[0][7];
+     var etatDemande =result[0][8];
+     
+     if(matricule==matriculeTuteur){
+       if(commentaire==null){
+        $("#infoDemand").append(
+          "<form id='formInfo' autocomplete='off' style='margin:15%;margin-top:0%'>"+
+            "<div id='focus'></div>"+
+            "<h1>Demande de tutorat</h1>"+
+            "<div class='row'>"+
+                "<div class='row'>"+
+                  "<h5>Nom du tuteur</h5>"+
+                  "<input id='inputNomTuteur' readonly type='text' half placeholder='Nom du tuteur' autocomplete='no' value='"+nomTuteur+"'>"+
+                "</div>"+
+                "<div class='row'>"+
+                  "<h5>Nom de l'aider</h5>"+
+                  "<input id='inputNomAider' readonly type='text' half placeholder='Nom de l'aider' autocomplete='no' value='"+nomAider+"'>"+
+                "</div>"+
+            "</div>"+
+            "<div class='row'>"+
+              "<h5>Date de la demande</h5>"+
+              "<input id='inputDate' readonly type='text' half placeholder='Date de la demande' autocomplete='no' value='"+date+"'>"+
+              "<input id='inputHeure' readonly type='text' half placeholder='Heure' autocomplete='no' value='"+heure+"'>"+
+            "</div>"+
+            "<div class='row'>"+
+              "<h5>Commentaire sur la session</h5>"+
+              "<textarea id='zoneCommentaire' name='w3review' rows='4' cols='50'></textarea>"+
+            "</div>"+
+            "<p id='btnEffacer' class='horizontal' style='margin-left:25%; max-width:300px;max-height:75px;'><span class='text'>Refuser la demande</span></p>"+
+            "<input id='btnSauvegarderTuteur' type='submit' value='Sauvegarder'>"+
+            "<input id='btnAnnuler' type='submit' value='Annuler'>"+
+          "</form>"
+        );
+       }
+       else{
+        $("#infoDemand").append(
+          "<form id='formInfo' autocomplete='off' style='margin:15%;margin-top:0%'>"+
+            "<div id='focus'></div>"+
+            "<h1>Demande de tutorat</h1>"+
+            "<div class='row'>"+
+                "<div class='row'>"+
+                  "<h5>Nom du tuteur</h5>"+
+                  "<input id='inputNomTuteur' readonly type='text' half placeholder='Nom du tuteur' autocomplete='no' value='"+nomTuteur+"'>"+
+                "</div>"+
+                "<div class='row'>"+
+                  "<h5>Nom de l'aider</h5>"+
+                  "<input id='inputNomAider' readonly type='text' half placeholder='Nom de l'aider' autocomplete='no' value='"+nomAider+"'>"+
+                "</div>"+
+            "</div>"+
+            "<div class='row'>"+
+              "<h5>Date de la demande</h5>"+
+              "<input id='inputDate' readonly type='text' half placeholder='Date de la demande' autocomplete='no' value='"+date+"'>"+
+              "<input id='inputHeure' readonly type='text' half placeholder='Heure' autocomplete='no' value='"+heure+"'>"+
+            "</div>"+
+            "<div class='row'>"+
+              "<h5>Commentaire sur la session</h5>"+
+              "<textarea id='zoneCommentaire' name='w3review' rows='4' cols='50'>"+commentaire+"</textarea>"+
+            "</div>"+
+            "<p id='btnEffacer' class='horizontal' style='margin-left:25%; max-width:300px;max-height:75px;'><span class='text'>Refuser la demande</span></p>"+
+            "<input id='btnSauvegarderTuteur' type='submit' value='Sauvegarder'>"+
+            "<input id='btnAnnuler' type='submit' value='Annuler'>"+
+          "</form>"
+        );
+       }
+     }
+     else{
+      $("#infoDemand").append(
+        "<form id='formInfo' autocomplete='off' style='margin:15%;margin-top:0%'>"+
+          "<div id='focus'></div>"+
+          "<h1>Demande de tutorat</h1>"+
+          "<div class='row'>"+
+              "<div class='row'>"+
+                "<h5>Nom du tuteur</h5>"+
+                "<input id='inputNomTuteur' readonly type='text' half placeholder='Nom du tuteur' autocomplete='no' value='"+nomTuteur+"'>"+
+              "</div>"+
+              "<div class='row'>"+
+                "<h5>Nom de l'aider</h5>"+
+                "<input id='inputNomAider' readonly type='text' half placeholder='Nom de l'aider' autocomplete='no' value='"+nomAider+"'>"+
+              "</div>"+
+          "</div>"+
+          "<div class='row'>"+
+            "<h5>Date de la demande</h5>"+
+            "<input id='inputDate' readonly type='text' half placeholder='Date de la demande' autocomplete='no' value='"+date+"'>"+
+            "<input id='inputHeure' readonly type='text' half placeholder='Heure' autocomplete='no' value='"+heure+"'>"+
+          "</div>"+
+          "<div class='row'>"+
+            "<h5>Note du tuteur</h5>"+
+            "<input id='inputNote' type='number' half placeholder='Note' min='1' max='5' autocomplete='no' value='"+noteTuteur+"'>"+
+          "</div>"+
+          "<p id='btnEffacer' class='horizontal' style='margin-left:25%; max-width:300px;max-height:75px;'><span class='text'>Refuser la demande</span></p>"+
+          "<input id='btnSauvegarderAider' type='submit' value='Sauvegarder'>"+
+          "<input id='btnAnnuler' type='submit' value='Annuler'>"+
+        "</form>"
+      );
+     }
+    
+
+      $("#btnAnnuler").click(function() {
+        $("#infoDemand").empty();
+      });
+
+      $("#btnSauvegarderTuteur").click(function() {
+        
+        var updateCommentaire = $("#zoneCommentaire").val();
+        
+        if(updateCommentaire==null||updateCommentaire==""){
+          etatDemande=1;
+        }
+        else if(noteTuteur==null||noteTuteur==0){
+          etatDemande=2;
+        }
+        else{
+          etatDemande=3;
+        }
+        $.ajax({
+          url: "../PHP/updateDemande.php",
+          type: "POST",
+          data: {
+          "id_session": id_session,
+          "commentaire": updateCommentaire,
+          "note": noteTuteur,
+          "etatDemande": etatDemande
+          },
+          dataType: "json",
+          success: function(result){
+            
+            $("#infoDemand").empty();
+            location.replace("Login.html");
+          },
+          error: function (message, er) {
+            console.log(message);
+          }
+        });
+        $("#infoDemand").empty();
+      });
+
+      $("#btnSauvegarderAider").click(function() {
+
+        var updateNote = $("#inputNote").val();
+        if(commentaire==null || commentaire==""){
+          etatDemande=1;
+        }
+        else if(updateNote==null || updateNote==0){
+          etatDemande=2;
+        }
+        else{
+          etatDemande=3;
+        }
+        $.ajax({
+          url: "../PHP/updateDemande.php",
+          type: "POST",
+          data: {
+          "id_session": id_session,
+          "commentaire": commentaire,
+          "note": updateNote,
+          "etatDemande": etatDemande
+          },
+          dataType: "json",
+          success: function(result){
+            alert(result);
+            $("#infoDemand").empty();
+            location.replace("Login.html");
+          },
+          error: function (message, er) {
+            console.log(message);
+          }
+        });
+
+      });
+
+      $("#btnEffacer").click(function() {
+        $.ajax({
+          url: "../PHP/DeleteDemandTutorat.php",
+          type: "POST",
+          data: {
+          "id_session": id_session
+          },
+          dataType: "json",
+          success: function(result){
+            $("#infoDemand").empty();
+            location.replace("Login.html");
+          },
+          error: function (message, er) {
+            console.log(message);
+          }
+        });
+      });
+
+
+    },
+    error: function (message, er) {
+      console.log(message);
+    }
+  });
+
+  
+
 }
 
 function goProfileAider(matricule){
@@ -397,37 +681,38 @@ function deleteStudentProfile(isTuteur){
 }
 
 function updateStudentProfile(isTuteur){
-  var matricule = $("#inputMatricule").val();
-  var nom = $("#inputNom").val();
-  var courriel = $("#inputCourriel").val();
-  var téléphone = $("#inputTelephone").val();
-  var programme = $("#inputProgramme").val();
-  var password = $("#inputPassword").val();
-  var prenom = $("#inputPrenom").val();
+var matricule = $("#inputMatricule").val();
+var nom = $("#inputNom").val();
+var courriel = $("#inputCourriel").val();
+var téléphone = $("#inputTelephone").val();
+var programme = $("#inputProgramme").val();
+var password = $("#inputPassword").val();
+var prenom = $("#inputPrenom").val();
 
-  if(isTuteur==1){
-    $.ajax({
-      url: "../PHP/UpdateTutor.php",
-      type: "POST",
-      data: {
-      "matricule": matricule,
-      "nom":nom,
-      "courriel":courriel,
-      "téléphone":téléphone,
-      "programme":programme,
-      "password":password,
-      "prenom":prenom
-      },
-      dataType: "json",
-      success: function(result){
-        alert(result);
-      },
-      error: function (message, er) {
-        alert("OUF");
-      }
-    });
-  }
-  else{
+if(isTuteur==1){
+  $.ajax({
+    url: "../PHP/UpdateTutor.php",
+    type: "POST",
+    data: {
+    "matricule": matricule,
+    "nom":nom,
+    "courriel":courriel,
+    "téléphone":téléphone,
+    "programme":programme,
+    "password":password,
+    "prenom":prenom
+    },
+    dataType: "json",
+    success: function(result){
+      alert(result);
+      
+    },
+    error: function (message, er) {
+      alert("OUF");
+    }
+});
+}
+else{
     $.ajax({
       url: "../PHP/UpdateAider.php",
       type: "POST",
@@ -446,7 +731,14 @@ function updateStudentProfile(isTuteur){
       error: function (message, er) {
         console.log(message);
       }
-    });
+  });
+}
+}
+function listNoCours(list) {
+  for(var i = 0; i < list.length; i++) {
+    $("#noCours").append(
+      "<option value='"+list[i][0]+"'>"
+    );
   }
 }
 
@@ -473,13 +765,13 @@ function UpdateTutorDispo(listeDispo,dispo){
     dispoPrecedent=0;
   }
 
-  $("#TableDispo").append(
-    "<li class='table-header'>"+
-      "<div class='col col-1'>Jour</div>"+
-      "<div class='col col-2'>Heure</div>"+
-      "<div class='col col-3'>Disponible</div>"+
-    "</li>"
-  );
+    $("#TableDispo").append(
+      "<li class='table-header'>"+
+        "<div class='col col-1'>Jour</div>"+
+        "<div class='col col-2'>Heure</div>"+
+        "<div class='col col-3'>Disponible</div>"+
+      "</li>"
+    );
 
 
     for (var i = dispo; i < dispoSuivant; i++) {
@@ -514,16 +806,16 @@ function UpdateTutorDispo(listeDispo,dispo){
     "</div>"
   );
 
-$("#dispoPrecedent").click(function() {
-  $("#TableDispo").empty();
-  UpdateTutorDispo(listeDispo,dispoPrecedent);
-});
+  $("#dispoPrecedent").click(function() {
+    $("#TableDispo").empty();
+    UpdateTutorDispo(listeDispo,dispoPrecedent);
+  });
 
 
-$("#dispoSuivant").click(function() {
-  $("#TableDispo").empty();
-  UpdateTutorDispo(listeDispo,dispoSuivant);
-});
+  $("#dispoSuivant").click(function() {
+    $("#TableDispo").empty();
+    UpdateTutorDispo(listeDispo,dispoSuivant);
+  });
 
   $(document).ready(function(){
     var matricule = $("#inputMatricule").val();
@@ -570,67 +862,67 @@ $("#dispoSuivant").click(function() {
 
 
 function addFilterDispo(){
-  $("#filtreDispo").append(
-    "<div style='font-size: 40px;'>Filtrer les disponibilités</div>"+
-    "<div class='row  row-cols-4 row-cols-md-2 g-3 justify-content-evenly'>"+
-            "<div class = 'col'>"+  
-                "<p class='horizontal' onclick='disponibiliteFilter(\"Lundi\")'><span class='text'>Lundi</span></p>"+
-            "</div>"+
-            "<div class = 'col'>"+  
-                "<p class='horizontal' onclick='disponibiliteFilter(\"Mardi\")'><span class='text'>Mardi</span></p>"+
-            "</div>"+
-            "<div class = 'col'>"+  
-                "<p class='horizontal' onclick='disponibiliteFilter(\"Mercredi\")'><span class='text'>Mercredi</span></p>"+
-            "</div>"+
-            "<div class = 'col'>"+  
-                "<p class='horizontal' onclick='disponibiliteFilter(\"Jeudi\")'><span class='text'>Jeudi</span></p>"+
-            "</div>"+
-            "<div class = 'col'>"+  
-                "<p class='horizontal' onclick='disponibiliteFilter(\"Vendredi\")'><span class='text'>Vendredi</span></p>"+
-            "</div>"+
-            "<div class = 'col'>"+  
-                "<p class='horizontal' onclick='disponibiliteFilter(\"Samedi\")'><span class='text'>Samedi</span></p>"+
-            "</div>"+
-            "<div class = 'col'>"+  
-                "<p class='horizontal' onclick='disponibiliteFilter(\"Dimanche\")'><span class='text'>Dimanche</span></p></div>"+
-            "</div>"+
-            "<div class = 'col justify-content-evenly' style='display:flex;margin:5%;text-aling:center;align-content:center;justify-content:center'>"+ 
-              "<label for='filtreHeureDebut'>Heure de début:</label>"+
-              "<select id='filtreHeureDebut' name='filtreHeureDebut'>"+
-              " </select>"+
-            "</div>"+
-            "<div class = 'col justify-content-evenly' ' style='display:flex;margin:5%;text-aling:center;align-content:center;justify-content:center'>"+  
-              "<label for='filtreHeureFin'>Heure de fin:</label>"+
-              "<select id='filtreHeureFin' name='filtreHeureFin'>"+
-              " </select>"+
-            "</div>"+
-        "</div>"+   
-    "</div>"+
-"</div>"
-  );
+    $("#filtreDispo").append(
+      "<div style='font-size: 40px;'>Filtrer les disponibilités</div>"+
+      "<div class='row  row-cols-4 row-cols-md-2 g-3 justify-content-evenly'>"+
+              "<div class = 'col'>"+  
+                  "<p class='horizontal' onclick='disponibiliteFilter(\"Lundi\")'><span class='text'>Lundi</span></p>"+
+              "</div>"+
+              "<div class = 'col'>"+  
+                  "<p class='horizontal' onclick='disponibiliteFilter(\"Mardi\")'><span class='text'>Mardi</span></p>"+
+              "</div>"+
+              "<div class = 'col'>"+  
+                  "<p class='horizontal' onclick='disponibiliteFilter(\"Mercredi\")'><span class='text'>Mercredi</span></p>"+
+              "</div>"+
+              "<div class = 'col'>"+  
+                  "<p class='horizontal' onclick='disponibiliteFilter(\"Jeudi\")'><span class='text'>Jeudi</span></p>"+
+              "</div>"+
+              "<div class = 'col'>"+  
+                  "<p class='horizontal' onclick='disponibiliteFilter(\"Vendredi\")'><span class='text'>Vendredi</span></p>"+
+              "</div>"+
+              "<div class = 'col'>"+  
+                  "<p class='horizontal' onclick='disponibiliteFilter(\"Samedi\")'><span class='text'>Samedi</span></p>"+
+              "</div>"+
+              "<div class = 'col'>"+  
+                  "<p class='horizontal' onclick='disponibiliteFilter(\"Dimanche\")'><span class='text'>Dimanche</span></p></div>"+
+              "</div>"+
+              "<div class = 'col justify-content-evenly' style='display:flex;margin:5%;text-aling:center;align-content:center;justify-content:center'>"+ 
+                "<label for='filtreHeureDebut'>Heure de début:</label>"+
+                "<select id='filtreHeureDebut' name='filtreHeureDebut'>"+
+                " </select>"+
+              "</div>"+
+              "<div class = 'col justify-content-evenly' ' style='display:flex;margin:5%;text-aling:center;align-content:center;justify-content:center'>"+  
+                "<label for='filtreHeureFin'>Heure de fin:</label>"+
+                "<select id='filtreHeureFin' name='filtreHeureFin'>"+
+                " </select>"+
+              "</div>"+
+          "</div>"+   
+      "</div>"+
+  "</div>"
+    );
 
-  $("#filtreHeureDebut").on('change', function() {
-    if(this.value>= $("#filtreHeureFin").val()){
-      alert("L'heure de debut ne peut pas etre plus grande ou egale a l'heure de fin");
-      this.value = $("#filtreHeureFin").val()-1;
+    $("#filtreHeureDebut").on('change', function() {
+      if(this.value>= $("#filtreHeureFin").val()){
+        alert("L'heure de debut ne peut pas etre plus grande ou egale a l'heure de fin");
+        this.value = $("#filtreHeureFin").val()-1;
+        changeDispo("",$("#filtreHeureDebut").val(),$("#filtreHeureFin").val());
+      }
+    });
+    $("#filtreHeureFin").on('change', function() {
+      if(this.value<= $("#filtreHeureDebut").val()){
+        alert("L'heure de fin ne peut pas etre plus petite ou egale a l'heure de debut");
+        this.value = $("#filtreHeureDebut").val()+1;
+        changeDispo("",$("#filtreHeureDebut").val(),$("#filtreHeureFin").val());
+      }
+    });
+
+    $("#filtreHeureDebut").click(function() {
       changeDispo("",$("#filtreHeureDebut").val(),$("#filtreHeureFin").val());
-    }
-  });
-  $("#filtreHeureFin").on('change', function() {
-    if(this.value<= $("#filtreHeureDebut").val()){
-      alert("L'heure de fin ne peut pas etre plus petite ou egale a l'heure de debut");
-      this.value = $("#filtreHeureDebut").val()+1;
+    });
+
+    $("#filtreHeureFin").click(function() {
       changeDispo("",$("#filtreHeureDebut").val(),$("#filtreHeureFin").val());
-    }
-  });
-
-  $("#filtreHeureDebut").click(function() {
-    changeDispo("",$("#filtreHeureDebut").val(),$("#filtreHeureFin").val());
-  });
-
-  $("#filtreHeureFin").click(function() {
-    changeDispo("",$("#filtreHeureDebut").val(),$("#filtreHeureFin").val());
-  });
+    });
 }
 
 

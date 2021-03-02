@@ -245,7 +245,8 @@ class Query
                 return "ok";
             }
             else{
-                $request = "SELECT COUNT(Matricule) FROM tutorer WHERE Matricule LIKE ".$User." AND password LIKE".$Mdp;
+                try {
+                $request = "SELECT COUNT(Matricule) FROM tutorer WHERE Matricule LIKE ".$User." AND password LIKE ".$Mdp;
                 $result = $this->connexion->query($request);
                 $lines = $result->fetchAll();
 
@@ -254,6 +255,11 @@ class Query
                     setcookie("MatriculeLogged", $User, time() + (86400 * 30), "/");
                     setcookie("isTutor", "2", time() + (86400 * 30), "/");
                     return "ok";
+                }
+                }
+                catch(PDOException $e) {
+                    
+                    return $lines;
                 }
             }
 
@@ -267,7 +273,7 @@ class Query
    function getTutoratDemand($matricule){
         $lines = array();
         try{
-            $request = "SELECT tuteur.Nom, tutorer.Nom, st.date, st.Heure,st.accepter,st.Matricule_Tuteur, st.Matricule_Tutorer,tuteur.Prenom,tutorer.prenom FROM session_tutorat st INNER JOIN eleves tuteur ON st.Matricule_Tuteur=tuteur.Matricule INNER JOIN eleves tutorer ON st.Matricule_Tutorer=tutorer.Matricule WHERE Matricule_Tuteur  LIKE ".$matricule." OR Matricule_Tutorer LIKE ".$matricule;
+            $request = "SELECT tuteur.Nom, tutorer.Nom, st.date, st.Heure,st.accepter,st.Matricule_Tuteur, st.Matricule_Tutorer,tuteur.Prenom,tutorer.prenom, st.Session_tutorat  FROM session_tutorat st INNER JOIN eleves tuteur ON st.Matricule_Tuteur=tuteur.Matricule INNER JOIN eleves tutorer ON st.Matricule_Tutorer=tutorer.Matricule WHERE Matricule_Tuteur  LIKE ".$matricule." OR Matricule_Tutorer LIKE ".$matricule;
             $result = $this->connexion->query($request);
             $lines = $result->fetchAll();
             return $lines;
@@ -277,6 +283,25 @@ class Query
         }
     }
 
+
+    function getOneDemand($id_session){
+         $lines = array();
+         try{
+             $request = "SELECT CONCAT(CONCAT(tuteur.prenom,' '),tuteur.Nom), CONCAT(CONCAT(tutorer.prenom,' '),tutorer.Nom), cTuteur.Commentaire, cTutorer.Note_tuteur, tuteur.Matricule, tutorer.Matricule, st.Date, st.Heure,st.accepter
+             FROM Session_tutorat st
+              INNER JOIN eleves tuteur ON st.Matricule_Tuteur=tuteur.Matricule
+              INNER JOIN eleves tutorer ON st.Matricule_Tutorer=tutorer.Matricule
+              LEFT JOIN commentaire_tuteur cTuteur ON st.Session_tutorat = cTuteur.Session_tutorat
+              LEFT JOIN commentaire_tutorer cTutorer ON st.Session_tutorat = cTutorer.Session_tutorat
+              WHERE st.Session_tutorat = ".$id_session;
+             $result = $this->connexion->query($request);
+             $lines = $result->fetchAll();
+             return $lines;
+         }
+         catch(PDOException $e) {
+             return $lines;
+         }
+    }
 
    
    function updateTutor($matricule,$nom,$courriel,$téléphone,$programme,$password,$prenom){
@@ -293,7 +318,10 @@ class Query
    
    function updateAider($matricule,$nom,$courriel,$téléphone,$programme,$password,$prenom){
        try{
-            $request = "UPDATE eleves e INNER JOIN tutorer t ON t.matricule=e.matricule INNER JOIN programme p ON e.Programme=p.code SET e.Nom='".$nom."', e.Courriel = '".$courriel."', e.Telephone = '".$téléphone."', p.Nom = '".$programme."', t.password = '".$password."', e.Prenom = '".$prenom."'  WHERE e.Matricule = ".$matricule;
+            $request = "UPDATE eleves e 
+            INNER JOIN tutorer t ON t.matricule=e.matricule 
+            INNER JOIN programme p ON e.Programme=p.code 
+            SET e.Nom='".$nom."', e.Courriel = '".$courriel."', e.Telephone = '".$téléphone."', p.Nom = '".$programme."', t.password = '".$password."', e.Prenom = '".$prenom."'  WHERE e.Matricule = ".$matricule;
             $this->connexion->exec($request);
             return "ok";
         }
@@ -302,6 +330,37 @@ class Query
         }
    }
 
+   
+   function updateDemande($id_session,$commentaire,$note,$etatDemande){
+    try{
+        $request = "UPDATE Session_tutorat SET accepter=".$etatDemande." WHERE Session_tutorat=".$id_session;
+        $this->connexion->exec($request);
+        $request = "UPDATE commentaire_tuteur SET Commentaire = '".$commentaire."' WHERE Session_tutorat = ".$id_session;
+        $this->connexion->exec($request);
+        $request = "UPDATE commentaire_tutorer SET Note_tuteur = '".$note."' WHERE Session_tutorat = ".$id_session;
+        $this->connexion->exec($request);
+
+        return "ok";
+    }
+    catch(PDOException $e) {
+        return  $e;
+    }
+}
+
+   function DeleteDemandTutorat($id_sessio){
+    try{
+            $request = "DELETE FROM commentaire_tuteur WHERE Session_tutorat LIKE ".$id_session;
+            $this->connexion->exec($request);
+            $request = "DELETE FROM commentaire_tutorer WHERE Session_tutorat LIKE ".$id_session;
+            $this->connexion->exec($request);
+            $request = "DELETE FROM session_tutorat WHERE Session_tutorat LIKE ".$id_session;
+            $this->connexion->exec($request);
+            return "ok";
+    }
+    catch(PDOException $e) {
+        return $e;
+    }
+   }
 
 
    function deleteStudent($matricule,$isTuteur){
@@ -354,9 +413,20 @@ class Query
     }
    }
 
-   function DeleteDispo($matricule,$code){
+   function AddDemande($matriculeAider,$matriculeTuteur,$date,$heure){
+    $lines = array();
     try{
-        $request = "DELETE FROM dispo_tuteur d WHERE d.Matricule LIKE '".$matricule."' AND d.Code_Dispo LIKE '".$code."'";
+        $request = "INSERT INTO session_tutorat (Session_tutorat, Matricule_Tuteur, Matricule_Tutorer, Date, Heure, accepter) VALUES (NULL, '".$matriculeTuteur."', '".$matriculeAider."', '".$date."', '".$heure."', '0')";
+        $result = $this->connexion->exec($request);
+
+        $request = "SELECT Session_tutorat FROM Session_tutorat WHERE Matricule_Tutorer like '".$matriculeAider."' AND Matricule_tuteur like '".$matriculeTuteur."'";
+        $result = $this->connexion->query($request);
+        $lines = $result->fetchAll();
+        $i = count($lines)-1;
+        $sessionTutorat = $lines[$i][0];
+        $request = "INSERT INTO commentaire_tuteur (Session_tutorat, Matricule_Tuteur, Matricule_Tutorer,Commentaire) VALUES ('".$sessionTutorat."', '".$matriculeTuteur."', '".$matriculeAider."', '')";
+        $result = $this->connexion->exec($request);
+        $request = "INSERT INTO commentaire_tutorer (Session_tutorat,Matricule_Tutorer, Matricule_Tuteur,Note_tuteur) VALUES ('".$sessionTutorat."', '".$matriculeAider."', '".$matriculeTuteur."', 0)";
         $result = $this->connexion->exec($request);
         return "ok";
       

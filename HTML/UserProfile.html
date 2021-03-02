@@ -23,6 +23,10 @@
 
         <div class="container-fluid">
             <div  class=" row justify-content-evenly" style="align-content: center;text-align: center;justify-content: center;margin:5%;border: hidden;">
+                <div id="infoDemand" class="table justify-content-evenly" style="align-content: center;text-align: center;justify-content: center;">
+                
+                
+                </div>
                 <div id="tableHeaderDeamndeTutorat" class="table justify-content-evenly" style="align-content: center;text-align: center;justify-content: center;">
                 </div>
                 <div id="TableDemandeTutorat" class="table-content justify-content-evenly"  style="align-content: center;text-align: center;justify-content: center;">
@@ -86,7 +90,7 @@
         $("#TableDispo").empty();
         $("#filtreDispo").empty();
         $("#myPhoto").empty();
-
+        $("#infoDemand").empty();
         if(isTutor==1){
             $.ajax({
             url: "../PHP/GetTutor.php",
@@ -178,7 +182,7 @@
                     "<div class='col' style='display: flex;align-content: center;text-align: center;justify-content: center;'>"+
                         "<div class='row' style='display: flex;align-content: center;text-align: center;justify-content: center;'>"+
                         "<input type='file'  onchange='changePicture()' id='fileToUpload'>"+
-                        "<p' value='Upload Image' name='submit' class='horizontal' style='max-width:400px;max-height: 100px;'><span class='text'>Sauvegarder</span></p>"+
+                        "<p value='Upload Image' name='submit' class='horizontal' style='max-width:400px;max-height: 100px;'><span class='text'>Sauvegarder</span></p>"+
                         "</div>"+
                     "</div>"+
                     "</div>"+
@@ -214,6 +218,7 @@
             $("#TableDispo").empty();
             $("#filtreDispo").empty();
             $("#myPhoto").empty();
+            $("#infoDemand").empty();
 
             $.ajax({
             url: "../PHP/GetTutoratDemand.php",
