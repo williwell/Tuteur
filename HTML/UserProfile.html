@@ -177,10 +177,9 @@
                             "</div>"+
                             "<div class='col' style='display: flex;align-content: center;text-align: center;justify-content: center;'>"+
                                 "<div class='row' style='display: flex;align-content: center;text-align: center;justify-content: center;'>"+
-                                    "<form action='javascript:;' onsubmit='rien()' enctype='multipart/form-data' id='send'>"+
+                                    "<form action='javascript:;' onsubmit='"+rien()+"' enctype='multipart/form-data' id='send'>"+
                                         "<input type='file'  onchange='changePicture()' id='fileToUpload' name='fileToUpload'>"+
                                         "<input type='submit' name='submit' class='horizontal' style='max-width:400px;max-height: 100px;' value='Sauvegarder'>"+
-                                        "<p value='Upload Image' name='submit' class='horizontal' style='max-width:400px;max-height: 100px;'><span class='text'>Sauvegarder</span></p>"+
                                     "</form>"+
                                 "</div>"+
                             "</div>"+
@@ -224,22 +223,21 @@
             $("#infoDemand").empty();
 
             $.ajax({
-            url: "../PHP/GetTutoratDemand.php",
-            type: "POST",
-            data: {
-                "matricule": matricule
-            },
-            dataType: "json",
-            success: function(result){
-                demandeTutorat(result);
-
-            },
-            error: function (message, er) {
-                console.log("login: " + message);
-            }
-        });
-
-        function rien(){}
-    }
+                url: "../PHP/GetTutoratDemand.php",
+                type: "POST",
+                data: {
+                    "matricule": matricule
+                },
+                dataType: "json",
+                success: function(result){
+                    demandeTutorat(result);
+                },
+                error: function (message, er) {
+                    console.log("login: " + message);
+                }   
+            });
+        }
+        
+        function rien(){alert("rien")}
     </script>
 </html>
