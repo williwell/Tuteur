@@ -16,7 +16,7 @@
 
         <div style="margin-left: 8%; margin-top: 5%;">
             <h2>Ajouter un fichier pour un cours</h2>
-            <form action="javascript:;" onsubmit="rien()" enctype="multipart/form-data" style="margin-left: 2%; margin-top: 2%;" id="test">
+            <form action="javascript:;" onsubmit="rien()" enctype="multipart/form-data" style="margin-left: 2%; margin-top: 2%;" id="send">
                 <div class="row">
                     <div class="col-md-2">
                         <label id="btn1">
@@ -90,7 +90,7 @@
         });
 
         $(document).ready(function() {
-            $("#test").on('submit',function(){
+            $("#send").on('submit',function(){
                 $.ajax({
                     url:"../PHP/NewMatiere.php",
                     type:"POST",
