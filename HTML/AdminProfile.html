@@ -61,19 +61,7 @@
                 type: "POST",
                 dataType: "json",
                 success: function(result){
-                    putStudent(result);
-                },
-                error: function (message, er) {
-                    console.log("erreur lors du chargement du profil des etudiants:" + er);
-                }
-            });
-
-            $.ajax({
-                url: "../PHP/GetAllAider.php",
-                type: "POST",
-                dataType: "json",
-                success: function(result){
-                    putStudent(result);
+                    putStudentTutor(result);
                 },
                 error: function (message, er) {
                     console.log("erreur lors du chargement du profil des etudiants:" + er);
@@ -82,7 +70,7 @@
 
         }
 
-        function putStudent(result){
+        function putStudentTutor(result){
             $("#TableDemande").empty();
             $("#tableHeaderDemande").empty();
                 $("#tableHeaderDemande").append(
@@ -91,14 +79,88 @@
                     "<div class='header__item'><a id='name' class='filter__link' href='#'>Nom de l'élève</a></div>"+
                     "<div class='header__item'><a id='name' class='filter__link' href='#'>Type d'étudiant</a></div>"+
                     "<div class='header__item'><a id='name' class='filter__link' href='#'>Supprimer le profil</a></div>"+
-                    "<div class='header__item'><a id='name' class='filter__link' href='#'>Ajouteur</a></div>"+
+                    "<div class='header__item'><a id='name' class='filter__link' href='#'>Ajouter des cours enseignés</a></div>"+
                 "</div>");
 
+            for (var i = 0; i < result.length; i++) {
+                $("#TableDemande").append(
+                "<div class='table-row'>"+
+                    "<div  style='cursor: default;' class='table-data'>"+result[i][0]+"</div>"+
+                    "<div  style='cursor: default;' class='table-data'>"+result[i][5]+" "+result[i][1]+"</div>"+
+                    "<div style='cursor: default;' class='table-data'>Tuteur</div>"+
+                    "<div style='cursor: pointer;' class='table-data' onclick='supprimerTuteur("+result[i][0]+")'><p id='btnEffacer' class='horizontal' style='font-size:10px'><span class='text'>Supprimer</span></p></div>"+
+                    "<div style='cursor: pointer;' class='table-data'><p id='btnEffacer' class='horizontal' style='font-size:10px'><span class='text'>Cours enseignés</span></p></div>"+
+                "</div>");
+            }
+            $.ajax({
+                url: "../PHP/GetAllAider.php",
+                type: "POST",
+                dataType: "json",
+                success: function(result){
+                    putStudentAider(result);
+                },
+                error: function (message, er) {
+                    console.log("erreur lors du chargement du profil des etudiants:" + er);
+                }
+            });
+        }
 
-            for (var i = 0; i < list.length; i++) {
 
+        
+        function putStudentAider(result){
+                $("#tableHeaderDemande").append();
+
+                for (var i = 0; i < result.length; i++) {
+                $("#TableDemande").append(
+                "<div class='table-row'>"+
+                    "<div  style='cursor: default;' class='table-data'>"+result[i][0]+"</div>"+
+                    "<div  style='cursor: default;' class='table-data'>"+result[i][5]+" "+result[i][1]+"</div>"+
+                    "<div style='cursor: default;' class='table-data'>Aider</div>"+
+                    "<div style='cursor: pointer;' class='table-data' onclick='supprimerAider("+result[i][0]+")'><p id='btnEffacer' class='horizontal' style='font-size:10px'><span class='text'>Supprimer</span></p></div>"+
+                    "<div style='cursor: pointer;' class='table-data'></div>"+
+                "</div>");
             }
         }
+
+
+        function supprimerTuteur(matricule){
+            var typeStudent = 1;
+            $.ajax({
+                url: "../PHP/DeleteStudent.php",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    "matricule": matricule,
+                    "isTuteur": typeStudent
+                },
+                success: function(result){
+                   location.reload();
+                },
+                error: function (message, er) {
+                    console.log("erreur lors du chargement du profil des etudiants:" + er);
+                }
+            });
+        }
+
+        function supprimerAider(matricule){
+            var typeStudent = 2;
+            $.ajax({
+                url: "../PHP/DeleteStudent.php",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    "matricule": matricule,
+                    "isTuteur": typeStudent
+                },
+                success: function(result){
+                   location.reload();
+                },
+                error: function (message, er) {
+                    console.log("erreur lors du chargement du profil des etudiants:" + er);
+                }
+            });
+        }
+
 
     </script>
 </html>
