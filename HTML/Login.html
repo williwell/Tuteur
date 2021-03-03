@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.min.js"></script>
+        <script src="../JS/Script.js"></script>
         <meta charset="utf-8" />
         <meta name="author" content="Alexandra Sirois, William-Arthur Cinq-Mars, Mathieu Harvey">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -123,11 +124,9 @@
                     },
                     dataType: "json",
                     success: function(result){
-                        if(result=username){
-                            location.replace("UserProfile.html");
-                        }
-                        else{
-                            alert("Informations entrer invalide");
+                        console.log(result);
+                        if(result==3){
+                            location.replace("AdminProfile.html");
                         }
                         location.reload();
                     },
@@ -140,7 +139,11 @@
 
         function alreadyLogged(){
             if(!(document.cookie.indexOf('isLogged')==-1)){
-                location.replace("UserProfile.html");
+                if(getCookie("isTutor")==3){
+                    location.replace("AdminProfile.html");
+                }else{
+                    location.replace("UserProfile.html");
+                }
             }
         }
 
