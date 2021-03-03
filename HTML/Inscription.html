@@ -126,6 +126,9 @@
 
 
         function Signup(){
+            document.getElementById("submit").disabled=true;
+            document.getElementById("submit").value="En cours d'insciption";
+            document.getElementById("submit").style.color="grey";
             var username = $("#Matricule").val();
             var password = $("#password").val();
             var enseignant = $("#Enseignant").val();
@@ -150,7 +153,6 @@
             success: function(message){
                 if(message==11){
                 console.log("Création du tuteur effectuée");
-                //window.open("Compte.html?email="+$("#iemail").val(), "_self");
                 if(document.getElementById("tuteur").checked==true){
                 $.ajax({
                     url: "../PHP/NewTutor.php",
@@ -161,11 +163,45 @@
                     },
                     /*dataType: "json",*/
             success: function(message){
-                console.log("Création du tuteur effectuée");
-                //window.open("Compte.html?email="+$("#iemail").val(), "_self");
+                if(message==1){
+                    console.log("Création du tuteur effectuée");
+                    $.ajax({
+                    url: "../PHP/Login.php",
+                    type: "POST",
+                    data: {
+                        "matricule": username,
+                        "password":password
+                    },
+                    dataType: "json",
+                    success: function(result){
+                        console.log(result);
+                        if(result==3){
+                            location.replace("AdminProfile.html");
+                        }
+                        location.reload();
+                    },
+                    error: function (message, er) {
+                        console.log("erreur lors de la connexion: " + er);
+                        document.getElementById("submit").disabled=false;
+                        document.getElementById("submit").value="Submit";
+                        document.getElementById("submit").style.color="white";
+                        location.reload();
+                    }
+                });
+            }
+            else{alert(
+                "L'ajout n'a pas pu être effectué");
+                document.getElementById("submit").disabled=false;
+                document.getElementById("submit").value="Submit";
+                document.getElementById("submit").style.color="white";
+        }
+                
             },
             error: function(message, e){
                 console.log("erreur lors de l'ajout:" + e);
+                document.getElementById("submit").disabled=false;
+                document.getElementById("submit").value="Submit";
+                document.getElementById("submit").style.color="white";
             }
                 });}
                 else{ if(document.getElementById("tutore").checked==true){
@@ -178,11 +214,44 @@
                     },
                     /*dataType: "json",*/
             success: function(message){
-                console.log("Création du tuteur effectuée");
-                //window.open("Compte.html?email="+$("#iemail").val(), "_self");
+                if(message==1){
+                    console.log("Création du tuteur effectuée");
+                    $.ajax({
+                    url: "../PHP/Login.php",
+                    type: "POST",
+                    data: {
+                        "matricule": username,
+                        "password":password
+                    },
+                    dataType: "json",
+                    success: function(result){
+                        console.log(result);
+                        if(result==3){
+                            location.replace("AdminProfile.html");
+                        }
+                        location.reload();
+                    },
+                    error: function (message, er) {
+                        console.log("erreur lors de la connexion: " + er);
+                        document.getElementById("submit").disabled=false;
+                        document.getElementById("submit").value="Submit";
+                        document.getElementById("submit").style.color="white";
+                        location.reload();
+                    }
+                });
+            }
+            else{
+                alert("L'ajout n'a pas pu être effectué");
+                document.getElementById("submit").disabled=false;
+                document.getElementById("submit").value="Submit";
+                document.getElementById("submit").style.color="white";}
+
             },
             error: function(message, e){
                 console.log("erreur lors de l'ajout:" + e);
+                document.getElementById("submit").disabled=false;
+                document.getElementById("submit").value="Submit";
+                document.getElementById("submit").style.color="white";
             }
                 });
                 }
@@ -190,11 +259,17 @@
             }
             else{
                 alert("Ce matricule est déjà utilisé");
+                document.getElementById("submit").disabled=false;
+                document.getElementById("submit").value="Submit";
+                document.getElementById("submit").style.color="white";
             }
             },
             error: function(message, e){
                 console.log("erreur lors de l'ajout:" + e);
                 alert("Le matricule utilisé a déjà un compte");
+                document.getElementById("submit").disabled=false;
+                document.getElementById("submit").value="Submit";
+                document.getElementById("submit").style.color="white";
             }
                 });
         }

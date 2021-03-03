@@ -184,7 +184,7 @@ class Query
 
     function Tutore($matricule,$password){
         try{
-        $request = "Insert Into tutoré(Matricule,password) VALUES ('$matricule', '$password')";
+        $request = "Insert Into tutorer(Matricule,password) VALUES ('$matricule', '$password')";
         $result = $this->connexion->exec($request);
         return $result;
        }
@@ -314,69 +314,6 @@ class Query
            return $result;
        }
     }
-
-   function login($User,$Mdp)
-    {
-       $lines = array();
-       try {
-           $request = "SELECT COUNT(Matricule) FROM tuteur WHERE Matricule LIKE '".$User."' AND password LIKE '".$Mdp."'";
-           $result = $this->connexion->query($request);
-           $lines = $result->fetchAll();
-
-            if($lines[0][0]==1){
-                setcookie("isLogged", "1", time() + (86400 * 30), "/");
-                setcookie("MatriculeLogged", $User, time() + (86400 * 30), "/"); 
-                setcookie("isTutor", "1", time() + (86400 * 30), "/"); 
-                echo "Value is: " .$_COOKIE["isLogged"];
-                echo "Value is: " .$_COOKIE["MatriculeLogged"];
-                echo "Value is: " .$_COOKIE["isTutor"];
-                return $User;
-            }
-            else{
-                try {
-                $request = "SELECT COUNT(Matricule) FROM tutorer WHERE Matricule LIKE '".$User."' AND password LIKE '".$Mdp."'";
-                $result = $this->connexion->query($request);
-                $lines = $result->fetchAll();
-
-                if($lines[0][0]==1){
-                    setcookie("isLogged", "1", time() + (86400 * 30), "/");
-                    setcookie("MatriculeLogged", $User, time() + (86400 * 30), "/");
-                    setcookie("isTutor", "2", time() + (86400 * 30), "/");
-                    return $User;
-                }
-                else{
-                    try {
-                        $request = "SELECT COUNT(a.username) FROM compteadmin a WHERE a.username LIKE '".$User."' AND a.password LIKE '".$Mdp."'";
-                        $result = $this->connexion->query($request);
-                        $lines = $result->fetchAll();
-        
-                        if($lines[0][0]==1){
-                            setcookie("isLogged", "1", time() + (86400 * 30), "/");
-                            setcookie("MatriculeLogged", $User, time() + (86400 * 30), "/");
-                            setcookie("isTutor", "3", time() + (86400 * 30), "/");
-                            return 3;
-                        }
-                        else{
-                          return "nope";
-                        }
-                    }
-                    catch(PDOException $e) {
-                        return $e;
-                    }
-                }
-                }
-                catch(PDOException $e) {
-                    return $e;
-                }
-            }
-
-       }
-       catch(PDOException $e) {
-           return $e;
-       }
-    }
-
-
 
    function getTutoratDemand($matricule){
         $lines = array();
