@@ -9,7 +9,7 @@ require_once('Query.php');
         $password = $_POST['password'];
             $password = addslashes($password);
         
-        $reponse = $query->Tutor($matricule,$password);
+        $reponse = $query->Tutore($matricule,$password);
         echo json_encode($reponse);
     
     }
