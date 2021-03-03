@@ -204,21 +204,7 @@ input[type=password][half] {
   float: left;
   margin-right: 30px;
 }
-input[type=submit] {
-  background: #22d2a0;
-  color: #EAE4DA;
-  border: 2px solid #22d2a0;
-  outline: 10px solid #fff;
-  width: calc(50% - 30px);
-  height: 40px;
-  margin: 0 30px -20px 0;
-  float: right;
-  font-weight: 800;
-  font-size: 0.7em;
-  letter-spacing: 1.8pt;
-  text-transform: uppercase;
-  cursor: pointer;
-}
+
 input[type=submit]:hover {
   outline-width: 0;
 }

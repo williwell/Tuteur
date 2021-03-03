@@ -43,8 +43,8 @@
                         </div>
                     </div>
 
-                    <div id="myPhoto" class="col-4 justify-content-evenly" style="display: flex;align-content: center;text-align: center;justify-content: center;">  
-                      
+                    <div  class="col-4 justify-content-evenly" style="display: flex;align-content: center;text-align: center;justify-content: center;" id="myPhoto">  
+                        
                     </div>
             
             </div>
@@ -169,47 +169,50 @@
             }
             });
 
-
             $("#myPhoto").append( 
-                
-                
-                    
                 "<div class='container-fluid' style='display: flex;align-content: center;text-align: center;justify-content: center;'>"+
-                    "<div class='row' style='display: flex;align-content: center;text-align: center;justify-content: center; margin-right:5%;'>"+
-                    "<div class='col' style='display: flex;align-content: center;text-align: center;justify-content: center; margin-right:5%;'>"+
-                        "<img  id='profilePictureDiv' src='../RESSOURCE/Picture/"+matricule+".png' style='max-width:300px;max-height: 300px;'></img>"+ 
-                    "</div>"+
-                    "<div class='col' style='display: flex;align-content: center;text-align: center;justify-content: center;'>"+
-                        "<div class='row' style='display: flex;align-content: center;text-align: center;justify-content: center;'>"+
-                        "<input type='file'  onchange='changePicture()' id='fileToUpload'>"+
-                        "<p value='Upload Image' name='submit' class='horizontal' style='max-width:400px;max-height: 100px;'><span class='text'>Sauvegarder</span></p>"+
-                        "</div>"+
-                    "</div>"+
-                    "</div>"+
-                "</div>"
-                );
-
+                            "<div class='row' style='display: flex;align-content: center;text-align: center;justify-content: center; margin-right:5%;'>"+
+                            "<div class='col' style='display: flex;align-content: center;text-align: center;justify-content: center; margin-right:5%;'>"+
+                                "<img  id='profilePictureDiv' src='../RESSOURCE/Picture/"+matricule+".png' style='max-width:300px;max-height: 300px;'></img>"+
+                            "</div>"+
+                            "<div class='col' style='display: flex;align-content: center;text-align: center;justify-content: center;'>"+
+                                "<div class='row' style='display: flex;align-content: center;text-align: center;justify-content: center;'>"+
+                                    "<form action='javascript:;' onsubmit='rien()' enctype='multipart/form-data' id='send'>"+
+                                        "<input type='file'  onchange='changePicture()' id='fileToUpload' name='fileToUpload'>"+
+                                        "<input type='submit' name='submit' class='horizontal' style='max-width:400px;max-height: 100px;' value='Sauvegarder'>"+
+                                        "<p value='Upload Image' name='submit' class='horizontal' style='max-width:400px;max-height: 100px;'><span class='text'>Sauvegarder</span></p>"+
+                                    "</form>"+
+                                "</div>"+
+                            "</div>"+
+                            "</div>"+
+                        "</div>"
+            );
         }
 
+       
+
+        $(document).ready(function(){
+            $("#send").on('submit',function(){
+                $.ajax({
+                    url:"../PHP/upload.php",
+                    type:"POST",
+                    dataType:"json",
+                    data: new FormData(this),
+                    contentType: false,
+                    cache : false,
+                    processData: false,
+                    success: function(result){
+                        alert(result);
+                    },
+                    error: function (message, er) {
+                        console.log("erreur lors de l'ajout du fichier:" + er+" mais bizarement sa function parfaitement même si ca donne un erreure");
+                    }
+                });
+            });
+        });  
 
         function changePicture(){
-            
-            $.ajax({
-            url: "../PHP/upload.php",
-            type: "POST",
-            data: {
-                "matricule": matricule,
-                "file": file
-            },
-            dataType: "json",
-            success: function(result){
-
-            },
-            error: function (message, er) {
-                console.log("login: " + message);
-            }
-        });
-
+            document.getElementById("profilePictureDiv").src = document.getElementById("fileToUpload").src;
         }
 
         function loadTutoratDemand(){
@@ -254,7 +257,7 @@
             return "";
         }   
 
-        
+        function rien(){}
 
     </script>
 </html>
