@@ -22,48 +22,17 @@
         </div>
 
         <div class="container-fluid">
-            <div  class=" row justify-content-evenly" style="align-content: center;text-align: center;justify-content: center;margin:5%;border: hidden;">
-                <div id="infoDemand" class="table justify-content-evenly" style="align-content: center;text-align: center;justify-content: center;">
-                
-                
-                </div>
-                <div id="tableHeaderDeamndeTutorat" class="table justify-content-evenly" style="align-content: center;text-align: center;justify-content: center;">
-                </div>
-                <div id="TableDemandeTutorat" class="table-content justify-content-evenly"  style="align-content: center;text-align: center;justify-content: center;">
-                </div>
-            </div>
-
             <div id="demandeTutorat" class="row justify-content-evenly" style="margin:1%;margin-top:5%;display: flex;align-content: center;text-align: center;justify-content: center;">
                     <div  class="col-8 justify-content-evenly" style="align-content: center;text-align: center;justify-content: center;">
-                        <div id="tableHeaderDeamnde" class="table justify-content-evenly" style="align-content: center;text-align: center;justify-content: center;">
+                        <div id="tableHeaderDemande" class="table justify-content-evenly" style="align-content: center;text-align: center;justify-content: center;">
                         
                         </div>
                         <div id="TableDemande" class="table-content justify-content-evenly"  style="align-content: center;text-align: center;justify-content: center;">
                         
                         </div>
                     </div>
-
-                    <div id="myPhoto" class="col-4 justify-content-evenly" style="display: flex;align-content: center;text-align: center;justify-content: center;">  
-                      
-                    </div>
-            
             </div>
-        
-            <div id="Info" class="row justify-content-evenly">
-                <div id="myInfo">
-                    <div id="Dispo" class="row" style="padding: 5%;">
-                        <div  class="col"> 
-                            <div class="col"  > 
-                                <ul id="TableDispo"  class='responsive-table'> </ul>
-                            </div>
-                        </div>
-                        <div id="filtreDispo" class="col"  style="margin: 0%;">
-                        </div>
-                    </div>
-            </div>
-
         </div>
-        
      
 </body>
 
@@ -86,9 +55,50 @@
             location.replace("AjoutMatiere.html");
         }
 
-        function loadTutoratDemand(){
+        function loadStudent(){
+            $.ajax({
+                url: "../PHP/GetAllTutor.php",
+                type: "POST",
+                dataType: "json",
+                success: function(result){
+                    putStudent(result);
+                },
+                error: function (message, er) {
+                    console.log("erreur lors du chargement du profil des etudiants:" + er);
+                }
+            });
+
+            $.ajax({
+                url: "../PHP/GetAllAider.php",
+                type: "POST",
+                dataType: "json",
+                success: function(result){
+                    putStudent(result);
+                },
+                error: function (message, er) {
+                    console.log("erreur lors du chargement du profil des etudiants:" + er);
+                }
+            });
+
         }
-        
+
+        function putStudent(result){
+            $("#TableDemande").empty();
+            $("#tableHeaderDemande").empty();
+                $("#tableHeaderDemande").append(
+                "<div class='table-header'>"+
+                    "<div class='header__item'><a id='name' class='filter__link' href='#'>Nom du tuteur</a></div>"+
+                    "<div class='header__item'><a id='name' class='filter__link' href='#'>Nom de l'aider</a></div>"+
+                    "<div class='header__item'><a id='name' class='filter__link' href='#'>Date de la demande</a></div>"+
+                    "<div class='header__item'><a id='name' class='filter__link' href='#'>Heure de la demande</a></div>"+
+                    "<div class='header__item'><a id='name' class='filter__link' href='#'>État de la demande</a></div>"+
+                "</div>");
+
+
+            for (var i = 0; i < list.length; i++) {
+
+            }
+        }
 
     </script>
 </html>

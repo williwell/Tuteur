@@ -51,6 +51,24 @@ class Query
        }
    }
 
+
+   function getAllAider(){
+    $lines = array();
+    try {
+        $request = "SELECT e.Matricule,e.Nom, e.Courriel, e.Telephone, p.Nom, e.Prenom
+                     FROM tutorer t 
+                     INNER JOIN eleves e ON t.Matricule=e.Matricule 
+                     INNER JOIN programme p ON e.Programme=p.Code";
+        $result = $this->connexion->query($request);
+        $lines = $result->fetchAll();
+
+        return $lines;
+    }
+    catch(PDOException $e) {
+        return $lines;
+    }
+   }
+
    function getAllTutorClasses():array
    {
        $lines = array();
