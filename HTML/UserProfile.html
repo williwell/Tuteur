@@ -173,11 +173,11 @@
                 "<div class='container-fluid' style='display: flex;align-content: center;text-align: center;justify-content: center;'>"+
                             "<div class='row' style='display: flex;align-content: center;text-align: center;justify-content: center; margin-right:5%;'>"+
                             "<div class='col' style='display: flex;align-content: center;text-align: center;justify-content: center; margin-right:5%;'>"+
-                                "<img  id='profilePictureDiv' src='../RESSOURCE/Picture/"+matricule+".png' style='max-width:300px;max-height: 300px;'></img>"+
+                                "<img  id='profilePictureDiv' src='../RESSOURCE/Picture/"+matricule+".png' style='max-width:300px;max-height: 300px;' alt='Image preview...'></img>"+
                             "</div>"+
                             "<div class='col' style='display: flex;align-content: center;text-align: center;justify-content: center;'>"+
                                 "<div class='row' style='display: flex;align-content: center;text-align: center;justify-content: center;'>"+
-                                    "<form action='javascript:;' onsubmit='"+rien()+"' enctype='multipart/form-data' id='send'>"+
+                                    "<form action='javascript:;' onsubmit='rien()' enctype='multipart/form-data' id='send' style='display: flex;justify-content: center;align-items: center;flex-direction: column;'>"+
                                         "<input type='file'  onchange='changePicture()' id='fileToUpload' name='fileToUpload'>"+
                                         "<input type='submit' name='submit' class='horizontal' style='max-width:400px;max-height: 100px;' value='Sauvegarder'>"+
                                     "</form>"+
@@ -186,32 +186,22 @@
                             "</div>"+
                         "</div>"
             );
-        }
-
-       
-
-        $(document).ready(function(){
-            $("#send").on('submit',function(){
-                $.ajax({
-                    url:"../PHP/upload.php",
-                    type:"POST",
-                    dataType:"json",
-                    data: new FormData(this),
-                    contentType: false,
-                    cache : false,
-                    processData: false,
-                    success: function(result){
-                        alert(result);
-                    },
-                    error: function (message, er) {
-                        console.log("erreur lors de l'ajout du fichier:" + er+" mais bizarement sa function parfaitement même si ca donne un erreure");
-                    }
-                });
-            });
-        });  
+        } 
 
         function changePicture(){
-            document.getElementById("profilePictureDiv").src = document.getElementById("fileToUpload").src;
+            var preview = document.getElementById('profilePictureDiv');
+            var file    = document.querySelector('input[type=file]').files[0];
+            var reader  = new FileReader();
+
+            reader.onloadend = function () {
+                preview.src = reader.result;
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "";
+            }
         }
 
         function loadTutoratDemand(){
@@ -238,6 +228,26 @@
             });
         }
         
-        function rien(){alert("rien")}
+       function rien(){
+        var formSend = new FormData(document.getElementById('send'));
+        formSend.append("matricule",matricule);
+
+        $.ajax({
+                    url:"../PHP/upload.php",
+                    type:"POST",
+                    dataType:"json",
+                    data: formSend,
+                    contentType: false,
+                    cache : false,
+                    processData: false,
+                    success: function(result){
+                        alert("La photo à bien été modifier!");
+                    },
+                    error: function (message, er) {
+                        console.log("erreur lors de l'ajout du fichier:" + er);
+                        alert("Un erreure c'est produit durant le téléversement de la photo!")
+                    }
+                });
+       }
     </script>
 </html>
