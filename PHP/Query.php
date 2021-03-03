@@ -51,6 +51,24 @@ class Query
        }
    }
 
+
+   function getAllAider(){
+    $lines = array();
+    try {
+        $request = "SELECT e.Matricule,e.Nom, e.Courriel, e.Telephone, p.Nom, e.Prenom
+                     FROM tutorer t 
+                     INNER JOIN eleves e ON t.Matricule=e.Matricule 
+                     INNER JOIN programme p ON e.Programme=p.Code";
+        $result = $this->connexion->query($request);
+        $lines = $result->fetchAll();
+
+        return $lines;
+    }
+    catch(PDOException $e) {
+        return $lines;
+    }
+   }
+
    function getAllTutorClasses():array
    {
        $lines = array();
@@ -231,7 +249,7 @@ class Query
     {
        $lines = array();
        try {
-           $request = "SELECT COUNT(Matricule) FROM tuteur WHERE Matricule LIKE ".$User." AND password LIKE ".$Mdp;
+           $request = "SELECT COUNT(Matricule) FROM tuteur WHERE Matricule LIKE '".$User."' AND password LIKE '".$Mdp."'";
            $result = $this->connexion->query($request);
            $lines = $result->fetchAll();
 
@@ -242,11 +260,11 @@ class Query
                 echo "Value is: " .$_COOKIE["isLogged"];
                 echo "Value is: " .$_COOKIE["MatriculeLogged"];
                 echo "Value is: " .$_COOKIE["isTutor"];
-                return "ok";
+                return $User;
             }
             else{
                 try {
-                $request = "SELECT COUNT(Matricule) FROM tutorer WHERE Matricule LIKE ".$User." AND password LIKE ".$Mdp;
+                $request = "SELECT COUNT(Matricule) FROM tutorer WHERE Matricule LIKE '".$User."' AND password LIKE '".$Mdp."'";
                 $result = $this->connexion->query($request);
                 $lines = $result->fetchAll();
 
@@ -254,20 +272,40 @@ class Query
                     setcookie("isLogged", "1", time() + (86400 * 30), "/");
                     setcookie("MatriculeLogged", $User, time() + (86400 * 30), "/");
                     setcookie("isTutor", "2", time() + (86400 * 30), "/");
-                    return "ok";
+                    return $User;
+                }
+                else{
+                    try {
+                        $request = "SELECT COUNT(a.username) FROM compteadmin a WHERE a.username LIKE '".$User."' AND a.password LIKE '".$Mdp."'";
+                        $result = $this->connexion->query($request);
+                        $lines = $result->fetchAll();
+        
+                        if($lines[0][0]==1){
+                            setcookie("isLogged", "1", time() + (86400 * 30), "/");
+                            setcookie("MatriculeLogged", $User, time() + (86400 * 30), "/");
+                            setcookie("isTutor", "3", time() + (86400 * 30), "/");
+                            return 3;
+                        }
+                        else{
+                          return "nope";
+                        }
+                    }
+                    catch(PDOException $e) {
+                        return $e;
+                    }
                 }
                 }
                 catch(PDOException $e) {
-                    
-                    return $lines;
+                    return $e;
                 }
             }
 
        }
        catch(PDOException $e) {
-           return $lines;
+           return $e;
        }
     }
+
 
 
    function getTutoratDemand($matricule){
@@ -460,4 +498,22 @@ class Query
             return $e;
         }
     }
+
+
+    function getCommentaire($matricule)
+    {
+    $lines = array();
+       try{
+           $request = " SELECT ct.Commentaire FROM commentaire_tuteur ct WHERE ct.Matricule_Tutorer='".$matricule."'";
+           $result = $this->connexion->query($request);
+           $lines = $result->fetchAll();
+
+           return $lines;
+       }
+       catch(PDOException $e) {
+           return $lines;
+       }
+    }
+
+   
 }

@@ -20,7 +20,9 @@
             <div style="font-size: 40px;">Profil</div>
             <div id="Info" class="row justify-content-center"  style="margin: 5%;">
             </div> 
-            
+            <div style="font-size: 40px;">Commentaire des tuteurs sur les sessions de tutorat</div>
+            <div id="noteTuteur" class="row justify-content-center"  style="margin: 5%;">
+            </div> 
 </body>
 
 
@@ -48,8 +50,22 @@
                 var téléphone = result[0][3];
                 var programme = result[0][4];
                 var prenom = result[0][6];
-               
                 profileAiderInfo(matricule,prenom,nom,courriel,téléphone,programme);
+                $.ajax({
+                    url: "../PHP/GetCommentaire.php",
+                    type: "POST",
+                    data: {
+                    "matricule": matricule
+                    },
+                    dataType: "json",
+                    success: function(result){
+                    ajouterCommentaire(result);
+                    },
+                error: function (message, er) {
+                    console.log("login: " + message);
+                }   
+            });
+
             },
             error: function (message, er) {
                 console.log("login: " + message);
