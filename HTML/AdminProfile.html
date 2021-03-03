@@ -22,6 +22,11 @@
         </div>
 
         <div class="container-fluid">
+
+            <div id='ajoutCours' class='row' style="margin-top: 5%;">
+              
+            </div>
+
             <div id="demandeTutorat" class="row justify-content-evenly" style="margin:1%;margin-top:5%;display: flex;align-content: center;text-align: center;justify-content: center;">
                     <div  class="col-8 justify-content-evenly" style="align-content: center;text-align: center;justify-content: center;">
                         <div id="tableHeaderDemande" class="table justify-content-evenly" style="align-content: center;text-align: center;justify-content: center;">
@@ -56,6 +61,7 @@
         }
 
         function loadStudent(){
+            $("#ajoutCours").empty();
             $.ajax({
                 url: "../PHP/GetAllTutor.php",
                 type: "POST",
@@ -89,7 +95,7 @@
                     "<div  style='cursor: default;' class='table-data'>"+result[i][5]+" "+result[i][1]+"</div>"+
                     "<div style='cursor: default;' class='table-data'>Tuteur</div>"+
                     "<div style='cursor: pointer;' class='table-data' onclick='supprimerTuteur("+result[i][0]+")'><p id='btnEffacer' class='horizontal' style='font-size:10px'><span class='text'>Supprimer</span></p></div>"+
-                    "<div style='cursor: pointer;' class='table-data'><p id='btnEffacer' class='horizontal' style='font-size:10px'><span class='text'>Cours enseignés</span></p></div>"+
+                    "<div style='cursor: pointer;' class='table-data' onclick='ajouterCoursEleve("+result[i][0]+")'><p id='btnEffacer' class='horizontal' style='font-size:10px'><span class='text'>Cours enseignés</span></p></div>"+
                 "</div>");
             }
             $.ajax({
@@ -161,6 +167,41 @@
             });
         }
 
+        function ajouterCoursEleve(matricule){
+            $("#ajoutCours").empty();
+            $("#ajoutCours").append(
+                "<div class='col'>"+
+                "<div class='row'>"+
+                "<input id='inputMatricule' readonly type='text' half placeholder='Matricule'readonly autocomplete='no' value='"+matricule+"'>"+
+                "<input id='inputCours' type='text' half  placeholder='Code du cours' autocomplete='no'>"+
+                "<p id='btnAjouter' class='horizontal' style='max-width:300px;max-height:50px;'><span class='text'>Ajouter</span></p>"+
+                "</div>"+
+                "</div>"
+            );
+
+            $("#btnAjouter").click(function(){
+                var matricule = $("#inputMatricule").val();
+                var cours = $("#inputCours").val();
+
+                $.ajax({
+                url: "../PHP/AddCoursEnseigner.php",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    "matricule": matricule,
+                    "cours": cours
+                },
+                success: function(result){
+                    alert("Le cours à bien été ajouté");
+                   location.reload();
+                },
+                error: function (message, er) {
+                    console.log("erreur lors du chargement du profil des etudiants:" + er);
+                }
+            });
+
+            });
+        }
 
     </script>
 </html>

@@ -439,6 +439,21 @@ class Query
            return $lines;
        }
    }
+
+   
+   function AddCoursEnseigner($matricule,$cours){
+    try{
+        $request = "INSERT INTO cours_enseigner VALUES('".$matricule."','".$cours."')";
+        $result = $this->connexion->exec($request);
+        return "ok";
+      
+    }
+    catch(PDOException $e) {
+        return $e;
+    }
+   }
+
+
    function AddDispo($matricule,$code){
     try{
         $request = "INSERT INTO dispo_tuteur VALUES('".$matricule."','".$code."')";
