@@ -115,3 +115,7 @@ input::-moz-focus-inner {
 #submit:active {
   color: #d0d0d2;
 }
+
+.form-radio{
+  height:12px;
+}

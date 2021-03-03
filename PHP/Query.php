@@ -70,21 +70,6 @@ class Query
        }
    }
 
-   function getAllTutorMatricule():array
-   {
-       $lines = array();
-       try {
-           $request = "SELECT Matricule
-                        FROM élèves";
-           $result = $this->connexion->query($request);
-           $lines=mysqli_fetch_array($result, mysqli_result);
-           return $lines;
-       }
-       catch(PDOException $e) {
-           return $lines;
-       }
-   }
-
    function getMatiere($NoCours):array
    {
        $lines = array();
@@ -152,7 +137,6 @@ class Query
         }
     }
 
-<<<<<<< Updated upstream
     function getInfoCour($NoCours):array
     {
         $lines = array();
@@ -165,28 +149,25 @@ class Query
         catch(PDOException $e) {
             return $lines;
         }
-=======
-
-   function getInfoCour($NoCours):array
-   {
-    $lines = array();
-    try{
-        $request = "SELECT * from cours where Code = '$NoCours'";
-        $result = $this->connexion->query($request);
-        $lines = $result->fetchAll();
-        return $lines;
-    }
-    catch(PDOException $e) {
-        return $lines;
->>>>>>> Stashed changes
     }
 
-   function newEtudiant($matricule,$nom,$courriel,$programme,$telephone,$enseignant){
-
+   function newEtudiant($matricule,$nom,$prenom,$courriel,$programme,$telephone,$enseignant){
+    $request = "Insert Into élèves VALUES ('$matricule','$prenom $nom','$courriel','$programme','$telephone','$enseignant')";
+    $result = $this->connexion->exec($request);
+     echo json_encode($result);
+    return $result;
    }
 
-<<<<<<< Updated upstream
-
+   function Tutor($matricule,$password){
+    try{
+    $request = "Insert Into tuteur(Matricule,password) VALUES ('$matricule', '$password')";
+    $result = $this->connexion->exec($request);
+    return $result;
+   }
+   catch(PDOException $e) {
+    return $e;
+    }
+}
    
    function newTutor($matricule,$nom,$courriel,$programme,$telephone,$enseignant)
     {
@@ -200,20 +181,82 @@ class Query
            return $e;
         }
     }
-=======
-   function newEtudiant($matricule,$nom,$prenom,$courriel,$programme,$telephone,$enseignant)
+
+    function Tutore($matricule,$password){
+        try{
+        $request = "Insert Into tutoré(Matricule,password) VALUES ('$matricule', '$password')";
+        $result = $this->connexion->exec($request);
+        return $result;
+       }
+       catch(PDOException $e) {
+        return $e;
+       }
+    }
+
+    
+   function login($User,$Mdp)
    {
-       //try{
-           $request = "Insert Into élèves VALUES ('$matricule','$prenom $nom','$courriel','$programme','$telephone','$enseignant')";
-           $result = $this->connexion->exec($request);
-            echo json_encode($matricule);
-           return $result;
-       //}
-       //catch(PDOException $e) {
-       //    return $e;
-       //}
+      $lines = array();
+      try {
+          $request = "SELECT COUNT(Matricule) FROM tuteur WHERE Matricule LIKE '".$User."' AND password LIKE '".$Mdp."'";
+          $result = $this->connexion->query($request);
+          $lines = $result->fetchAll();
+
+           if($lines[0][0]==1){
+               setcookie("isLogged", "1", time() + (86400 * 30), "/");
+               setcookie("MatriculeLogged", $User, time() + (86400 * 30), "/"); 
+               setcookie("isTutor", "1", time() + (86400 * 30), "/"); 
+               echo "Value is: " .$_COOKIE["isLogged"];
+               echo "Value is: " .$_COOKIE["MatriculeLogged"];
+               echo "Value is: " .$_COOKIE["isTutor"];
+               return $User;
+           }
+           else{
+               try {
+               $request = "SELECT COUNT(Matricule) FROM tutorer WHERE Matricule LIKE '".$User."' AND password LIKE '".$Mdp."'";
+               $result = $this->connexion->query($request);
+               $lines = $result->fetchAll();
+
+               if($lines[0][0]==1){
+                   setcookie("isLogged", "1", time() + (86400 * 30), "/");
+                   setcookie("MatriculeLogged", $User, time() + (86400 * 30), "/");
+                   setcookie("isTutor", "2", time() + (86400 * 30), "/");
+                   return $User;
+               }
+               else{
+                   try {
+                       $request = "SELECT COUNT(a.username) FROM compteadmin a WHERE a.username LIKE '".$User."' AND a.password LIKE '".$Mdp."'";
+                       $result = $this->connexion->query($request);
+                       $lines = $result->fetchAll();
+       
+                       if($lines[0][0]==1){
+                           setcookie("isLogged", "1", time() + (86400 * 30), "/");
+                           setcookie("MatriculeLogged", $User, time() + (86400 * 30), "/");
+                           setcookie("isTutor", "3", time() + (86400 * 30), "/");
+                           return 3;
+                       }
+                       else{
+                         return "nope";
+                       }
+                   }
+                   catch(PDOException $e) {
+                       return $e;
+                   }
+               }
+               }
+               catch(PDOException $e) {
+                   return $e;
+               }
+           }
+
+      }
+      catch(PDOException $e) {
+          return $e;
+      }
    }
->>>>>>> Stashed changes
+
+  
+
 
 
    function getDispoTuteur($matricule){
@@ -272,107 +315,7 @@ class Query
        }
     }
 
-<<<<<<< Updated upstream
-=======
-   function newTutor($matricule,$password){
-    try{
-    $request = "Insert Into tuteur(Matricule,password) VALUES ('$matricule', '$password')";
-    $result = $this->connexion->exec($request);
-    return $result;
-   }
-   catch(PDOException $e) {
-    return $e;
->>>>>>> Stashed changes
-   function login($User,$Mdp)
-    {
-       $lines = array();
-       try {
-           $request = "SELECT COUNT(Matricule) FROM tuteur WHERE Matricule LIKE ".$User." AND password LIKE ".$Mdp;
-           $result = $this->connexion->query($request);
-           $lines = $result->fetchAll();
-
-            if($lines[0][0]==1){
-                setcookie("isLogged", "1", time() + (86400 * 30), "/");
-                setcookie("MatriculeLogged", $User, time() + (86400 * 30), "/"); 
-                setcookie("isTutor", "1", time() + (86400 * 30), "/"); 
-                echo "Value is: " .$_COOKIE["isLogged"];
-                echo "Value is: " .$_COOKIE["MatriculeLogged"];
-                echo "Value is: " .$_COOKIE["isTutor"];
-                return "ok";
-            }
-            else{
-                try {
-                $request = "SELECT COUNT(Matricule) FROM tutorer WHERE Matricule LIKE ".$User." AND password LIKE ".$Mdp;
-                $result = $this->connexion->query($request);
-                $lines = $result->fetchAll();
-
-                if($lines[0][0]==1){
-                    setcookie("isLogged", "1", time() + (86400 * 30), "/");
-                    setcookie("MatriculeLogged", $User, time() + (86400 * 30), "/");
-                    setcookie("isTutor", "2", time() + (86400 * 30), "/");
-                    return "ok";
-                }
-                }
-                catch(PDOException $e) {
-                    
-                    return $lines;
-                }
-            }
-
-       }
-       catch(PDOException $e) {
-           return $lines;
-       }
-<<<<<<< Updated upstream
-    }
-=======
-   }
-}
-   }
-
-   function newTutore($matricule,$password){
-    try{
-    $request = "Insert Into tutoré(Matricule,password) VALUES ('$matricule', '$password')";
-    $result = $this->connexion->exec($request);
-    return $result;
-   }
-   catch(PDOException $e) {
-    return $e;
-   function login($User,$Mdp)
-   {
-       $lines = array();
-       try {
-           $request = "SELECT COUNT(Matricule) FROM tutoré WHERE Matricule LIKE ".$User." AND password LIKE ".$Mdp;
-           $result = $this->connexion->query($request);
-           $lines = $result->fetchAll();
-
-            if($lines[0][0]==1){
-                setcookie("isLogged", "1", time() + (86400 * 30), "/");
-                setcookie("MatriculeLogged", $User, time() + (86400 * 30), "/"); 
-                echo "Value is: " .$_COOKIE["isLogged"];
-                echo "Value is: " .$_COOKIE["MatriculeLogged"];
-                return $User;
-            }
-            else{
-                $request = "SELECT COUNT(Matricule) FROM tutorer WHERE Matricule LIKE ".$User." AND password LIKE".$Mdp;
-                $result = $this->connexion->query($request);
-                $lines = $result->fetchAll();
-
-                if($lines[0][0]==1){
-                    setcookie("isLogged", "1", time() + (86400 * 30), "/");
-                    setcookie("MatriculeLogged", $User, time() + (86400 * 30), "/");
-                    return $User;
-                }
-            }
-
-       }
-       catch(PDOException $e) {
-           return $lines;
-       }
-   }
-}
-   }
->>>>>>> Stashed changes
+   
 
 
    function getTutoratDemand($matricule){
@@ -559,7 +502,6 @@ class Query
             $result = $this->connexion->query($request);
             $lines = $result->fetchAll();
 
-<<<<<<< Updated upstream
             return $lines;
         }
         catch(PDOException $e){
@@ -585,8 +527,3 @@ class Query
 
    
 }
-=======
-
-}
-
->>>>>>> Stashed changes

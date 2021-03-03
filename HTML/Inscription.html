@@ -21,37 +21,14 @@
             <div class="login">Inscription</div>
           </div>
           <div class="right">
-            <!--<svg viewBox="0 0 320 300">
-              <defs>
-                <lineargradient
-                                inkscape:collect="always"
-                                id="linearGradient"
-                                x1="13"
-                                y1="193.49992"
-                                x2="307"
-                                y2="193.49992"
-                                gradientUnits="userSpaceOnUse">
-                  <stop
-                        style="stop-color:#30c5e7;"
-                        offset="0"
-                        id="stop876" />
-                  <stop
-                        style="stop-color:#30e79d;"
-                        offset="1"
-                        id="stop878" />
-                </lineargradient>
-              </defs>
-              <path d="m 40,120.00016 239.99984,-3.2e-4 c 0,0 24.99263,0.79932 25.00016,35.00016 0.008,34.20084 -25.00016,35 -25.00016,35 h -239.99984 c 0,-0.0205 -25,4.01348 -25,38.5 0,34.48652 25,38.5 25,38.5 h 215 c 0,0 20,-0.99604 20,-25 0,-24.00396 -20,-25 -20,-25 h -190 c 0,0 -20,1.71033 -20,25 0,24.00396 20,25 20,25 h 168.57143" />
-            </svg>-->
             <div class="form">
                 <form method="post" enctype="text/plain">
-                    <div style="display:flex;flex-direction:row;">
-                    <div style="width:100%;margin:3px;">  
-                        <input type="radio" id="tuteur" name="role" value="tuteur" class="form-radio">
-                            <label for="tuteur">Je veux être Tuteur</label><br>
-                        <input type="radio" id="tutore" name="role" value="tutore" class="form-radio">
-                            <label for="tutore">Je veux être Tutoré</label>
-                    </div></div>
+                    <div class="row">  
+                        <input type="radio" id="tuteur" name="role" value="tuteur" class="form-radio" style="width:10%">
+                            <label for="tuteur" style="width:40%">Je veux être Tuteur</label>
+                        <input type="radio" id="tutore" name="role" value="tutore" class="form-radio" style="width:10%">
+                            <label for="tutore" style="width:40%">Je veux être Tutoré</label>
+                    </div>
                     <div style="display:flex;flex-direction:row;">
                     <div style="width:35%;margin:3px;">
                     <label for="Matricule">Matricule</label><br>
@@ -162,7 +139,6 @@
                     type: "POST",
                     data: {
                         "matricule": username,
-                        "password":password,
                         "enseignant":enseignant,
                         "nom":nom,
                         "prenom":prenom,
@@ -172,11 +148,12 @@
                     },
                     /*dataType: "json",*/
             success: function(message){
+                if(message==11){
                 console.log("Création du tuteur effectuée");
                 //window.open("Compte.html?email="+$("#iemail").val(), "_self");
                 if(document.getElementById("tuteur").checked==true){
                 $.ajax({
-                    url: "../PHP/Tuteur.php",
+                    url: "../PHP/NewTutor.php",
                     type: "POST",
                     data: {
                         "matricule": username,
@@ -188,12 +165,12 @@
                 //window.open("Compte.html?email="+$("#iemail").val(), "_self");
             },
             error: function(message, e){
-                console.log("erreur lors de l'ajout:" + er);
+                console.log("erreur lors de l'ajout:" + e);
             }
                 });}
                 else{ if(document.getElementById("tutore").checked==true){
                     $.ajax({
-                    url: "../PHP/Tutore.php",
+                    url: "../PHP/NewTutore.php",
                     type: "POST",
                     data: {
                         "matricule": username,
@@ -205,14 +182,18 @@
                 //window.open("Compte.html?email="+$("#iemail").val(), "_self");
             },
             error: function(message, e){
-                console.log("erreur lors de l'ajout:" + er);
+                console.log("erreur lors de l'ajout:" + e);
             }
                 });
                 }
                 }
+            }
+            else{
+                alert("Ce matricule est déjà utilisé");
+            }
             },
             error: function(message, e){
-                console.log("erreur lors de l'ajout:" + er);
+                console.log("erreur lors de l'ajout:" + e);
                 alert("Le matricule utilisé a déjà un compte");
             }
                 });
