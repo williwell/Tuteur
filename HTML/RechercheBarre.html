@@ -25,7 +25,7 @@
 
 <script type="text/javascript">
     function search(){
-        if( window.location == "http://localhost/Tuteur/HTML/Recherche")
+        if( window.location == "Recherche.html")
         {
             $.ajax({
                 url:"../PHP/GetCours.php",
@@ -44,7 +44,7 @@
         else
         {
             localStorage.setItem("search",document.getElementById("searching").elements[0].value);
-            window.location = "http://localhost/Tuteur/HTML/Recherche";
+            window.location = "Recherche.html";
         }
     }
 </script>
