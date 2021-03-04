@@ -170,7 +170,7 @@ class Query
     }
 
    function newEtudiant($matricule,$nom,$prenom,$courriel,$programme,$telephone,$enseignant){
-    $request = "Insert Into élèves VALUES ('$matricule','$prenom $nom','$courriel','$programme','$telephone','$enseignant')";
+    $request = "Insert Into eleves VALUES ('$matricule','$prenom', '$nom','$courriel','$programme','$telephone','$enseignant')";
     $result = $this->connexion->exec($request);
      echo json_encode($result);
     return $result;
@@ -190,7 +190,7 @@ class Query
    function newTutor($matricule,$nom,$courriel,$programme,$telephone,$enseignant)
     {
        try{
-           $request = "Insert Into élèves VALUES (".$matricule.",".$nom.",".$courriel.",".$programme.",".$telephone.",".$enseignant.")";
+           $request = "Insert Into eleves VALUES (".$matricule.",".$nom.",".$courriel.",".$programme.",".$telephone.",".$enseignant.")";
            $result = $this->connexion->exec($request);
             echo json_encode($matricule);
            return $result;
